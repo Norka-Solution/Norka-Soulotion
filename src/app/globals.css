@@ -210,11 +210,22 @@ html.dark body {
 /* ── RTL ────────────────────────────────────────────────────── */
 [dir="rtl"] {
   text-align: right;
+  /* Cairo first for Arabic — relying on Geist's fallback-to-Cairo for
+     Arabic glyphs worked, but explicit is safer than implicit for a
+     font that carries most of the page's weight/rhythm in this mode. */
+  font-family: var(--font-cairo), var(--font-geist-sans), system-ui, sans-serif;
 }
 
 /* ── Typography ─────────────────────────────────────────────── */
 .font-heading {
   font-family: var(--font-geist-sans), var(--font-cairo), system-ui, sans-serif;
+}
+
+/* .font-heading sets its own font-family directly, so it doesn't inherit
+   the [dir="rtl"] rule above — needs its own RTL override to actually use
+   Cairo first on headings too. */
+[dir="rtl"] .font-heading {
+  font-family: var(--font-cairo), var(--font-geist-sans), system-ui, sans-serif;
 }
 
 /* Fluid heading sizes — tuned for Geist's tighter, more compact metrics
@@ -449,6 +460,7 @@ img {
 
 /* ── Prose override for legal pages ─────────────────────────── */
 .prose h2 { font-family: var(--font-geist-sans), var(--font-cairo), system-ui, sans-serif; }
+[dir="rtl"] .prose h2 { font-family: var(--font-cairo), var(--font-geist-sans), system-ui, sans-serif; }
 
 /* ── Custom scale utilities ─────────────────────────────────── */
 .scale-108 { transform: scale(1.08); }

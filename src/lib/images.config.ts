@@ -2,19 +2,20 @@
  * Central Image Configuration for NORKA SOLUTION
  *
  * All image paths, alt text, and section placements are managed here.
- * To update images:
- *  1. Drop your image files into /public/images/
- *  2. Update the paths below
- *  3. All components reference this config — no hardcoded URLs in components
+ * Every page now uses real photography (see `home` and `services` below) —
+ * the earlier generative brand-art components (ServiceArt, PageHeroArt,
+ * AboutArt) have been removed since nothing referenced them anymore.
+ * MonogramAvatar is the one generative piece still in use, deliberately —
+ * see its own file for why (an honest initials avatar for testimonials/
+ * leadership beats a stock photo standing in for one named person).
+ *
+ * To update an image: swap the `src` below for a real Norka Solution photo
+ * whenever one is available — drop it into /public/images/ and point `src`
+ * at it (see `home.heroWorkspace` for the pattern with a local file, or use
+ * a verified real Unsplash URL like the other entries). Nothing else needs
+ * to change since every component reads from here.
  *
  * Supported formats: .jpg, .png, .webp, .svg
- *
- * NOTE: several entries below (services, pageHeroes, about.team, team.nourhan)
- * are being phased out in favor of the generative brand-art components in
- * src/components/art/ (see ServiceArt, PageHeroArt, AboutArt, MonogramAvatar).
- * Real photography can still replace those components' output at any time —
- * just swap the component usage for an <Image src={...} /> pointing at a
- * file dropped into /public/images/, using the paths below as the convention.
  */
 
 export const images = {
@@ -53,54 +54,11 @@ export const images = {
     },
   },
 
-  /** Inner page hero backgrounds */
-  pageHeroes: {
-    services: {
-      src: "/images/hero/services-hero.jpg",
-      alt: "Our services",
-    },
-    about: {
-      src: "/images/hero/about-hero.jpg",
-      alt: "About Norka Solution",
-    },
-    portfolio: {
-      src: "/images/hero/portfolio-hero.jpg",
-      alt: "Our portfolio",
-    },
-    contact: {
-      src: "/images/hero/contact-hero.jpg",
-      alt: "Contact us",
-    },
-  },
-
-  /** About section */
-  about: {
-    team: {
-      src: "/images/about/team.jpg",
-      alt: "Norka Solution team at work",
-    },
-    ceo: {
-      src: "/images/team/ahmed.jpg",
-      alt: "Ahmed Kamel - CEO & Founder",
-    },
-  },
-
-  /** Team members */
-  team: {
-    nourhan: {
-      src: "/images/team/nourhan.jpg",
-      alt: "Eng. Nourhan - Managing Director",
-    },
-    ahmed: {
-      src: "/images/team/ahmed.jpg",
-      alt: "Ahmed - CEO & Founder",
-    },
-  },
-
-  /** Homepage services carousel — real photo per service key (matches the
-   *  `ServiceKey` union in src/lib/data/services.ts). A few categories
-   *  intentionally share a photo (verified, real, still on-topic) rather
-   *  than force a mismatched image just to make every key unique. */
+  /** Per-service photo — used by the homepage services carousel and the
+   *  /services page's alternating rows (matches the `ServiceKey` union in
+   *  src/lib/data/services.ts). A few categories intentionally share a
+   *  photo (verified, real, still on-topic) rather than force a
+   *  mismatched image just to make every key unique. */
   services: {
     software: {
       src: "https://images.unsplash.com/photo-1760670399462-f5e479452c27?w=1200&q=80&auto=format&fit=crop",

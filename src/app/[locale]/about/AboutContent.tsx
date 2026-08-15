@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Lightbulb, Award, Shield, HeadphonesIcon,
@@ -12,8 +13,7 @@ import CTASection from "@/components/home/CTASection";
 import { Card } from "@/components/ui/card";
 import { COMPANY_STATS } from "@/lib/constants";
 import { staggerContainer, staggerItem, fadeLeft, fadeRight, viewport } from "@/lib/animations";
-import PageHeroArt from "@/components/art/PageHeroArt";
-import AboutArt from "@/components/art/AboutArt";
+import { images } from "@/lib/images.config";
 import MonogramAvatar from "@/components/art/MonogramAvatar";
 
 const valueIcons = {
@@ -59,8 +59,15 @@ export default function AboutContent() {
       {/* ── Hero ────────────────────────────────────────────────── */}
       <section className="relative pt-40 pb-24 overflow-hidden">
         <div className="absolute inset-0">
-          <PageHeroArt variant="about" className="scale-105" />
-          <div className="absolute inset-0 bg-gray-950/60" />
+          <Image
+            src={images.home.aboutTeam.src}
+            alt={images.home.aboutTeam.alt}
+            fill
+            priority
+            className="object-cover scale-105"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gray-950/70" />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-950/60 to-transparent" />
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background dark:from-background-dark to-transparent" />
@@ -96,7 +103,13 @@ export default function AboutContent() {
 
             <motion.div variants={fadeLeft} initial="hidden" whileInView="visible" viewport={viewport} className="relative">
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-2xl">
-                <AboutArt className="absolute inset-0" />
+                <Image
+                  src={images.home.aboutTeam.src}
+                  alt={images.home.aboutTeam.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
                 <div className="absolute inset-0 bg-gradient-to-tr from-accent/15 to-transparent" />
               </div>
               <div className="absolute -bottom-5 -right-5 w-full h-full rounded-3xl border-2 border-accent/15 -z-10" aria-hidden="true" />
