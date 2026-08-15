@@ -46,7 +46,10 @@ export default function CountUp({ end, suffix = "", duration = 1.6, className }:
   }, [isInView, end, duration, prefersReduced]);
 
   return (
-    <span ref={ref} className={className}>
+    // dir="ltr" — otherwise the RTL bidi algorithm can visually reorder a
+    // "150+"-style string to "+150", since the digits and the trailing
+    // symbol are just plain text with no inherent direction of their own.
+    <span ref={ref} className={className} dir="ltr">
       {count}
       {suffix}
     </span>

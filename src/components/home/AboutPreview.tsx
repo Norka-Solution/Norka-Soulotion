@@ -79,7 +79,7 @@ export default function AboutPreview({ locale }: AboutPreviewProps) {
                   <Users className="w-5 h-5 text-dark" aria-hidden="true" />
                 </div>
                 <div>
-                  <div className="text-2xl font-black text-gray-900 dark:text-white leading-none">
+                  <div className="text-2xl font-black text-gray-900 dark:text-white leading-none" dir="ltr">
                     {COMPANY_STATS.team}
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">{t("teamMembers")}</div>
@@ -95,7 +95,7 @@ export default function AboutPreview({ locale }: AboutPreviewProps) {
               transition={{ delay: .6, duration: .5, type: "spring" }}
               className="absolute -top-5 -left-5 bg-white dark:bg-gray-800 rounded-2xl px-4 py-3 shadow-xl border border-gray-100 dark:border-gray-700 z-10 flex items-center gap-2"
             >
-              <span className="text-accent text-lg font-black">{COMPANY_STATS.satisfaction}</span>
+              <span className="text-accent text-lg font-black" dir="ltr">{COMPANY_STATS.satisfaction}</span>
               <span className="text-xs text-gray-500 leading-tight max-w-[60px]">
                 {isAr ? "رضا العملاء" : "Client Satisfaction"}
               </span>

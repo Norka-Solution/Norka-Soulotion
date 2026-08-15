@@ -276,8 +276,13 @@ export default function ContactContent() {
                   />
                 </div>
 
-                {/* Honeypot — hidden from real users, tabIndex -1 keeps it out of keyboard/AT flow */}
-                <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+                {/* Honeypot — hidden from real users, tabIndex -1 keeps it out of keyboard/AT flow.
+                    Uses the standard clip-based sr-only pattern rather than a large negative
+                    `left` offset — `left` is a physical property that doesn't flip under RTL,
+                    and a -9999px offset was blowing out the page's scrollable width on the
+                    Arabic version (RTL's overflow direction made it land inside the document
+                    bounds instead of safely outside them). */}
+                <div className="sr-only" aria-hidden="true">
                   <label htmlFor="contact-website">Website</label>
                   <input id="contact-website" type="text" name="website" tabIndex={-1} autoComplete="off" />
                 </div>

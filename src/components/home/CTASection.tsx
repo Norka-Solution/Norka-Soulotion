@@ -106,7 +106,7 @@ export default function CTASection({ locale }: CTASectionProps) {
                 ))}
               </AvatarGroup>
               <p className="text-sm text-white/70">
-                <span className="text-white font-bold">80+</span>{" "}
+                <span className="text-white font-bold" dir="ltr">80+</span>{" "}
                 {isAr ? "عميل سعيد بخدماتنا" : "happy clients trust us"}
               </p>
             </div>

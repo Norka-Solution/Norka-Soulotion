@@ -123,7 +123,7 @@ export default function AboutContent() {
                     <Users className="w-5 h-5 text-dark" aria-hidden="true" />
                   </div>
                   <div>
-                    <div className="text-2xl font-black text-gray-900 dark:text-white">{COMPANY_STATS.team}</div>
+                    <div className="text-2xl font-black text-gray-900 dark:text-white" dir="ltr">{COMPANY_STATS.team}</div>
                     <div className="text-xs text-gray-500">{t("teamMembers")}</div>
                   </div>
                 </div>
@@ -143,7 +143,7 @@ export default function AboutContent() {
                 {stats.map((s) => (
                   <Card key={s.label} role="listitem" className="block text-center p-4 rounded-2xl bg-surface dark:bg-surface-dark ring-gray-100 dark:ring-gray-800">
                     <s.icon className="w-5 h-5 text-accent mx-auto mb-2" aria-hidden="true" />
-                    <div className="text-2xl font-black text-gray-900 dark:text-white">{s.value}</div>
+                    <div className="text-2xl font-black text-gray-900 dark:text-white" dir="ltr">{s.value}</div>
                     <div className="text-[11px] text-gray-500 mt-1">{s.label}</div>
                   </Card>
                 ))}
