@@ -59,7 +59,7 @@ function PortfolioCard({ project, locale, lang, t }: { project: Project; locale:
             <div className="absolute inset-0 bg-gradient-to-t from-gray-950/75 via-gray-950/20 to-transparent" />
 
             {/* Category badge */}
-            <div className="absolute top-12 left-4 z-[3]">
+            <div className="absolute top-12 start-4 z-[3]">
               <Badge className="text-xs font-bold bg-accent/90 text-dark uppercase tracking-wider backdrop-blur-sm">
                 {project.category}
               </Badge>
@@ -73,7 +73,7 @@ function PortfolioCard({ project, locale, lang, t }: { project: Project; locale:
                   className="glass-dark p-3.5 rounded-2xl text-white transition-all duration-200 hover:scale-110 hover:border-accent/40"
                   aria-label={`${t("viewDetails")} — ${project.title[lang]}`}
                 >
-                  <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                  <ArrowRight className="w-5 h-5 rtl:rotate-180" aria-hidden="true" />
                 </Link>
                 {project.demoUrl && (
                   <a
@@ -118,7 +118,7 @@ function PortfolioCard({ project, locale, lang, t }: { project: Project; locale:
               aria-label={`${t("viewDetails")} — ${project.title[lang]}`}
             >
               {t("viewDetails")}
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
             </Link>
           </div>
         </Card>
@@ -151,14 +151,14 @@ export default function PortfolioContent({ projects }: PortfolioContentProps) {
       <section className="relative pt-40 pb-24 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src={images.home.ceoOffice.src}
-            alt={images.home.ceoOffice.alt}
+            src={images.pageHeroes.portfolio.src}
+            alt={images.pageHeroes.portfolio.alt}
             fill
             priority
-            className="object-cover scale-105"
+            className="object-cover"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gray-950/70" />
+          <div className="absolute inset-0 bg-gray-950/60" />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-950/60 to-transparent" />
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background dark:from-background-dark to-transparent" />

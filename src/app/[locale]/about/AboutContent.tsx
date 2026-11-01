@@ -60,14 +60,14 @@ export default function AboutContent() {
       <section className="relative pt-40 pb-24 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src={images.home.aboutTeam.src}
-            alt={images.home.aboutTeam.alt}
+            src={images.pageHeroes.about.src}
+            alt={images.pageHeroes.about.alt}
             fill
             priority
-            className="object-cover scale-105"
+            className="object-cover"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gray-950/70" />
+          <div className="absolute inset-0 bg-gray-950/60" />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-950/60 to-transparent" />
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background dark:from-background-dark to-transparent" />
@@ -112,11 +112,11 @@ export default function AboutContent() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-accent/15 to-transparent" />
               </div>
-              <div className="absolute -bottom-5 -right-5 w-full h-full rounded-3xl border-2 border-accent/15 -z-10" aria-hidden="true" />
+              <div className="absolute -bottom-5 -end-5 w-full h-full rounded-3xl border-2 border-accent/15 -z-10" aria-hidden="true" />
               <motion.div
                 initial={{ opacity: 0, scale: .85 }} whileInView={{ opacity: 1, scale: 1 }}
                 viewport={viewport} transition={{ delay: .5, type: "spring" }}
-                className="absolute -bottom-7 -right-7 bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-2xl border border-gray-100 dark:border-gray-700 z-10"
+                className="absolute -bottom-7 -end-7 bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-2xl border border-gray-100 dark:border-gray-700 z-10"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 rounded-xl bg-accent flex items-center justify-center">

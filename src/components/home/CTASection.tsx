@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight, Phone, Mail, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { images } from "@/lib/images.config";
 import { fadeLeft, fadeRight, viewport } from "@/lib/animations";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarGroup } from "@/components/ui/avatar";
-import { images } from "@/lib/images.config";
 
 interface CTASectionProps {
   locale: string;
@@ -130,11 +130,11 @@ export default function CTASection({ locale }: CTASectionProps) {
               <span className="font-heading text-xl font-black text-accent">{t("button")}</span>
               <motion.div
                 className="p-3 rounded-xl bg-accent/10 group-hover:bg-accent/15 transition-colors duration-200"
-                whileHover={{ x: 4 }}
+                whileHover={{ x: isAr ? -4 : 4 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 aria-hidden="true"
               >
-                <ArrowRight className="w-6 h-6 text-accent" />
+                <ArrowRight className="w-6 h-6 text-accent rtl:rotate-180" />
               </motion.div>
             </Link>
 

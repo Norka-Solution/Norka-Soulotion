@@ -1,112 +1,105 @@
 /**
  * Central Image Configuration for NORKA SOLUTION
  *
- * All image paths, alt text, and section placements are managed here.
- * Every page now uses real photography (see `home` and `services` below) —
- * the earlier generative brand-art components (ServiceArt, PageHeroArt,
- * AboutArt) have been removed since nothing referenced them anymore.
- * MonogramAvatar is the one generative piece still in use, deliberately —
- * see its own file for why (an honest initials avatar for testimonials/
- * leadership beats a stock photo standing in for one named person).
- *
- * To update an image: swap the `src` below for a real Norka Solution photo
- * whenever one is available — drop it into /public/images/ and point `src`
- * at it (see `home.heroWorkspace` for the pattern with a local file, or use
- * a verified real Unsplash URL like the other entries). Nothing else needs
- * to change since every component reads from here.
- *
- * Supported formats: .jpg, .png, .webp, .svg
+ * Every image path and its alt text lives here; components only read from this file.
+ * Photos are self-hosted under /public/images/ (one Unsplash URL is still used for the CTA skyline).
+ * An entry with an empty `src` has no photo yet: the comment above it names the file to add.
  */
 
 export const images = {
-  /** Site branding */
+  /** Site branding — logo, not a content photo, left untouched */
   brand: {
     logo: {
-      src: "/logo.svg",
+      src: "/logo.png",
       alt: "Norka Solution",
     },
   },
 
-  /** Home page — real curated photography (Unsplash), chosen for UAE/Gulf
-   *  relevance rather than generic stock. Swap any `src` for a real Norka
-   *  Solution photo the moment one is available; nothing else needs to
-   *  change since every component reads from here. */
+  /** Home page */
   home: {
+    // -> /public/images/home/hero-developer.jpg
     heroWorkspace: {
       src: "/images/home/hero-developer.jpg",
-      alt: "Developer typing code on a multi-monitor setup in a modern office",
+      alt: "Developer workspace with a desktop monitor and laptop showing code",
     },
+    // -> /public/images/home/cta-skyline.jpg (reused as the Contact page hero too)
     ctaSkyline: {
       src: "https://images.unsplash.com/photo-1748373452031-ee1ae4eb624d?w=1600&q=80&auto=format&fit=crop",
       alt: "Dubai skyline and fountain at dusk",
     },
+    // -> /public/images/home/about-team.jpg
     aboutTeam: {
-      src: "https://images.unsplash.com/photo-1758518731706-be5d5230e5a5?w=1200&q=80&auto=format&fit=crop",
-      alt: "Team collaborating in a modern office",
+      src: "/images/home/about-team.jpg",
+      alt: "Close-up of a developer typing on a laptop showing code",
     },
+    // -> /public/images/home/ceo-office.jpg
     ceoOffice: {
-      src: "https://images.unsplash.com/photo-1758518729463-0bb73ed899ac?w=1200&q=80&auto=format&fit=crop",
+      src: "",
       alt: "Professionals in a modern office lobby",
     },
+    // -> /public/images/home/services-code.jpg
     servicesCode: {
-      src: "https://images.unsplash.com/photo-1760670399462-f5e479452c27?w=1200&q=80&auto=format&fit=crop",
+      src: "",
       alt: "Monitor displaying colorful source code",
     },
   },
 
-  /** Per-service photo — used by the homepage services carousel and the
-   *  /services page's alternating rows (matches the `ServiceKey` union in
-   *  src/lib/data/services.ts). A few categories intentionally share a
-   *  photo (verified, real, still on-topic) rather than force a
-   *  mismatched image just to make every key unique. */
+  /** Inner page hero backgrounds */
+  pageHeroes: {
+    // -> /public/images/hero/services-hero.jpg
+    services: { src: "/images/hero/services-hero.jpg", alt: "Website mockup shown across laptop, tablet, and phone screens" },
+    // -> /public/images/hero/about-hero.jpg
+    about: { src: "/images/hero/about-hero.jpg", alt: "Developer typing code on a laptop" },
+    // -> /public/images/hero/portfolio-hero.png
+    portfolio: { src: "/images/hero/portfolio-hero.png", alt: "Laptop displaying an analytics dashboard with sales charts" },
+    // -> /public/images/hero/contact-hero.jpg
+    contact: { src: "/images/hero/contact-hero.jpg", alt: "Businessperson holding a phone with call and email icons" },
+  },
+
+  /** About section */
+  about: {
+    // -> /public/images/about/team.jpg
+    team: { src: "", alt: "Norka Solution team at work" },
+    // -> /public/images/team/ahmed.jpg
+    ceo: { src: "", alt: "Ahmed Kamel - CEO & Founder" },
+  },
+
+  /** Team members */
+  team: {
+    // -> /public/images/team/nourhan.jpg
+    nourhan: { src: "", alt: "Eng. Nourhan - Managing Director" },
+    // -> /public/images/team/ahmed.jpg
+    ahmed: { src: "", alt: "Ahmed - CEO & Founder" },
+  },
+
+  /** Homepage services carousel — one photo per service key (matches the
+   *  `ServiceKey` union in src/lib/data/services.ts). */
   services: {
-    software: {
-      src: "https://images.unsplash.com/photo-1760670399462-f5e479452c27?w=1200&q=80&auto=format&fit=crop",
-      alt: "Monitor displaying colorful source code",
-    },
-    web: {
-      src: "https://images.unsplash.com/photo-1760670399462-f5e479452c27?w=1200&q=80&auto=format&fit=crop",
-      alt: "Monitor displaying colorful source code",
-    },
-    mobile: {
-      src: "https://images.unsplash.com/photo-1750056393356-d1de9d222a29?w=1200&q=80&auto=format&fit=crop",
-      alt: "Hand holding a smartphone showing an app",
-    },
-    erp: {
-      src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80&auto=format&fit=crop",
-      alt: "Analytics dashboard with charts on a laptop screen",
-    },
-    infrastructure: {
-      src: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80&auto=format&fit=crop",
-      alt: "Server rack with illuminated network cabling",
-    },
-    uiux: {
-      src: "https://images.unsplash.com/photo-1758518729463-0bb73ed899ac?w=1200&q=80&auto=format&fit=crop",
-      alt: "Professionals in a modern office lobby",
-    },
-    marketing: {
-      src: "https://images.unsplash.com/photo-1758518731706-be5d5230e5a5?w=1200&q=80&auto=format&fit=crop",
-      alt: "Team collaborating in a modern office",
-    },
-    consulting: {
-      src: "https://images.unsplash.com/photo-1758518731706-be5d5230e5a5?w=1200&q=80&auto=format&fit=crop",
-      alt: "Team collaborating in a modern office",
-    },
+    software:       { src: "/images/services/software.jpg",       alt: "Website mockup on a laptop screen — \"Building Websites That Drive Real Results\"" },
+    web:             { src: "/images/services/web.jpg",             alt: "Developer writing code across two monitors" },
+    mobile:          { src: "/images/services/mobile.jpg",          alt: "Mobile app dashboard shown on a smartphone" },
+    erp:             { src: "/images/services/erp.jpg",             alt: "ERP executive dashboard with procurement and operations charts" },
+    infrastructure:  { src: "/images/services/infrastructure.jpg",  alt: "Technician connecting cables in a server rack" },
+    uiux:            { src: "/images/services/uiux.jpg",            alt: "UI design software open on a laptop during a team review" },
+    marketing:       { src: "/images/services/marketing.jpg",       alt: "Social media strategy mapped out on a glass whiteboard" },
+    consulting:      { src: "/images/services/consulting.jpg",      alt: "Consultant pointing a pen at a laptop during a meeting" },
   },
 
-  /** Portfolio / Work section */
+  /** Portfolio / Work section — each project's `image`/`screenshots` live in
+   *  src/lib/data/projects.ts, also cleared. Drop files into
+   *  /public/images/projects/{slug}/ (matches the hint already shown on the
+   *  project detail page) and set them there. */
   projects: {
-    // Each project image is configured in projects data.
-    // Drop screenshots into /public/images/projects/{slug}/
     basePath: "/images/projects",
   },
 
-  /** Tech Stack logos — real SVGs only */
+  /** Tech Stack logos — real SVGs only, untouched */
   techStack: {
     basePath: "/images/tech",
   },
 
-  /** Testimonials */
+  /** Testimonials — avatars, drop into /public/images/testimonials/{name}.jpg
+   *  and set the matching testimonial's `image` in src/lib/data/testimonials.ts */
   testimonials: {
     basePath: "/images/testimonials",
   },
