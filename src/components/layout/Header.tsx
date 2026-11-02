@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 import { images } from "@/lib/images.config";
 
 // where a customer signs in and finds every Norka product their company has
-const SIGN_IN_URL = "https://erp.norkasolution.com/apps";
+const SIGN_IN_URL = "https://app.norkasolution.com/apps";
 
 interface HeaderProps {
   locale: string;
