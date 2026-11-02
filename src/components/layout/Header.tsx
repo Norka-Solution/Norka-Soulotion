@@ -24,6 +24,9 @@ import {
 import { cn } from "@/lib/utils";
 import { images } from "@/lib/images.config";
 
+// where a customer signs in and finds every Norka product their company has
+const SIGN_IN_URL = "https://erp.norkasolution.com/apps";
+
 interface HeaderProps {
   locale: string;
 }
@@ -174,6 +177,14 @@ export default function Header({ locale }: HeaderProps) {
 
               <ThemeToggle />
 
+              {/* Sign in: customers land on their Norka products */}
+              <a
+                href={SIGN_IN_URL}
+                className="hidden lg:inline-flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                {isAr ? "دخول" : "Sign in"}
+              </a>
+
               {/* Desktop CTA */}
               <Link
                 href={`/${locale}/contact`}
@@ -229,6 +240,12 @@ export default function Header({ locale }: HeaderProps) {
             </ul>
           </nav>
           <SheetFooter className="border-t border-gray-100 dark:border-gray-800 pt-4">
+            <a
+              href={SIGN_IN_URL}
+              className="flex items-center justify-center py-3 rounded-2xl text-sm font-semibold text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700"
+            >
+              {isAr ? "دخول العملاء" : "Customer sign in"}
+            </a>
             <Link
               href={`/${locale}/contact`}
               className={buttonVariants({ className: "w-full justify-center py-3.5" })}
