@@ -1,0 +1,46 @@
+/* GENERATED from Norka-Website/brand/tokens.json — do not edit here; edit tokens.json and run brand/sync.sh */
+:root {
+  --norka-blue-50: #F1F4FF;
+  --norka-blue-100: #E2E7FF;
+  --norka-blue-200: #C4D0FE;
+  --norka-blue-300: #9DB0FE;
+  --norka-blue-400: #6384FF;
+  --norka-blue-500: #3B62FC;
+  --norka-blue-600: #2848D8;
+  --norka-blue-700: #253D9C;
+  --norka-blue-800: #1C2F79;
+  --norka-blue-900: #15235B;
+  --norka-radius-base: 10px;
+  --norka-radius-sm: 6px;
+  --norka-radius-lg: 14px;
+  --norka-radius-xl: 18px;
+  --norka-radius-pill: 999px;
+  --norka-font: "Cairo", system-ui, sans-serif;
+  --norka-success: #16A34A;
+  --norka-warning: #D97706;
+  --norka-danger: #DC2626;
+  --norka-info: #3B62FC;
+  --norka-background: #FFFFFF;
+  --norka-surface: #F5F7FF;
+  --norka-card: #FFFFFF;
+  --norka-border: #E2E8F0;
+  --norka-text: #0F172A;
+  --norka-text-muted: #64748B;
+  --norka-primary: #3B62FC;
+  --norka-primary-hover: #2848D8;
+  --norka-on-primary: #FFFFFF;
+  --norka-link: #2848D8;
+}
+/* dark: apps opt in with their own selector by copying these into it, or use .norka-dark */
+.norka-dark, :root[data-theme="dark"] {
+  --norka-background: #060B18;
+  --norka-surface: #0D1424;
+  --norka-card: #111A2E;
+  --norka-border: #1E293B;
+  --norka-text: #F1F5F9;
+  --norka-text-muted: #94A3B8;
+  --norka-primary: #3B62FC;
+  --norka-primary-hover: #6384FF;
+  --norka-on-primary: #FFFFFF;
+  --norka-link: #9DB0FE;
+}
