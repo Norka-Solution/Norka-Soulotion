@@ -4,7 +4,7 @@ Every Norka product (this website, the ERP web + mobile app, Norka AI) shares th
 
 | | |
 |---|---|
-| Logo | `logo.png` / `logo.svg` — the gear-and-brain mark |
+| Logo | `logo-blue.png` (light screens) / `logo-white.png` (dark screens) — the plain gear-and-brain mark, no background or tile. `logo.png` / `logo.svg` are the website's round icon |
 | Primary | Norka blue `#3B62FC` (hover `#2848D8`) |
 | Dark background | `#060B18` · surface `#0D1424` |
 | Light background | `#FFFFFF` · surface `#F5F7FF` |
