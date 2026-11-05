@@ -15,7 +15,7 @@ copy() { # copy <product folder> <dest dir> <files...>
   echo "→ $1/$dest"
 }
 copy Norka-ERP-Frontend styles/tokens dist/norka-brand.css
-copy Norka-Assistant web/src/brand dist/norka-brand.css logo.png logo-white.png
-# the ERP serves the plain mark as /norka-logo.png (blue) and /norka-logo-white.png
-[ -d $P/Norka-ERP-Frontend ] && cp $B/logo-blue.png $P/Norka-ERP-Frontend/public/norka-logo.png && cp $B/logo-white.png $P/Norka-ERP-Frontend/public/norka-logo-white.png && echo "→ Norka-ERP-Frontend/public (logos)"
+copy Norka-Assistant web/src/brand dist/norka-brand.css logo.png logo-blue.png
+# the ERP serves the mark as /norka-logo.png
+[ -d $P/Norka-ERP-Frontend ] && cp $B/logo-blue.png $P/Norka-ERP-Frontend/public/norka-logo.png && echo "→ Norka-ERP-Frontend/public/norka-logo.png"
 copy Norka-Mobile-Platform constants dist/norka-brand.ts
