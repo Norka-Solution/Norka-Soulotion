@@ -1,4 +1,5 @@
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import HeroSection from "@/components/home/HeroSection";
 import ServicesPreview from "@/components/home/ServicesPreview";
 import AboutPreview from "@/components/home/AboutPreview";
@@ -17,24 +18,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const isAr = locale === "ar";
 
-  if (isAr) {
-    return {
-      title: "نوركا سوليوشن | تطوير البرمجيات والذكاء الاصطناعي في الإمارات",
-      description:
-        "نوركا سوليوشن — شركة تقنية رائدة في الإمارات متخصصة في تطوير تطبيقات الذكاء الاصطناعي، البرمجيات المخصصة، تطبيقات الجوال، أنظمة ERP، والتحول الرقمي في أبوظبي والعين ودبي.",
-      alternates: {
-        canonical: "/ar",
-        languages: { en: "/en", ar: "/ar" },
-      },
-    };
-  }
-
-  return {
-    alternates: {
-      canonical: "/en",
-      languages: { en: "/en", ar: "/ar" },
-    },
-  };
+  return pageMetadata({
+    locale,
+    path: "",
+    title: isAr
+      ? "نوركا سوليوشن | تطوير البرمجيات والذكاء الاصطناعي في الإمارات"
+      : "Norka Solution | AI-Powered Software & App Development in UAE",
+    description: isAr
+      ? "نوركا سوليوشن — شركة تقنية رائدة في الإمارات متخصصة في تطوير تطبيقات الذكاء الاصطناعي، البرمجيات المخصصة، تطبيقات الجوال، أنظمة ERP، والتحول الرقمي في أبوظبي والعين ودبي."
+      : "NORKA SOLUTION — Leading software development company in UAE specializing in AI-integrated applications, custom web & mobile apps, ERP systems, and digital transformation across Abu Dhabi, Al Ain & Dubai.",
+  });
 }
 
 export default async function HomePage({

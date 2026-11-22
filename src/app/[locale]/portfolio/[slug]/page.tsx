@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { pageMetadata, SITE_URL } from "@/lib/seo";
 import { getProjectBySlug } from "@/sanity/lib/fetch-content";
 import ProjectShowcase from "@/components/portfolio/ProjectShowcase";
 
@@ -12,6 +14,26 @@ import ProjectShowcase from "@/components/portfolio/ProjectShowcase";
 // reason) static param set. Rendering on-demand like its siblings avoids
 // the conflict entirely; per-request cost here is a single project
 // lookup, not worth fighting the static/dynamic mismatch for.
+type Props = { params: Promise<{ locale: string; slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const project = await getProjectBySlug(slug);
+  if (!project) return {};
+
+  const lang = locale === "ar" ? "ar" : "en";
+  const title = `${project.title[lang]} | ${lang === "ar" ? "نوركا سوليوشن" : "Norka Solution"}`;
+  return pageMetadata({
+    locale,
+    path: `/portfolio/${slug}`,
+    title,
+    description: project.description[lang],
+    image: project.image
+      ? { url: project.image, alt: project.title[lang] }
+      : undefined,
+  });
+}
+
 export default async function ProjectPage({
   params,
 }: {
@@ -24,5 +46,28 @@ export default async function ProjectPage({
     notFound();
   }
 
-  return <ProjectShowcase project={project} locale={locale} />;
+  const lang = locale === "ar" ? "ar" : "en";
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title[lang],
+    description: project.description[lang],
+    url: `${SITE_URL}/${locale}/portfolio/${slug}`,
+    ...(project.image
+      ? { image: project.image.startsWith("http") ? project.image : `${SITE_URL}${project.image}` }
+      : {}),
+    keywords: project.techStack.join(", "),
+    inLanguage: lang,
+    creator: { "@type": "Organization", name: "Norka Solution", url: SITE_URL },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
+      <ProjectShowcase project={project} locale={locale} />
+    </>
+  );
 }

@@ -70,6 +70,10 @@ export default function ContactContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
+      if (res.status === 429) {
+        setError(isAr ? "تم إرسال رسالة للتو، انتظر قليلاً ثم حاول مرة أخرى" : "You just sent a message. Please wait a moment and try again.");
+        return;
+      }
       if (!res.ok) {
         const body = await res.json().catch(() => null);
         throw new Error(body?.error || "Failed");
