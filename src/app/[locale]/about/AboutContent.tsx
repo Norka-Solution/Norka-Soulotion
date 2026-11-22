@@ -1,43 +1,46 @@
 "use client";
 
+import { useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Lightbulb, Award, Shield, HeadphonesIcon,
-  Target, Eye, Users, Trophy, Rocket, Handshake,
-} from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Lightbulb, Award, Shield, HeadphonesIcon, Target, Eye } from "lucide-react";
 import CTASection from "@/components/home/CTASection";
-import { Card } from "@/components/ui/card";
-import { COMPANY_STATS } from "@/lib/constants";
-import { staggerContainer, staggerItem, fadeLeft, fadeRight, viewport } from "@/lib/animations";
-import { images } from "@/lib/images.config";
+import PageHero from "@/components/kit/PageHero";
+import SectionHeader from "@/components/kit/SectionHeader";
+import SpotlightCard from "@/components/kit/SpotlightCard";
+import Reveal from "@/components/kit/Reveal";
+import CountUp from "@/components/ui/CountUp";
 import MonogramAvatar from "@/components/art/MonogramAvatar";
+import { COMPANY_STATS } from "@/lib/constants";
 
 const valueIcons = {
-  innovation:  Lightbulb,
-  quality:     Award,
+  innovation: Lightbulb,
+  quality: Award,
   reliability: Shield,
-  support:     HeadphonesIcon,
+  support: HeadphonesIcon,
 };
 
+function splitStat(value: string) {
+  const match = value.match(/^(\d+)(.*)$/);
+  return { end: match ? Number(match[1]) : 0, suffix: match ? match[2] : "" };
+}
+
 export default function AboutContent() {
-  const t      = useTranslations("about");
-  const navT   = useTranslations("nav");
+  const t = useTranslations("about");
+  const navT = useTranslations("nav");
   const statsT = useTranslations("stats");
   const params = useParams();
   const locale = params.locale as string;
-  const isAr   = locale === "ar";
+  const isAr = locale === "ar";
 
   const values = ["innovation", "quality", "reliability", "support"] as const;
 
   const stats = [
-    { icon: Trophy,    value: COMPANY_STATS.years,    label: statsT("years") },
-    { icon: Rocket,    value: COMPANY_STATS.projects, label: statsT("projects") },
-    { icon: Handshake, value: COMPANY_STATS.clients,  label: statsT("clients") },
-    { icon: Users,     value: COMPANY_STATS.team,     label: statsT("team") },
+    { ...splitStat(COMPANY_STATS.years), label: statsT("years") },
+    { ...splitStat(COMPANY_STATS.projects), label: statsT("projects") },
+    { ...splitStat(COMPANY_STATS.clients), label: statsT("clients") },
+    { ...splitStat(COMPANY_STATS.team), label: statsT("team") },
   ];
 
   const timelineItems = isAr
@@ -48,264 +51,155 @@ export default function AboutContent() {
         { year: "2024", title: "ريادة الذكاء الاصطناعي", desc: "أطلقنا خدمات الذكاء الاصطناعي وتجاوزنا 150 مشروعاً منجزاً." },
       ]
     : [
-        { year: "2020", title: "Founded",         desc: "Norka Solution was established with a clear vision to deliver world-class tech solutions in the UAE." },
-        { year: "2021", title: "Rapid Growth",    desc: "We expanded to a team of 15+ specialists and completed our first 30 successful projects." },
+        { year: "2020", title: "Founded", desc: "Norka Solution was established with a clear vision to deliver world-class tech solutions in the UAE." },
+        { year: "2021", title: "Rapid Growth", desc: "We expanded to a team of 15+ specialists and completed our first 30 successful projects." },
         { year: "2022", title: "Regional Expansion", desc: "Opened offices in Abu Dhabi, Al Ain & Dubai, serving Gulf clients across multiple industries." },
-        { year: "2024", title: "AI Leadership",   desc: "Launched AI-integrated services and surpassed 150 delivered projects across the UAE." },
+        { year: "2024", title: "AI Leadership", desc: "Launched AI-integrated services and surpassed 150 delivered projects across the UAE." },
       ];
+
+  const team = [
+    { name: isAr ? "أحمد كامل" : "Ahmed Kamel", role: isAr ? "المؤسس والرئيس التنفيذي" : "CEO & Founder" },
+    { name: isAr ? "م. نورهان" : "Eng. Nourhan", role: isAr ? "المدير التنفيذي" : "Managing Director" },
+  ];
+
+  // timeline line draws itself while scrolling
+  const tlRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: tlRef, offset: ["start 75%", "end 55%"] });
+  const lineH = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <>
-      {/* ── Hero ────────────────────────────────────────────────── */}
-      <section className="relative pt-40 pb-24 overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src={images.pageHeroes.about.src}
-            alt={images.pageHeroes.about.alt}
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gray-950/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-950/60 to-transparent" />
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background dark:from-background-dark to-transparent" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.nav
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            className="text-white/50 text-sm mb-6 font-medium"
-            aria-label={isAr ? "مسار التنقل" : "Breadcrumb"}
-          >
-            <Link href={`/${locale}`} className="hover:text-white/70 transition-colors">{navT("home")}</Link>
-            <span className="mx-2" aria-hidden="true">/</span>
-            <span className="text-accent">{t("title")}</span>
-          </motion.nav>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .1 }}
-            className="font-heading text-display font-black text-white mb-5"
-          >
-            {t("title")}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .25 }}
-            className="text-lg md:text-xl text-gray-300/80 max-w-2xl mx-auto"
-          >
-            {t("subtitle")}
-          </motion.p>
-        </div>
-      </section>
+      <PageHero
+        locale={locale}
+        homeLabel={navT("home")}
+        crumb={t("title")}
+        eyebrow={t("story")}
+        title={t("title")}
+        subtitle={t("subtitle")}
+      />
 
-      {/* ── Story + Image ────────────────────────────────────────── */}
-      <section className="section-py bg-background dark:bg-background-dark" aria-labelledby="story-heading">
+      {/* story + numbers */}
+      <section className="relative bg-[var(--ink)] pb-20 md:pb-28" aria-labelledby="story-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24 items-center">
-
-            <motion.div variants={fadeLeft} initial="hidden" whileInView="visible" viewport={viewport} className="relative">
-              <div className="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-2xl">
-                <Image
-                  src={images.home.aboutTeam.src}
-                  alt={images.home.aboutTeam.alt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-accent/15 to-transparent" />
-              </div>
-              <div className="absolute -bottom-5 -end-5 w-full h-full rounded-3xl border-2 border-accent/15 -z-10" aria-hidden="true" />
-              <motion.div
-                initial={{ opacity: 0, scale: .85 }} whileInView={{ opacity: 1, scale: 1 }}
-                viewport={viewport} transition={{ delay: .5, type: "spring" }}
-                className="absolute -bottom-7 -end-7 bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-2xl border border-gray-100 dark:border-gray-700 z-10"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-accent flex items-center justify-center">
-                    <Users className="w-5 h-5 text-dark" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-black text-gray-900 dark:text-white" dir="ltr">{COMPANY_STATS.team}</div>
-                    <div className="text-xs text-gray-500">{t("teamMembers")}</div>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-
-            <motion.div variants={fadeRight} initial="hidden" whileInView="visible" viewport={viewport}>
-              <h2 id="story-heading" className="font-heading text-display-sm font-black text-gray-900 dark:text-white mb-6 leading-tight">
-                {t("title")}
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16 items-start">
+            <Reveal className="lg:col-span-3">
+              <h2 id="story-heading" className="sr-only">{t("story")}</h2>
+              <p className="font-heading text-[clamp(1.4rem,2.6vw,2rem)] leading-[1.45] font-medium text-slate-300 tracking-tight">
                 {t("storyText")}
               </p>
-
-              {/* Stats */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8" role="list" aria-label={isAr ? "إحصاءات" : "Stats"}>
-                {stats.map((s) => (
-                  <Card key={s.label} role="listitem" className="block text-center p-4 rounded-2xl bg-surface dark:bg-surface-dark ring-gray-100 dark:ring-gray-800">
-                    <s.icon className="w-5 h-5 text-accent mx-auto mb-2" aria-hidden="true" />
-                    <div className="text-2xl font-black text-gray-900 dark:text-white" dir="ltr">{s.value}</div>
-                    <div className="text-[11px] text-gray-500 mt-1">{s.label}</div>
-                  </Card>
-                ))}
-              </div>
-
-              {/* Mission & Vision */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { icon: Target, title: t("mission"), body: t("missionText") },
-                  { icon: Eye,    title: t("vision"),  body: t("visionText") },
-                ].map(({ icon: Icon, title, body }) => (
-                  <Card key={title} className="block p-5 rounded-2xl bg-accent/5 dark:bg-accent/10 ring-accent/15">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Icon className="w-5 h-5 text-accent" aria-hidden="true" />
-                      <h3 className="font-bold text-gray-900 dark:text-white text-sm">{title}</h3>
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{body}</p>
-                  </Card>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Timeline ─────────────────────────────────────────────── */}
-      <section className="section-py bg-surface dark:bg-surface-dark/50" aria-labelledby="timeline-heading">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={viewport} className="text-center mb-16"
-          >
-            <span className="badge badge-accent mb-5">{isAr ? "رحلتنا" : "Our Journey"}</span>
-            <h2 id="timeline-heading" className="font-heading text-display-sm font-black text-gray-900 dark:text-white">
-              {isAr ? "كيف وصلنا إلى هنا" : "How We Got Here"}
-            </h2>
-            <div className="divider-accent mt-5 mx-auto" />
-          </motion.div>
-
-          <div className="relative">
-            {/* Center line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-accent/40 via-accent/20 to-transparent -translate-x-1/2 hidden md:block" aria-hidden="true" />
-
-            <div className="space-y-12">
-              {timelineItems.map((item, i) => (
-                <motion.div
-                  key={item.year}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={viewport}
-                  transition={{ duration: .55, delay: i * .1 }}
-                  className={`relative flex flex-col md:flex-row gap-8 items-center ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
-                >
-                  {/* Card */}
-                  <Card className="flex-1 block p-6 rounded-2xl bg-white dark:bg-gray-800 ring-gray-100 dark:ring-gray-700 shadow-sm hover:shadow-xl transition-shadow">
-                    <div className="text-3xl font-black text-accent mb-2">{item.year}</div>
-                    <h3 className="font-heading text-lg font-bold text-gray-900 dark:text-white mb-2">{item.title}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{item.desc}</p>
-                  </Card>
-
-                  {/* Dot */}
-                  <div className="shrink-0 w-5 h-5 rounded-full bg-accent border-4 border-background dark:border-background-dark shadow-lg hidden md:flex" aria-hidden="true" />
-
-                  {/* Spacer */}
-                  <div className="flex-1 hidden md:block" />
-                </motion.div>
+            </Reveal>
+            <Reveal delay={0.1} className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+              {[
+                { Icon: Target, title: t("mission"), body: t("missionText") },
+                { Icon: Eye, title: t("vision"), body: t("visionText") },
+              ].map(({ Icon, title, body }) => (
+                <SpotlightCard key={title} className="p-6">
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <Icon className="w-5 h-5 text-[#9DB0FE]" aria-hidden="true" />
+                    <h3 className="font-semibold text-white">{title}</h3>
+                  </div>
+                  <p className="text-sm text-slate-400 leading-relaxed">{body}</p>
+                </SpotlightCard>
               ))}
+            </Reveal>
+          </div>
+
+          <Reveal className="mt-16">
+            <dl className="rounded-3xl border border-white/[.06] bg-white/[.015] grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-white/[.06] rtl:divide-x-reverse overflow-hidden">
+              {stats.map((s) => (
+                <div key={s.label} className="p-8 text-center">
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd className="font-heading font-bold tracking-tight text-[clamp(2.25rem,4.5vw,3.5rem)] leading-none text-blue-glow tabular-nums">
+                    <CountUp end={s.end} suffix={s.suffix} duration={2} />
+                  </dd>
+                  <p className="mt-3 text-sm text-slate-400" aria-hidden="true">{s.label}</p>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* timeline */}
+      <section className="relative bg-[var(--ink)] py-20 md:py-28" aria-labelledby="timeline-heading">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            id="timeline-heading"
+            eyebrow={isAr ? "رحلتنا" : "Our Journey"}
+            title={isAr ? "كيف وصلنا" : "How we"}
+            highlight={isAr ? "إلى هنا" : "got here"}
+          />
+
+          <div ref={tlRef} className="relative">
+            <div className="absolute start-[19px] md:start-1/2 top-0 bottom-0 w-px bg-white/[.07] md:-translate-x-1/2 rtl:md:translate-x-1/2" aria-hidden="true">
+              <motion.div style={{ height: lineH }} className="w-full bg-gradient-to-b from-[#6384FF] to-[#38BDF8] shadow-[0_0_12px_rgba(99,132,255,.9)]" />
             </div>
+
+            <ol className="space-y-10 md:space-y-14">
+              {timelineItems.map((item, i) => {
+                const right = i % 2 === 1;
+                return (
+                  <li key={item.year} className="relative grid grid-cols-[40px_1fr] md:grid-cols-2 md:gap-14 items-center">
+                    <span
+                      className="absolute start-[13px] md:start-1/2 md:-translate-x-1/2 rtl:md:translate-x-1/2 w-3.5 h-3.5 rounded-full bg-[#3B62FC] ring-4 ring-[var(--ink)] shadow-[0_0_16px_rgba(59,98,252,1)]"
+                      aria-hidden="true"
+                    />
+                    <Reveal
+                      delay={0.05}
+                      className={right ? "col-start-2 md:col-start-2" : "col-start-2 md:col-start-1 md:text-end"}
+                    >
+                      <div className="card-glow p-6">
+                        <p className="font-mono text-2xl font-bold text-blue-glow">{item.year}</p>
+                        <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
+                        <p className="mt-2 text-sm text-slate-400 leading-relaxed">{item.desc}</p>
+                      </div>
+                    </Reveal>
+                  </li>
+                );
+              })}
+            </ol>
           </div>
         </div>
       </section>
 
-      {/* ── Team ─────────────────────────────────────────────────── */}
-      <section className="section-py bg-background dark:bg-background-dark" aria-labelledby="team-heading">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={viewport} className="text-center mb-16"
-          >
-            <span className="badge badge-accent mb-5">{isAr ? "فريقنا" : "Our Team"}</span>
-            <h2 id="team-heading" className="font-heading text-display-sm font-black text-gray-900 dark:text-white mb-4">
-              {t("team")}
-            </h2>
-            <p className="text-gray-500 dark:text-gray-400 text-lg max-w-xl mx-auto">{t("teamSubtitle")}</p>
-            <div className="divider-accent mt-5 mx-auto" />
-          </motion.div>
-
-          <motion.div
-            variants={staggerContainer(.15)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto"
-            role="list"
-            aria-label={isAr ? "قيادة الفريق" : "Leadership team"}
-          >
-            {[
-              { name: isAr ? "م. نورهان"  : "Eng. Nourhan",  role: isAr ? "المدير التنفيذي"         : "Managing Director" },
-              { name: isAr ? "أحمد كامل" : "Ahmed Kamel",  role: isAr ? "المؤسس والرئيس التنفيذي" : "CEO & Founder" },
-            ].map((member) => (
-              <motion.article
-                key={member.name}
-                variants={staggerItem}
-                role="listitem"
-                className="group"
-              >
-              <Card className="bg-white dark:bg-gray-800 rounded-3xl p-0 gap-0 overflow-hidden ring-gray-100 dark:ring-gray-700 hover:ring-accent/30 hover:shadow-2xl transition-all duration-500">
-                <div className="relative h-72 overflow-hidden">
-                  <MonogramAvatar
-                    name={member.name}
-                    className="absolute inset-0 text-4xl group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950/70 via-transparent to-transparent" />
-                </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{member.name}</h3>
-                  <p className="text-accent font-semibold text-sm">{member.role}</p>
-                </div>
-              </Card>
-              </motion.article>
+      {/* leadership */}
+      <section className="relative bg-[var(--ink)] py-20 md:py-28" aria-labelledby="team-heading">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader id="team-heading" eyebrow={isAr ? "فريقنا" : "Our Team"} title={t("team")} subtitle={t("teamSubtitle")} />
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
+            {team.map((member, i) => (
+              <Reveal as="li" key={member.name} delay={i * 0.1}>
+                <SpotlightCard className="p-8 text-center">
+                  <div className="relative mx-auto w-28 h-28">
+                    <div className="absolute inset-0 rounded-full bg-[#3B62FC] blur-2xl opacity-40" aria-hidden="true" />
+                    <MonogramAvatar name={member.name} className="relative w-28 h-28 rounded-full text-3xl ring-2 ring-[#6384FF]/40" />
+                  </div>
+                  <h3 className="mt-6 text-xl font-semibold text-white">{member.name}</h3>
+                  <p className="mt-1 text-sm text-[#9DB0FE]">{member.role}</p>
+                </SpotlightCard>
+              </Reveal>
             ))}
-          </motion.div>
+          </ul>
         </div>
       </section>
 
-      {/* ── Values ───────────────────────────────────────────────── */}
-      <section className="section-py bg-surface dark:bg-surface-dark/50" aria-labelledby="values-heading">
+      {/* values */}
+      <section className="relative bg-[var(--ink)] py-20 md:py-28" aria-labelledby="values-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={viewport} className="text-center mb-16"
-          >
-            <span className="badge badge-accent mb-5">{isAr ? "قيمنا" : "Our Values"}</span>
-            <h2 id="values-heading" className="font-heading text-display-sm font-black text-gray-900 dark:text-white">
-              {t("whyUs")}
-            </h2>
-            <div className="divider-accent mt-5 mx-auto" />
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <SectionHeader id="values-heading" eyebrow={isAr ? "قيمنا" : "Our Values"} title={t("whyUs")} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {values.map((value, index) => {
               const Icon = valueIcons[value];
               return (
-                <motion.div
-                  key={value}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={viewport}
-                  transition={{ duration: .5, delay: index * .1 }}
-                >
-                  <Card className="p-8 text-center group hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent mb-6 shadow-lg shadow-accent/20 group-hover:scale-110 group-hover:shadow-accent/30 transition-all duration-400">
-                      <Icon className="w-8 h-8 text-dark" aria-hidden="true" />
-                    </div>
-                    <h3 className="font-heading text-xl font-bold text-gray-900 dark:text-white mb-3">
-                      {t(`values.${value}.title`)}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                      {t(`values.${value}.description`)}
-                    </p>
-                  </Card>
-                </motion.div>
+                <Reveal key={value} delay={index * 0.08} className="h-full">
+                  <SpotlightCard className="h-full p-7">
+                    <span className="grid place-items-center w-12 h-12 rounded-xl bg-[#3B62FC]/10 ring-1 ring-[#6384FF]/25 text-[#9DB0FE]">
+                      <Icon className="w-6 h-6" aria-hidden="true" />
+                    </span>
+                    <h3 className="mt-6 text-lg font-semibold text-white">{t(`values.${value}.title`)}</h3>
+                    <p className="mt-2 text-sm text-slate-400 leading-relaxed">{t(`values.${value}.description`)}</p>
+                  </SpotlightCard>
+                </Reveal>
               );
             })}
           </div>

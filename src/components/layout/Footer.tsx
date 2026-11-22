@@ -53,9 +53,11 @@ export default function Footer({ locale }: FooterProps) {
   ];
 
   return (
-    <footer className="bg-surface dark:bg-gray-950 text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-transparent" role="contentinfo">
+    <footer className="relative overflow-hidden bg-[var(--ink)] text-slate-400" role="contentinfo">
       {/* ── Top divider accent ─────────────────────────────────── */}
-      <div className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" aria-hidden="true" />
+      <div className="horizon" aria-hidden="true" />
+      {/* giant faded wordmark */}
+      <div className="pointer-events-none select-none absolute -bottom-[0.18em] inset-x-0 text-center font-heading font-black tracking-[-0.06em] leading-none text-[22vw] text-white/[.025]" aria-hidden="true" dir="ltr">NORKA</div>
 
       {/* ── Main body ──────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
@@ -71,14 +73,13 @@ export default function Footer({ locale }: FooterProps) {
                   wordmark, so the link's accessible name comes from that
                   text alone instead of an aria-label that can drift out of
                   sync with it. */}
-              <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-white p-1 shrink-0 ring-1 ring-gray-200 dark:ring-transparent">
-                <Image
-                  src={images.brand.logo.src}
-                  alt=""
-                  fill
-                  className="object-contain p-0.5"
-                />
-              </div>
+              <Image
+                src={images.brand.mark.src}
+                alt=""
+                width={40}
+                height={40}
+                className="w-10 h-10 shrink-0 drop-shadow-[0_0_12px_rgba(59,98,252,.5)]"
+              />
               <div>
                 <span className="text-lg font-black text-gray-900 dark:text-white">Norka</span>
                 <span className="text-lg font-black gradient-text"> Solution</span>
@@ -101,7 +102,7 @@ export default function Footer({ locale }: FooterProps) {
                     rel="noopener noreferrer"
                     role="listitem"
                     aria-label={label}
-                    className="w-9 h-9 rounded-xl bg-white dark:bg-gray-800 ring-1 ring-gray-200 dark:ring-0 hover:bg-accent text-gray-500 dark:text-gray-400 hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-accent/20"
+                    className="w-9 h-9 rounded-xl bg-white/[.04] ring-1 ring-white/[.08] hover:bg-accent text-gray-500 dark:text-gray-400 hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-accent/20"
                   >
                     <Icon className="w-4 h-4" aria-hidden="true" />
                   </a>
@@ -181,7 +182,7 @@ export default function Footer({ locale }: FooterProps) {
             {/* CTA card */}
             <Link
               href={`/${locale}/contact`}
-              className="mt-6 flex items-center gap-3 p-4 rounded-2xl border border-accent/20 bg-white dark:bg-transparent hover:border-accent/50 hover:bg-accent/5 transition-all duration-300 group"
+              className="mt-6 flex items-center gap-3 p-4 rounded-2xl border border-accent/20 bg-transparent hover:border-accent/50 hover:bg-accent/5 transition-all duration-300 group"
             >
               <div className="w-8 h-8 rounded-xl bg-accent/10 flex items-center justify-center shrink-0 group-hover:bg-accent transition-colors">
                 <Mail className="w-4 h-4 text-accent group-hover:text-white transition-colors" aria-hidden="true" />

@@ -2,13 +2,13 @@ import { type Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import HeroSection from "@/components/home/HeroSection";
 import ServicesPreview from "@/components/home/ServicesPreview";
-import AboutPreview from "@/components/home/AboutPreview";
+import Process from "@/components/home/Process";
+import WhyNorka from "@/components/home/WhyNorka";
 import FeaturedProjects from "@/components/home/FeaturedProjects";
 import TechStack from "@/components/home/TechStack";
 import CEOQuote from "@/components/home/CEOQuote";
-import Testimonials from "@/components/home/Testimonials";
 import CTASection from "@/components/home/CTASection";
-import { getProjects, getTestimonials, getServiceCopy } from "@/sanity/lib/fetch-content";
+import { getProjects, getServiceCopy } from "@/sanity/lib/fetch-content";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -40,21 +40,17 @@ export default async function HomePage({
   // Fallback-safe: returns Sanity content when NEXT_PUBLIC_SANITY_PROJECT_ID
   // is set, otherwise the local src/lib/data/*.ts files — see
   // src/sanity/lib/fetch-content.ts.
-  const [projects, testimonials, serviceCopy] = await Promise.all([
-    getProjects(),
-    getTestimonials(),
-    getServiceCopy(),
-  ]);
+  const [projects, serviceCopy] = await Promise.all([getProjects(), getServiceCopy()]);
 
   return (
     <>
       <HeroSection locale={locale} />
-      <ServicesPreview locale={locale} serviceCopy={serviceCopy} />
-      <AboutPreview locale={locale} />
-      <FeaturedProjects locale={locale} projects={projects} />
       <TechStack />
+      <ServicesPreview locale={locale} serviceCopy={serviceCopy} />
+      <Process />
+      <FeaturedProjects locale={locale} projects={projects} />
+      <WhyNorka locale={locale} />
       <CEOQuote locale={locale} />
-      <Testimonials locale={locale} testimonials={testimonials} />
       <CTASection locale={locale} />
     </>
   );
