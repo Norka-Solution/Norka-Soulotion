@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Quote, ArrowUpRight } from "lucide-react";
@@ -25,7 +26,15 @@ export default function CEOQuote({ locale = "en" }: CEOQuoteProps) {
           <div className="relative mx-auto max-w-sm">
             <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-[#3B62FC]/40 to-[#38BDF8]/10 blur-2xl" aria-hidden="true" />
             <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden ring-gradient bg-panel">
-              <TeamPhoto member={founder} lang={lang} sizes="(max-width: 1024px) 90vw, 400px" className="absolute inset-0 w-full h-full text-7xl" />
+              {founder.photo ? (
+                <TeamPhoto member={founder} lang={lang} sizes="(max-width: 1024px) 90vw, 400px" className="absolute inset-0 w-full h-full" />
+              ) : (
+                // until the founder's photo is added: the Norka mark on a soft blue stage
+                <div className="absolute inset-0 grid place-items-center bg-[radial-gradient(70%_60%_at_50%_40%,#1A2B6E_0%,#0A1024_60%,#05070F_100%)]">
+                  <div className="absolute inset-0 bg-grid opacity-60" aria-hidden="true" />
+                  <Image src="/logo-mark.png" alt="Norka Solution" width={180} height={180} className="relative w-40 h-40 drop-shadow-[0_0_40px_rgba(59,98,252,.9)] animate-[nk-float_6s_ease-in-out_infinite] motion-reduce:animate-none" />
+                </div>
+              )}
               <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/75 to-transparent">
                 <p className="text-white text-xl font-bold">{founder.name[lang]}</p>
                 <p className="text-sm text-slate-200">{founder.role[lang]}</p>

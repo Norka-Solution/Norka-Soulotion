@@ -1,18 +1,18 @@
 "use client";
 
 import { useEffect } from "react";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { NORA_AVATAR, useNora } from "@/components/ai/NoraContext";
+import { useNora } from "@/components/ai/NoraContext";
+import NoraOrb from "@/components/ai/NoraOrb";
 import NoraThread from "@/components/ai/NoraThread";
 
 /** Floating "Ask Nora" button + chat window, sharing the conversation with the hero chat. */
 export default function ChatWidget() {
   const params = useParams();
   const isAr = ((params.locale as string) || "en") === "ar";
-  const { open, setOpen, heroChatVisible } = useNora();
+  const { open, setOpen, heroChatVisible, loading } = useNora();
 
   useEffect(() => {
     if (!open) return;
@@ -35,7 +35,7 @@ export default function ChatWidget() {
             aria-label={isAr ? "تحدث مع نورا" : "Chat with Nora"}
           >
             <span className="relative">
-              <Image src={NORA_AVATAR} alt="" width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
+              <NoraOrb size={40} />
               <span className="absolute bottom-0 end-0 w-3 h-3 rounded-full bg-emerald-400 ring-2 ring-[#0B1122]" />
             </span>
             <span className="text-start leading-tight hidden sm:block">
@@ -59,7 +59,7 @@ export default function ChatWidget() {
           >
             <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#0B1430] to-[#141E46] text-white">
               <span className="relative">
-                <Image src={NORA_AVATAR} alt="" width={40} height={40} className="w-10 h-10 rounded-full object-cover ring-2 ring-white/20" />
+                <NoraOrb size={40} active={loading} />
                 <span className="absolute bottom-0 end-0 w-3 h-3 rounded-full bg-emerald-400 ring-2 ring-[#0B1430]" />
               </span>
               <div className="flex-1 min-w-0">

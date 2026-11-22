@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   LayoutDashboard, Package, Users, Wallet, BarChart3, Settings, Search, Bell,
@@ -86,7 +87,7 @@ export default function DashboardMockup({ isAr = false }: { isAr?: boolean }) {
         {/* sidebar */}
         <aside className="hidden sm:flex flex-col gap-1 w-44 shrink-0 p-3 border-e border-white/[.06] bg-white/[.015]">
           <div className="flex items-center gap-2 px-2 py-2 mb-2">
-            <span className="w-6 h-6 rounded-md bg-gradient-to-br from-[#6384FF] to-[#2848D8] grid place-items-center text-[10px] font-black text-white">N</span>
+            <span className="w-6 h-6 rounded-md bg-white grid place-items-center"><Image src="/logo-mark.png" alt="" width={18} height={18} className="w-[18px] h-[18px]" /></span>
             <span className="text-[12px] font-bold text-white">Norka ERP</span>
           </div>
           {L.nav.map((n, i) => {

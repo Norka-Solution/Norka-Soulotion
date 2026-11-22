@@ -1,3 +1,7 @@
 dubai.mp4 / dubai.webm / dubai-poster.jpg
 Source: "City of Dubai at Night", https://www.pexels.com/video/city-of-dubai-at-night-7277163/ (Pexels License).
 Edited: trimmed with a 1.5s crossfade for a seamless 11.5s loop, re-encoded for the web.
+team.mp4  https://www.pexels.com/video/businesspeople-working-in-the-office-7652011/
+coding.mp4  https://www.pexels.com/video/hands-typing-code-on-laptop-keyboard-close-up-29474195/
+team-top.mp4  https://www.pexels.com/video/a-group-of-people-with-laptops-are-busy-working-in-a-room-3252858/
+(Pexels License; re-encoded at 1280px for the web)

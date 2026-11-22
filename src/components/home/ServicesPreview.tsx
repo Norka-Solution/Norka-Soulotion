@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
@@ -50,8 +51,8 @@ function ErpVisual({ isAr }: { isAr: boolean }) {
       {/* hub */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
         <div className="absolute inset-0 rounded-2xl bg-[#3B62FC] blur-2xl opacity-50 animate-pulse" />
-        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#6384FF] to-[#2848D8] grid place-items-center text-white font-black text-xl ring-1 ring-white/20">
-          N
+        <div className="relative w-[72px] h-[72px] rounded-2xl bg-white grid place-items-center ring-1 ring-[#6384FF]/40 shadow-[0_10px_30px_-6px_rgba(59,98,252,.8)]">
+          <Image src="/logo-mark.png" alt="" width={48} height={48} className="w-12 h-12" />
         </div>
       </div>
       {/* spokes */}

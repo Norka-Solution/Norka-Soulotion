@@ -10,6 +10,7 @@ import DashboardMockup from "@/components/visuals/DashboardMockup";
 import { PhoneMock } from "@/components/visuals/AppMocks";
 import { cn } from "@/lib/utils";
 import { useNora } from "@/components/ai/NoraContext";
+import NoraStage from "@/components/ai/NoraStage";
 
 type Key = "erp" | "ai" | "mobile" | "invoice";
 type Item = { name: string; tag: string; desc: string; points: string[] };
@@ -80,17 +81,8 @@ export default function Products({ locale }: { locale: string }) {
           {/* Norka AI — real product image */}
           <Reveal className="lg:col-span-7" delay={0.05}>
             <div className="card-glow overflow-hidden h-full flex flex-col">
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src="/images/products/nora.jpg"
-                  alt={isAr ? "نورا، موظفة نوركا الذكية" : "Nora, Norka's AI employee"}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 58vw"
-                  className="object-cover object-center transition-transform duration-[1.2s] ease-out hover:scale-[1.03]"
-                />
-                <span className="absolute top-4 start-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-black/50 backdrop-blur">
-                  <Sparkles className="w-3.5 h-3.5" aria-hidden="true" /> Norka AI
-                </span>
+              <div className="relative aspect-[16/10]">
+                <NoraStage isAr={isAr} />
               </div>
               <div className="p-7 md:p-8 flex-1 flex flex-col">
                 <Head tag={item("ai").tag} live={t("live")} />

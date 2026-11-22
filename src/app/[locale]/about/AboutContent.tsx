@@ -12,6 +12,7 @@ import SectionHeader from "@/components/kit/SectionHeader";
 import SpotlightCard from "@/components/kit/SpotlightCard";
 import Reveal from "@/components/kit/Reveal";
 import CountUp from "@/components/ui/CountUp";
+import LazyVideo from "@/components/kit/LazyVideo";
 import TeamPhoto from "@/components/art/TeamPhoto";
 import { team } from "@/lib/data/team";
 import { COMPANY_STATS } from "@/lib/constants";
@@ -87,6 +88,10 @@ export default function AboutContent() {
               <p className="font-heading text-[clamp(1.4rem,2.6vw,2rem)] leading-[1.45] font-medium text-ink-2 tracking-tight">
                 {t("storyText")}
               </p>
+              <div className="mt-8 relative aspect-video rounded-3xl overflow-hidden border border-hair shadow-[0_30px_80px_-30px_rgba(15,23,42,.5)]">
+                <LazyVideo src="/videos/team-top.mp4" poster="/videos/team-top-poster.jpg" className="absolute inset-0 w-full h-full" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" aria-hidden="true" />
+              </div>
             </Reveal>
             <Reveal delay={0.1} className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
               {[

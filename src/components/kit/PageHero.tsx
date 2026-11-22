@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import LazyVideo from "./LazyVideo";
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 
@@ -18,6 +19,7 @@ export default function PageHero({
   subtitle,
   children,
   image,
+  video,
 }: {
   locale: string;
   homeLabel: string;
@@ -29,13 +31,19 @@ export default function PageHero({
   children?: ReactNode;
   /** optional real photo behind the header (always shown with a dark overlay) */
   image?: string;
+  /** optional background video (mp4 + poster), shown like `image` */
+  video?: { src: string; poster: string };
 }) {
   const isAr = locale === "ar";
   return (
-    <section className={`relative overflow-hidden bg-page pt-36 md:pt-44 pb-16 md:pb-24 ${image ? "dark md:pb-28" : ""}`}>
-      {image ? (
+    <section className={`relative overflow-hidden bg-page pt-36 md:pt-44 pb-16 md:pb-24 ${image || video ? "dark md:pb-28" : ""}`}>
+      {image || video ? (
         <>
-          <Image src={image} alt="" fill priority sizes="100vw" className="object-cover scale-105 animate-[kenburns_22s_ease-out_both]" />
+          {video ? (
+            <LazyVideo eager src={video.src} poster={video.poster} className="absolute inset-0 w-full h-full" />
+          ) : (
+            <Image src={image!} alt="" fill priority sizes="100vw" className="object-cover scale-105 animate-[kenburns_22s_ease-out_both]" />
+          )}
           <div className="absolute inset-0 bg-gradient-to-b from-[#04060D]/85 via-[#04060D]/70 to-[#04060D]/90" aria-hidden="true" />
           <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_0%,rgba(59,98,252,.35),transparent_70%)]" aria-hidden="true" />
         </>

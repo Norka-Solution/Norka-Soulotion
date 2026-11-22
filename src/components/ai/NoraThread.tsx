@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { ArrowUp, CheckCircle2 } from "lucide-react";
-import { NORA_AVATAR, useNora } from "./NoraContext";
+import { useNora } from "./NoraContext";
+import NoraOrb from "./NoraOrb";
 import { cn } from "@/lib/utils";
 
 // Phone numbers, e-mails and Norka links inside a reply: kept left-to-right
@@ -78,14 +78,14 @@ export default function NoraThread({ isAr, compact = false, autoFocus = false }:
         className={cn("flex-1 min-h-0 overflow-y-auto space-y-3", compact ? "p-4" : "p-5")}
       >
         <div className="flex gap-2.5 items-end">
-          <Image src={NORA_AVATAR} alt="" width={28} height={28} className="w-7 h-7 rounded-full object-cover shrink-0" />
+          <NoraOrb size={28} />
           <p className={cn("max-w-[85%] px-4 py-2.5 text-sm leading-relaxed", bubble("assistant"))}>{greeting}</p>
         </div>
 
         {messages.map((m, i) =>
           m.role === "assistant" ? (
             <div key={i} className="flex gap-2.5 items-end">
-              <Image src={NORA_AVATAR} alt="" width={28} height={28} className="w-7 h-7 rounded-full object-cover shrink-0" />
+              <NoraOrb size={28} />
               <p className={cn("max-w-[85%] px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap break-words", bubble("assistant"))}><RichText text={m.content} /></p>
             </div>
           ) : (
@@ -95,7 +95,7 @@ export default function NoraThread({ isAr, compact = false, autoFocus = false }:
 
         {loading && (
           <div className="flex gap-2.5 items-end">
-            <Image src={NORA_AVATAR} alt="" width={28} height={28} className="w-7 h-7 rounded-full object-cover shrink-0" />
+            <NoraOrb size={28} active />
             <span className={cn("inline-flex gap-1.5 px-4 py-3.5", bubble("assistant"))} aria-label={isAr ? "نورا تكتب" : "Nora is typing"}>
               {[0, 150, 300].map((d) => (
                 <span key={d} className="w-1.5 h-1.5 rounded-full bg-ink-4 animate-bounce" style={{ animationDelay: `${d}ms` }} />

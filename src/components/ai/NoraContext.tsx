@@ -83,4 +83,3 @@ export function useNora() {
   return v;
 }
 
-export const NORA_AVATAR = "/images/products/nora-avatar.jpg";

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
@@ -8,7 +7,8 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, ShieldCheck, Languages, Building2 } from "lucide-react";
 import CountUp from "@/components/ui/CountUp";
 import NoraThread from "@/components/ai/NoraThread";
-import { NORA_AVATAR, useNora } from "@/components/ai/NoraContext";
+import { useNora } from "@/components/ai/NoraContext";
+import NoraOrb from "@/components/ai/NoraOrb";
 import { COMPANY_STATS } from "@/lib/constants";
 
 interface HeroSectionProps {
@@ -36,7 +36,7 @@ export default function HeroSection({ locale }: HeroSectionProps) {
   // while the hero chat is on screen, the floating "Ask Nora" button stays hidden
   const chatRef = useRef<HTMLDivElement>(null);
   const chatInView = useInView(chatRef, { margin: "0px 0px -20% 0px" });
-  const { setHeroChatVisible } = useNora();
+  const { setHeroChatVisible, loading } = useNora();
   useEffect(() => {
     setHeroChatVisible(chatInView);
     return () => setHeroChatVisible(false);
@@ -148,7 +148,7 @@ export default function HeroSection({ locale }: HeroSectionProps) {
             <div className="relative rounded-[1.75rem] overflow-hidden ring-gradient bg-[#070B16]/90 backdrop-blur-xl shadow-[0_40px_120px_-30px_rgba(59,98,252,.6)] flex flex-col h-[560px] max-h-[78vh]">
               <div className="relative flex items-center gap-3.5 px-5 py-4 border-b border-white/[.08] bg-gradient-to-r from-[#0B1430] to-[#101a3d]">
                 <span className="relative shrink-0">
-                  <Image src={NORA_AVATAR} alt={isAr ? "نورا، الموظفة الذكية في نوركا" : "Nora, Norka's AI employee"} width={52} height={52} priority className="w-13 h-13 rounded-2xl object-cover ring-2 ring-[#6384FF]/50" />
+                  <NoraOrb size={52} active={loading} />
                   <span className="absolute -bottom-0.5 -end-0.5 w-3.5 h-3.5 rounded-full bg-emerald-400 ring-2 ring-[#0B1430]" />
                 </span>
                 <div className="min-w-0">

@@ -786,6 +786,7 @@ html body { background-color: var(--nk-page) !important; color: var(--nk-ink-3) 
 html:not(.dark) .hero-video { filter: invert(1) hue-rotate(180deg) saturate(1.2) brightness(1.08); opacity: .4; }
 .hero-video-mask { -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
 
+@keyframes nk-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 @keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1.02); } }
 @keyframes aurora-a { to { transform: translate(12%, 10%) scale(1.15); } }
 @keyframes aurora-b { to { transform: translate(-15%, 18%) scale(.9); } }
@@ -827,4 +828,37 @@ html:not(.dark) .hero-video { filter: invert(1) hue-rotate(180deg) saturate(1.2)
 
 @media (prefers-reduced-motion: reduce) {
   .nk-loader { display: none; }
+}
+
+/* ── Nora's orb ──────────────────────────────────────────────── */
+.nora-orb {
+  position: relative; display: inline-block; flex-shrink: 0; border-radius: 999px; isolation: isolate;
+  background: radial-gradient(circle at 35% 30%, #9DB0FE, #3B62FC 45%, #1B2C8F 75%, #0B1130);
+  box-shadow: 0 0 0 1px rgba(157,176,254,.35) inset, 0 0 24px -4px rgba(59,98,252,.8);
+  animation: nora-breathe 4.5s ease-in-out infinite;
+  overflow: hidden;
+}
+.nora-orb-swirl {
+  position: absolute; inset: -30%; border-radius: 999px;
+  background: conic-gradient(from 0deg, transparent 0 20%, rgba(56,189,248,.85) 30%, transparent 45%, rgba(139,92,246,.7) 62%, transparent 78%, rgba(157,176,254,.8) 90%, transparent);
+  filter: blur(6px); mix-blend-mode: screen;
+  animation: nora-spin 7s linear infinite;
+}
+.nora-orb-core {
+  position: absolute; inset: 22%; border-radius: 999px;
+  background: radial-gradient(circle, rgba(255,255,255,.95), rgba(199,210,254,.6) 40%, transparent 70%);
+  filter: blur(2px); animation: nora-core 3.2s ease-in-out infinite;
+}
+.nora-orb-shine {
+  position: absolute; top: 10%; left: 18%; width: 38%; height: 26%; border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,.55), transparent); filter: blur(1px);
+}
+.nora-orb.is-active { animation-duration: 1.4s; box-shadow: 0 0 0 1px rgba(157,176,254,.5) inset, 0 0 34px 0 rgba(59,98,252,1); }
+.nora-orb.is-active .nora-orb-swirl { animation-duration: 1.6s; }
+.nora-orb.is-active .nora-orb-core { animation-duration: .9s; }
+@keyframes nora-breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes nora-spin { to { transform: rotate(360deg); } }
+@keyframes nora-core { 0%,100% { transform: scale(.85); opacity: .75; } 50% { transform: scale(1.1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .nora-orb, .nora-orb-swirl, .nora-orb-core { animation: none !important; }
 }

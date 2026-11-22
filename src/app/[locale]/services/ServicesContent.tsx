@@ -66,7 +66,7 @@ export default function ServicesContent({ serviceCopy }: ServicesContentProps) {
         eyebrow={t("badge")}
         title={t("title")}
         subtitle={t("subtitle")}
-        image="/images/photos/dev-team.jpg"
+        video={{ src: "/videos/coding.mp4", poster: "/videos/coding-poster.jpg" }}
       />
 
       {/* quick index */}
