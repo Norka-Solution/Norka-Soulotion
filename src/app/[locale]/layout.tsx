@@ -2,7 +2,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ThemeProvider } from "next-themes";
-import { Plus_Jakarta_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { Cairo } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import { routing } from "@/i18n/routing";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/ChatWidget";
+import { NoraProvider } from "@/components/ai/NoraContext";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import SmoothScroll from "@/components/fx/SmoothScroll";
@@ -84,17 +85,11 @@ const jsonLd = {
   priceRange: "$$",
 };
 
-// Typography: Plus Jakarta Sans for Latin, IBM Plex Sans Arabic for Arabic.
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-jakarta",
-  display: "swap",
-});
-const plexArabic = IBM_Plex_Sans_Arabic({
-  subsets: ["arabic"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-plex-arabic",
+// Typography: Cairo for both Arabic and English.
+const cairo = Cairo({
+  subsets: ["arabic", "latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-cairo",
   display: "swap",
 });
 
@@ -130,11 +125,12 @@ export default async function LocaleLayout({
         />
       </head>
       <body
-        className={`${jakarta.variable} ${plexArabic.variable} ${GeistMono.variable} antialiased bg-page text-ink-3`}
+        className={`${cairo.variable} ${GeistMono.variable} antialiased bg-page text-ink-3`}
       >
         {/* Dark by default (the signature look); visitors can switch to light. */}
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
           <NextIntlClientProvider messages={messages}>
+            <NoraProvider locale={locale}>
             <TooltipProvider delay={200}>
               <IntroLoader />
               <SmoothScroll />
@@ -147,6 +143,7 @@ export default async function LocaleLayout({
               <ScrollToTop />
               <Toaster />
             </TooltipProvider>
+            </NoraProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

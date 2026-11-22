@@ -28,3 +28,6 @@ online-shopping.jpg  https://www.pexels.com/photo/6612276/
 server-room.jpg  https://www.pexels.com/photo/1181354/
 ux-design.jpg  https://www.pexels.com/photo/3471423/
 handshake.jpg  https://www.pexels.com/photo/18848927/
+
+nora.jpg (products)  https://www.pexels.com/photo/18799044/
+real-estate.jpg replaced with https://www.pexels.com/photo/30707660/

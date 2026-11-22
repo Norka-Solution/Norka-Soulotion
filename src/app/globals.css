@@ -49,8 +49,8 @@
   --color-gray-950: #060B18;
 
   /* ── Typography ──────────────────────────────────────────── */
-  --font-sans:    var(--font-jakarta), var(--font-plex-arabic), system-ui, sans-serif;
-  --font-heading: var(--font-jakarta), var(--font-plex-arabic), system-ui, sans-serif;
+  --font-sans:    var(--font-cairo), system-ui, sans-serif;
+  --font-heading: var(--font-cairo), system-ui, sans-serif;
   --font-mono:    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Norka theme tokens (switch between light and dark, see the design layer) */
@@ -205,7 +205,7 @@ html {
 }
 
 body {
-  font-family: var(--font-jakarta), var(--font-plex-arabic), system-ui, sans-serif;
+  font-family: var(--font-cairo), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -225,19 +225,19 @@ html.dark {
   /* Cairo first for Arabic — relying on Geist's fallback-to-Cairo for
      Arabic glyphs worked, but explicit is safer than implicit for a
      font that carries most of the page's weight/rhythm in this mode. */
-  font-family: var(--font-plex-arabic), var(--font-jakarta), system-ui, sans-serif;
+  font-family: var(--font-cairo), system-ui, sans-serif;
 }
 
 /* ── Typography ─────────────────────────────────────────────── */
 .font-heading {
-  font-family: var(--font-jakarta), var(--font-plex-arabic), system-ui, sans-serif;
+  font-family: var(--font-cairo), system-ui, sans-serif;
 }
 
 /* .font-heading sets its own font-family directly, so it doesn't inherit
    the [dir="rtl"] rule above — needs its own RTL override to actually use
    Cairo first on headings too. */
 [dir="rtl"] .font-heading {
-  font-family: var(--font-plex-arabic), var(--font-jakarta), system-ui, sans-serif;
+  font-family: var(--font-cairo), system-ui, sans-serif;
 }
 
 /* Fluid heading sizes — tuned for Geist's tighter, more compact metrics
@@ -471,8 +471,8 @@ img {
 }
 
 /* ── Prose override for legal pages ─────────────────────────── */
-.prose h2 { font-family: var(--font-jakarta), var(--font-plex-arabic), system-ui, sans-serif; }
-[dir="rtl"] .prose h2 { font-family: var(--font-plex-arabic), var(--font-jakarta), system-ui, sans-serif; }
+.prose h2 { font-family: var(--font-cairo), system-ui, sans-serif; }
+[dir="rtl"] .prose h2 { font-family: var(--font-cairo), system-ui, sans-serif; }
 
 /* ── Custom scale utilities ─────────────────────────────────── */
 .scale-108 { transform: scale(1.08); }
@@ -649,18 +649,18 @@ html body { background-color: var(--nk-page) !important; color: var(--nk-ink-3) 
    One scale for the whole site. Arabic gets no negative tracking
    (it breaks letter joining) and a little more line-height. */
 @layer components {
-  .t-display { font-family: var(--font-heading); font-weight: 800; font-size: clamp(2.75rem, 7.2vw, 6rem); line-height: 1.02; letter-spacing: -0.04em; }
-  .t-h1      { font-family: var(--font-heading); font-weight: 800; font-size: clamp(2.4rem, 5.8vw, 4.75rem); line-height: 1.05; letter-spacing: -0.04em; }
-  .t-h2      { font-family: var(--font-heading); font-weight: 700; font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.1; letter-spacing: -0.035em; }
-  .t-h3      { font-family: var(--font-heading); font-weight: 650; font-size: 1.2rem; line-height: 1.35; letter-spacing: -0.015em; }
-  .t-h3-lg   { font-family: var(--font-heading); font-weight: 700; font-size: clamp(1.6rem, 2.8vw, 2.4rem); line-height: 1.15; letter-spacing: -0.03em; }
+  .t-display { font-family: var(--font-heading); font-weight: 800; font-size: clamp(2.75rem, 7.2vw, 6rem); line-height: 1.15; letter-spacing: -0.02em; }
+  .t-h1      { font-family: var(--font-heading); font-weight: 800; font-size: clamp(2.4rem, 5.8vw, 4.75rem); line-height: 1.15; letter-spacing: -0.02em; }
+  .t-h2      { font-family: var(--font-heading); font-weight: 700; font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.2; letter-spacing: -0.015em; }
+  .t-h3      { font-family: var(--font-heading); font-weight: 650; font-size: 1.2rem; line-height: 1.45; letter-spacing: 0; }
+  .t-h3-lg   { font-family: var(--font-heading); font-weight: 700; font-size: clamp(1.6rem, 2.8vw, 2.4rem); line-height: 1.25; letter-spacing: -0.01em; }
   .t-lead    { font-size: clamp(1.05rem, 1.35vw, 1.25rem); line-height: 1.7; color: var(--nk-ink-3); }
   .t-body    { font-size: .975rem; line-height: 1.75; color: var(--nk-ink-3); }
   .t-small   { font-size: .875rem; line-height: 1.65; color: var(--nk-ink-3); }
   .t-over    { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--nk-ink-4); }
-  .t-num     { font-family: var(--font-heading); font-weight: 800; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .t-num     { font-family: var(--font-heading); font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 }
-[dir="rtl"] :is(.t-display, .t-h1, .t-h2, .t-h3, .t-h3-lg) { letter-spacing: 0; line-height: 1.3; }
+[dir="rtl"] :is(.t-display, .t-h1, .t-h2, .t-h3, .t-h3-lg) { letter-spacing: 0; line-height: 1.35; }
 [dir="rtl"] [class*="tracking-"] { letter-spacing: 0 !important; }
 [dir="rtl"] .t-over { letter-spacing: 0; }
 
@@ -804,7 +804,7 @@ html:not(.dark) .hero-video { filter: invert(1) hue-rotate(180deg) saturate(1.2)
 .nk-intro-seen .nk-loader { display: none; }
 .nk-loader-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; }
 .nk-loader-mark { width: 88px; height: 88px; filter: drop-shadow(0 0 28px rgba(59,98,252,.75)); animation: nk-mark-in .9s cubic-bezier(.22,1,.36,1) both; }
-.nk-loader-word { font-family: var(--font-jakarta), sans-serif; font-weight: 800; letter-spacing: .5em; padding-inline-start: .5em; font-size: 14px; color: var(--nk-ink-1); animation: nk-word-in .8s .25s cubic-bezier(.22,1,.36,1) both; }
+.nk-loader-word { font-family: var(--font-cairo), sans-serif; font-weight: 800; letter-spacing: .5em; padding-inline-start: .5em; font-size: 14px; color: var(--nk-ink-1); animation: nk-word-in .8s .25s cubic-bezier(.22,1,.36,1) both; }
 .nk-loader-bar { width: 140px; height: 2px; border-radius: 2px; background: var(--nk-hair); overflow: hidden; }
 .nk-loader-bar span { display: block; height: 100%; background: linear-gradient(90deg, #3B62FC, #38BDF8); animation: nk-bar 1.1s .1s cubic-bezier(.65,0,.35,1) both; transform-origin: left; }
 @keyframes nk-mark-in { from { opacity: 0; transform: scale(.6) rotate(-30deg); filter: blur(8px); } to { opacity: 1; transform: none; } }

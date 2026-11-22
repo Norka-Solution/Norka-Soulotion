@@ -44,6 +44,8 @@ export default function Header({ locale }: HeaderProps) {
   const otherLocale    = locale === "en" ? "ar" : "en";
   const switchPath     = pathname.replace(`/${locale}`, `/${otherLocale}`);
   const isAr           = locale === "ar";
+  // pages whose header area sits on a dark photo/video: keep the bar light-on-dark until scrolled
+  const darkTop        = /^\/(en|ar)(\/(services|portfolio|about|contact))?\/?$/.test(pathname);
 
   /* Close menu on route change (adjusted during render, not in an effect) */
   if (pathname !== prevPathname) {
@@ -101,6 +103,7 @@ export default function Header({ locale }: HeaderProps) {
           <div
             className={cn(
               "flex items-center justify-between h-[60px] ps-3 pe-2 rounded-2xl border transition-all duration-500",
+              darkTop && !scrolled && "dark",
               scrolled
                 ? "bg-panel/75 border-hair backdrop-blur-xl shadow-[0_10px_40px_-14px_rgba(15,23,42,.25)] dark:shadow-[0_10px_40px_-12px_rgba(0,0,0,.8)]"
                 : "bg-transparent border-transparent"

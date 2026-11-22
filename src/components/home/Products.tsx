@@ -9,6 +9,7 @@ import Reveal from "@/components/kit/Reveal";
 import DashboardMockup from "@/components/visuals/DashboardMockup";
 import { PhoneMock } from "@/components/visuals/AppMocks";
 import { cn } from "@/lib/utils";
+import { useNora } from "@/components/ai/NoraContext";
 
 type Key = "erp" | "ai" | "mobile" | "invoice";
 type Item = { name: string; tag: string; desc: string; points: string[] };
@@ -44,6 +45,7 @@ function Head({ tag, live }: { tag: string; live?: string }) {
 export default function Products({ locale }: { locale: string }) {
   const t = useTranslations("products");
   const isAr = locale === "ar";
+  const { setOpen } = useNora();
   const item = (k: Key) => t.raw(`items.${k}`) as Item;
 
 
@@ -80,11 +82,11 @@ export default function Products({ locale }: { locale: string }) {
             <div className="card-glow overflow-hidden h-full flex flex-col">
               <div className="relative aspect-[16/10] overflow-hidden">
                 <Image
-                  src="/images/products/norka-ai.jpg"
-                  alt={isAr ? "واجهة نوركا AI: المحادثة والمهام وتحليل المبيعات والمكالمات" : "Norka AI: conversation, tasks, sales analysis and live calls"}
+                  src="/images/products/nora.jpg"
+                  alt={isAr ? "نورا، موظفة نوركا الذكية" : "Nora, Norka's AI employee"}
                   fill
                   sizes="(max-width: 1024px) 100vw, 58vw"
-                  className="object-cover object-top transition-transform duration-[1.2s] ease-out hover:scale-[1.03]"
+                  className="object-cover object-center transition-transform duration-[1.2s] ease-out hover:scale-[1.03]"
                 />
                 <span className="absolute top-4 start-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-black/50 backdrop-blur">
                   <Sparkles className="w-3.5 h-3.5" aria-hidden="true" /> Norka AI
@@ -95,7 +97,10 @@ export default function Products({ locale }: { locale: string }) {
                 <h3 className="mt-4 t-h3-lg text-ink-1">{item("ai").name}</h3>
                 <p className="mt-3 t-body">{item("ai").desc}</p>
                 <Points points={item("ai").points} />
-                <div className="mt-auto pt-7">
+                <div className="mt-auto pt-7 flex flex-wrap gap-3">
+                  <button type="button" onClick={() => setOpen(true)} className="btn-glow cursor-pointer">
+                    <Sparkles className="w-4 h-4" aria-hidden="true" /> {t("tryNora")}
+                  </button>
                   <Link href={`/${locale}/contact`} className="btn-ghost">{t("talk")}<ArrowUpRight className="w-4 h-4 rtl:-scale-x-100" aria-hidden="true" /></Link>
                 </div>
               </div>
