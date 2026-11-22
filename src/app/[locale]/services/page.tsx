@@ -1,4 +1,5 @@
 import { type Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import ServicesContent from "./ServicesContent";
 import { getServiceCopy } from "@/sanity/lib/fetch-content";
 
@@ -17,28 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? "نقدم خدمات متكاملة: تطوير البرمجيات، تطبيقات الجوال، أنظمة ERP، البنية التحتية، تصميم UI/UX، التسويق الرقمي وإعداد الشركات في الإمارات."
     : "We offer end-to-end services: custom software, mobile apps, ERP systems, IT infrastructure, UI/UX design, digital marketing, and business consulting across the UAE.";
 
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: `/${locale}/services`,
-      languages: {
-        en: "/en/services",
-        ar: "/ar/services",
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: `/${locale}/services`,
-      images: [{ url: "/images/og-services.jpg", width: 1200, height: 630, alt: title }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    },
-  };
+  return pageMetadata({ locale, path: "/services", title, description });
 }
 
 export default async function ServicesPage() {

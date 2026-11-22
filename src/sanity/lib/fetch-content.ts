@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+
 import { getClient } from "./client";
 import { urlForImage } from "./image";
 import { projectsQuery, projectBySlugQuery, servicesQuery, testimonialsQuery } from "./queries";
@@ -41,7 +43,8 @@ export async function getProjects(): Promise<Project[]> {
   }
 }
 
-export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
+// cache(): generateMetadata and the page both ask for the same project per request
+export const getProjectBySlug = cache(async function getProjectBySlug(slug: string): Promise<Project | undefined> {
   if (!sanityConfigured) return localProjects.find((p) => p.slug === slug);
   try {
     const doc = await getClient().fetch<SanityProjectDoc | null>(projectBySlugQuery, { slug });
@@ -50,7 +53,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
     console.error("Sanity getProjectBySlug failed, falling back to local data:", err);
     return localProjects.find((p) => p.slug === slug);
   }
-}
+});
 
 export async function getTestimonials(): Promise<Testimonial[]> {
   if (!sanityConfigured) return localTestimonials;

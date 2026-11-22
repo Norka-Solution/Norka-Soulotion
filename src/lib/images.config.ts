@@ -2,7 +2,7 @@
  * Central Image Configuration for NORKA SOLUTION
  *
  * Every image path and its alt text lives here; components only read from this file.
- * Photos are self-hosted under /public/images/ (one Unsplash URL is still used for the CTA skyline).
+ * Photos are self-hosted under /public/images/.
  * An entry with an empty `src` has no photo yet: the comment above it names the file to add.
  */
 
@@ -24,8 +24,8 @@ export const images = {
     },
     // -> /public/images/home/cta-skyline.jpg (reused as the Contact page hero too)
     ctaSkyline: {
-      src: "https://images.unsplash.com/photo-1748373452031-ee1ae4eb624d?w=1600&q=80&auto=format&fit=crop",
-      alt: "Dubai skyline and fountain at dusk",
+      src: "/images/home/cta-skyline.jpg",
+      alt: "Downtown Dubai skyline and fountain lake",
     },
     // -> /public/images/home/about-team.jpg
     aboutTeam: {

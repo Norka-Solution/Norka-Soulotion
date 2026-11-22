@@ -86,13 +86,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  alternates: {
-    canonical: "https://norkasolution.com",
-    languages: {
-      "en": "https://norkasolution.com/en",
-      "ar": "https://norkasolution.com/ar",
-    },
-  },
   category: "technology",
   metadataBase: new URL("https://norkasolution.com"),
 };

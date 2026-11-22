@@ -11,6 +11,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 interface Message {
   role: "user" | "assistant";
   content: string;
+  /** shown in the chat but never sent to the API (errors, notices) */
+  local?: boolean;
 }
 
 export default function ChatWidget() {
@@ -33,14 +35,12 @@ export default function ChatWidget() {
       ? "مرحباً! أنا مساعد نوركا الذكي. كيف يمكنني مساعدتك اليوم؟ يمكنني الإجابة عن خدماتنا، الأسعار، أو أي استفسار آخر."
       : "Hello! I'm NORKA's AI assistant. How can I help you today? I can answer questions about our services, pricing, or anything else.",
     error: isAr ? "حدث خطأ، حاول مرة أخرى" : "Something went wrong, please try again",
+    busy: isAr ? "رسائل كثيرة في وقت قصير، انتظر دقيقة ثم حاول مرة أخرى" : "That's a lot of messages at once. Please wait a minute and try again.",
     openChat: isAr ? "تحدث معنا" : "Chat with us",
   };
 
-  useEffect(() => {
-    if (isOpen && messages.length === 0) {
-      setMessages([{ role: "assistant", content: t.welcome }]);
-    }
-  }, [isOpen, messages.length, t.welcome]);
+  // The greeting is UI only: it is shown first but never sent to the API.
+  const displayMessages: Message[] = [{ role: "assistant", content: t.welcome }, ...messages];
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -61,28 +61,32 @@ export default function ChatWidget() {
     setIsLoading(true);
 
     try {
-      // Skip the first welcome message (assistant greeting) — only send real conversation history
-      const conversationHistory = newMessages.slice(1);
-
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: conversationHistory,
+          messages: newMessages
+            .filter((m) => !m.local)
+            .map(({ role, content }) => ({ role, content })),
           locale,
         }),
       });
 
+      if (res.status === 429) {
+        setMessages((prev) => [...prev, { role: "assistant", content: t.busy, local: true }]);
+        return;
+      }
       if (!res.ok) throw new Error();
 
       const data = await res.json();
+      if (typeof data.reply !== "string" || !data.reply) throw new Error();
       setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: t.error }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: t.error, local: true }]);
     } finally {
       setIsLoading(false);
     }
-  }, [input, isLoading, messages, locale, t.error]);
+  }, [input, isLoading, messages, locale, t.error, t.busy]);
 
   return (
     <>
@@ -143,8 +147,14 @@ export default function ChatWidget() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-gray-50 dark:bg-gray-950" dir={isAr ? "rtl" : "ltr"}>
-              {messages.map((msg, i) => (
+            <div
+              className="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-gray-50 dark:bg-gray-950"
+              dir={isAr ? "rtl" : "ltr"}
+              role="log"
+              aria-live="polite"
+              aria-busy={isLoading}
+            >
+              {displayMessages.map((msg, i) => (
                 <div
                   key={i}
                   className={`flex gap-2.5 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
@@ -163,7 +173,7 @@ export default function ChatWidget() {
                     )}
                   </div>
                   <div
-                    className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                    className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
                       msg.role === "assistant"
                         ? "bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-sm shadow-sm border border-gray-100 dark:border-gray-700"
                         : "bg-accent text-dark rounded-tr-sm"
@@ -198,7 +208,17 @@ export default function ChatWidget() {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                  onKeyDown={(e) => {
+                    // ignore Enter while an IME (e.g. Arabic/Asian keyboards) is composing
+                    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                      e.preventDefault();
+                      sendMessage();
+                    } else if (e.key === "Escape") {
+                      setIsOpen(false);
+                    }
+                  }}
+                  maxLength={1500}
+                  aria-label={t.placeholder}
                   placeholder={t.placeholder}
                   className="flex-1 h-auto px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 border-transparent text-gray-900 dark:text-white text-sm focus-visible:ring-accent/30"
                   dir={isAr ? "rtl" : "ltr"}

@@ -1,9 +1,7 @@
 # Norka Solution - robots.txt
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /studio
 
-# Sitemap
 Sitemap: https://norkasolution.com/sitemap.xml
-
-# Crawl-delay for polite crawling
-Crawl-delay: 1
