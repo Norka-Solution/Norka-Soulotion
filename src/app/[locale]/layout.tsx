@@ -2,8 +2,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ThemeProvider } from "next-themes";
-import { Cairo } from "next/font/google";
-import { GeistSans } from "geist/font/sans";
+import { Plus_Jakarta_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import { routing } from "@/i18n/routing";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +12,9 @@ import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/ChatWidget";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import SmoothScroll from "@/components/fx/SmoothScroll";
+import Cursor from "@/components/fx/Cursor";
+import IntroLoader, { introSkipScript } from "@/components/fx/IntroLoader";
 
 // Organization structured data for Google Knowledge Panel
 const jsonLd = {
@@ -82,9 +84,18 @@ const jsonLd = {
   priceRange: "$$",
 };
 
-const cairo = Cairo({
-  subsets: ["arabic", "latin"],
-  variable: "--font-cairo",
+// Typography: Plus Jakarta Sans for Latin, IBM Plex Sans Arabic for Arabic.
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
+const plexArabic = IBM_Plex_Sans_Arabic({
+  subsets: ["arabic"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-plex-arabic",
+  display: "swap",
 });
 
 export default async function LocaleLayout({
@@ -107,22 +118,27 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={isRTL ? "rtl" : "ltr"}
-      className="dark"
       suppressHydrationWarning
     >
       <head>
+        {/* skip the logo intro if it already played in this session */}
+        <script dangerouslySetInnerHTML={{ __html: introSkipScript }} />
+        <noscript><style>{`.nk-loader{display:none}`}</style></noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} ${cairo.variable} antialiased bg-[var(--ink)] text-slate-300`}
+        className={`${jakarta.variable} ${plexArabic.variable} ${GeistMono.variable} antialiased bg-page text-ink-3`}
       >
-        {/* The site is designed dark-only (2026 redesign). */}
-        <ThemeProvider attribute="class" forcedTheme="dark" enableSystem={false}>
+        {/* Dark by default (the signature look); visitors can switch to light. */}
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
           <NextIntlClientProvider messages={messages}>
             <TooltipProvider delay={200}>
+              <IntroLoader />
+              <SmoothScroll />
+              <Cursor />
               <Header locale={locale} />
               <main id="main-content" className="min-h-screen relative">{children}</main>
               <Footer locale={locale} />

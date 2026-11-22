@@ -101,7 +101,7 @@ export default function ContactContent() {
       />
 
       {/* ── Contact Section ─────────────────────────────────────── */}
-      <section className="relative bg-[var(--ink)] pb-20 md:pb-28">
+      <section className="relative bg-page pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 xl:gap-16">
 
@@ -122,12 +122,12 @@ export default function ContactContent() {
                         className={`card-glow flex-row items-start gap-4 p-5 rounded-2xl ring-0 transition-all duration-300 ${href ? "group-hover:ring-accent/40 group-hover:shadow-lg cursor-pointer" : ""}`}
                       >
                         <div className="p-3 rounded-xl bg-[#3B62FC]/15 shrink-0">
-                          <Icon className="w-5 h-5 text-[#9DB0FE]" aria-hidden="true" />
+                          <Icon className="w-5 h-5 text-accent-soft" aria-hidden="true" />
                         </div>
                         <div className="min-w-0">
-                          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">{label}</div>
+                          <div className="text-xs font-semibold text-ink-4 uppercase tracking-wider mb-1">{label}</div>
                           <div
-                            className={`text-sm font-semibold text-gray-900 dark:text-white truncate ${href ? "group-hover:text-accent transition-colors" : ""}`}
+                            className={`text-sm font-semibold text-gray-900 dark:text-ink-1 truncate ${href ? "group-hover:text-accent transition-colors" : ""}`}
                             dir={Icon === Phone ? "ltr" : undefined}
                           >
                             {value}
@@ -141,8 +141,8 @@ export default function ContactContent() {
 
               {/* Quick CTA */}
               <motion.div variants={staggerItem}>
-                <Card className="relative overflow-hidden block p-6 rounded-2xl bg-[#0A1022] ring-0 ring-gradient">
-                  <p className="text-white font-semibold text-sm mb-4">
+                <Card className="relative overflow-hidden block p-6 rounded-2xl bg-panel ring-0 ring-gradient">
+                  <p className="text-ink-1 font-semibold text-sm mb-4">
                     {isAr ? "هل تريد استشارة سريعة؟" : "Want a quick consultation?"}
                   </p>
                   <a
@@ -155,7 +155,7 @@ export default function ContactContent() {
                     {isAr ? "واتساب مباشر" : "WhatsApp us now"}
                     <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
                   </a>
-                  <p className="text-slate-500 text-xs text-center mt-3">
+                  <p className="text-ink-4 text-xs text-center mt-3">
                     {isAr ? "رد فوري · بدون رسوم" : "Instant reply · No fees"}
                   </p>
                 </Card>
@@ -174,8 +174,8 @@ export default function ContactContent() {
                 aria-label={isAr ? "نموذج الاتصال" : "Contact form"}
                 noValidate
               >
-              <Card className="relative block bg-[#070B16] rounded-3xl p-8 md:p-10 ring-0 ring-gradient shadow-[0_40px_100px_-30px_rgba(59,98,252,.45)]">
-                <h2 className="font-heading text-2xl font-bold text-white mb-8">
+              <Card className="relative block bg-panel rounded-3xl p-8 md:p-10 ring-0 ring-gradient shadow-[0_40px_100px_-30px_rgba(59,98,252,.45)]">
+                <h2 className="font-heading text-2xl font-bold text-ink-1 mb-8">
                   {isAr ? "أرسل لنا رسالة" : "Send us a message"}
                 </h2>
 
@@ -187,7 +187,7 @@ export default function ContactContent() {
                     <Input
                       id="contact-name"
                       type="text" name="name" required
-                      className="h-auto px-4 py-3.5 rounded-xl text-sm bg-white/[.03] border-white/10 focus-visible:border-[#6384FF]/60 focus-visible:ring-[#3B62FC]/25"
+                      className="h-auto px-4 py-3.5 rounded-xl text-sm bg-tint border-hair focus-visible:border-[#6384FF]/60 focus-visible:ring-[#3B62FC]/25"
                       placeholder={t("form.name")}
                       autoComplete="name"
                     />
@@ -199,7 +199,7 @@ export default function ContactContent() {
                     <Input
                       id="contact-email"
                       type="email" name="email" required
-                      className="h-auto px-4 py-3.5 rounded-xl text-sm bg-white/[.03] border-white/10 focus-visible:border-[#6384FF]/60 focus-visible:ring-[#3B62FC]/25"
+                      className="h-auto px-4 py-3.5 rounded-xl text-sm bg-tint border-hair focus-visible:border-[#6384FF]/60 focus-visible:ring-[#3B62FC]/25"
                       placeholder={t("form.email")}
                       autoComplete="email"
                     />
@@ -214,7 +214,7 @@ export default function ContactContent() {
                     <Input
                       id="contact-phone"
                       type="tel" name="phone"
-                      className="h-auto px-4 py-3.5 rounded-xl text-sm bg-white/[.03] border-white/10 focus-visible:border-[#6384FF]/60 focus-visible:ring-[#3B62FC]/25"
+                      className="h-auto px-4 py-3.5 rounded-xl text-sm bg-tint border-hair focus-visible:border-[#6384FF]/60 focus-visible:ring-[#3B62FC]/25"
                       placeholder={t("form.phone")}
                       dir="ltr"
                       autoComplete="tel"
@@ -225,7 +225,7 @@ export default function ContactContent() {
                       {t("form.service")} <span className="text-red-500" aria-hidden="true">*</span>
                     </Label>
                     <Select key={formKey} name="service" required items={serviceOptions.map((opt) => ({ value: opt, label: t(`form.serviceOptions.${opt}`) }))}>
-                      <SelectTrigger id="contact-service" className="w-full h-auto px-4 py-3.5 rounded-xl text-sm bg-white/[.03] border-white/10">
+                      <SelectTrigger id="contact-service" className="w-full h-auto px-4 py-3.5 rounded-xl text-sm bg-tint border-hair">
                         <SelectValue placeholder={t("form.servicePlaceholder")} />
                       </SelectTrigger>
                       <SelectContent>
@@ -244,7 +244,7 @@ export default function ContactContent() {
                   <Textarea
                     id="contact-message"
                     name="message" required rows={5}
-                    className="px-4 py-3.5 rounded-xl text-sm resize-none bg-white/[.03] border-white/10 focus-visible:border-[#6384FF]/60 focus-visible:ring-[#3B62FC]/25"
+                    className="px-4 py-3.5 rounded-xl text-sm resize-none bg-tint border-hair focus-visible:border-[#6384FF]/60 focus-visible:ring-[#3B62FC]/25"
                     placeholder={t("form.message")}
                   />
                 </div>
@@ -282,12 +282,12 @@ export default function ContactContent() {
                   )}
                 </Button>
 
-                <p className="text-xs text-slate-500 mt-4">
+                <p className="text-xs text-ink-4 mt-4">
                   {isAr
                     ? "بإرسال هذه الرسالة، أنت توافق على سياسة الخصوصية الخاصة بنا."
                     : "By submitting, you agree to our Privacy Policy."}
                   {" "}
-                  <Link href={`/${locale}/privacy`} className="text-[#9DB0FE] hover:underline">
+                  <Link href={`/${locale}/privacy`} className="text-accent-soft hover:underline">
                     {isAr ? "اقرأ المزيد" : "Read more"}
                   </Link>
                 </p>
@@ -299,14 +299,14 @@ export default function ContactContent() {
       </section>
 
       {/* ── Google Maps ─────────────────────────────────────────── */}
-      <section className="pb-24 bg-[var(--ink)]" aria-label={isAr ? "الموقع الجغرافي" : "Location map"}>
+      <section className="pb-24 bg-page" aria-label={isAr ? "الموقع الجغرافي" : "Location map"}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={viewport}
             transition={{ duration: .6 }}
-            className="rounded-3xl overflow-hidden border border-white/[.08] shadow-xl"
+            className="rounded-3xl overflow-hidden border border-hair shadow-xl"
             style={{ height: 420 }}
           >
             <iframe

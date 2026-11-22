@@ -1,0 +1,3 @@
+hero.mp4 / hero.webm / hero-poster.jpg
+Source: "Digital, Blue Blockchain" by Pexels contributor, https://www.pexels.com/video/digital-blue-blockchain-14209120/ (Pexels License, free for commercial use).
+Edited: slowed 1.5x, played forward then reversed for a seamless loop, re-encoded for the web.

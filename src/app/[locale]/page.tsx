@@ -3,6 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 import HeroSection from "@/components/home/HeroSection";
 import ServicesPreview from "@/components/home/ServicesPreview";
 import Process from "@/components/home/Process";
+import ProductShowcase from "@/components/home/ProductShowcase";
 import WhyNorka from "@/components/home/WhyNorka";
 import FeaturedProjects from "@/components/home/FeaturedProjects";
 import TechStack from "@/components/home/TechStack";
@@ -47,6 +48,7 @@ export default async function HomePage({
       <HeroSection locale={locale} />
       <TechStack />
       <ServicesPreview locale={locale} serviceCopy={serviceCopy} />
+      <ProductShowcase locale={locale} />
       <Process />
       <FeaturedProjects locale={locale} projects={projects} />
       <WhyNorka locale={locale} />

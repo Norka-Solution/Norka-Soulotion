@@ -28,22 +28,22 @@ export default function PageHero({
 }) {
   const isAr = locale === "ar";
   return (
-    <section className="relative overflow-hidden bg-[var(--ink)] pt-36 md:pt-44 pb-16 md:pb-24">
+    <section className="relative overflow-hidden bg-page pt-36 md:pt-44 pb-16 md:pb-24">
       <div className="aurora opacity-70" aria-hidden="true" />
       <div className="absolute inset-0 bg-grid" aria-hidden="true" />
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[var(--ink)] to-transparent" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-page to-transparent" aria-hidden="true" />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.nav
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-7 flex items-center justify-center gap-2 text-sm text-slate-500"
+          className="mb-7 flex items-center justify-center gap-2 text-sm text-ink-4"
           aria-label={isAr ? "مسار التنقل" : "Breadcrumb"}
         >
-          <Link href={`/${locale}`} className="hover:text-slate-300 transition-colors">{homeLabel}</Link>
+          <Link href={`/${locale}`} className="hover:text-ink-2 transition-colors">{homeLabel}</Link>
           <span aria-hidden="true">/</span>
-          <span className="text-[#9DB0FE]" aria-current="page">{crumb}</span>
+          <span className="text-accent-soft" aria-current="page">{crumb}</span>
         </motion.nav>
 
         {eyebrow && (
@@ -56,7 +56,7 @@ export default function PageHero({
           initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ delay: 0.1, duration: 0.9, ease }}
-          className="font-heading font-black tracking-[-0.035em] leading-[1.04] text-[clamp(2.5rem,6.5vw,5rem)]"
+          className="t-h1"
         >
           <span className="text-hero">{title}</span>
           {highlight && <span className="text-blue-glow"> {highlight}</span>}
@@ -67,7 +67,7 @@ export default function PageHero({
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.7, ease }}
-            className="mt-6 text-base md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed"
+            className="mt-6 t-lead max-w-2xl mx-auto"
           >
             {subtitle}
           </motion.p>

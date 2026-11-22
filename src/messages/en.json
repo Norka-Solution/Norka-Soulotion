@@ -266,5 +266,40 @@
   },
   "home": {
     "seeAll": "See all"
+  },
+  "showcase": {
+    "badge": "One platform",
+    "title": "Everything your business runs on,",
+    "highlight": "in one place",
+    "subtitle": "Web, mobile and AI built to work together, on the same data.",
+    "items": [
+      {
+        "title": "Norka ERP",
+        "description": "Inventory, HR, payroll, finance and sales in one system, with live dashboards for every branch.",
+        "points": [
+          "Real-time dashboards",
+          "Multi-branch & multi-currency",
+          "Arabic & English, built in"
+        ]
+      },
+      {
+        "title": "Mobile apps",
+        "description": "Fast iOS and Android apps for your staff and customers, synced with your ERP in real time.",
+        "points": [
+          "Attendance, approvals & requests",
+          "Offline-ready",
+          "Push notifications"
+        ]
+      },
+      {
+        "title": "Norka AI",
+        "description": "An assistant that reads your business data, answers questions and takes action, on the web or WhatsApp.",
+        "points": [
+          "Ask in plain Arabic or English",
+          "Creates orders, invoices & reports",
+          "Works inside WhatsApp"
+        ]
+      }
+    ]
   }
 }

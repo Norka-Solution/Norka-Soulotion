@@ -132,7 +132,7 @@ export default function ProjectCover({
 
   return (
     <div
-      className={cn("relative overflow-hidden bg-[#070B16]", className)}
+      className={cn("dark relative overflow-hidden bg-[#070B16]", className)}
       aria-hidden="true"
       dir={lang === "ar" ? "rtl" : "ltr"}
     >

@@ -87,9 +87,33 @@ export default function HeroSection({ locale }: HeroSectionProps) {
     <section
       ref={sectionRef}
       onMouseMove={onMove}
-      className="relative overflow-hidden bg-[var(--ink)] pt-32 md:pt-40"
+      className="relative overflow-hidden bg-page pt-32 md:pt-40"
       aria-label={isAr ? "القسم الرئيسي" : "Hero section"}
     >
+      {/* background video (muted loop). Reduced-motion visitors get the still poster. */}
+      <div className="absolute inset-x-0 top-0 h-[min(100vh,980px)] overflow-hidden hero-video-mask" aria-hidden="true">
+        {reduce ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src="/videos/hero-poster.jpg" alt="" className="hero-video absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <video
+            className="hero-video absolute inset-0 w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/videos/hero-poster.jpg"
+          >
+            <source src="/videos/hero.webm" type="video/webm" />
+            <source src="/videos/hero.mp4" type="video/mp4" />
+          </video>
+        )}
+        {/* readability: soften the centre behind the headline and fade into the page */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_40%,var(--nk-page)_0%,transparent_100%)] opacity-70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-page/40 via-transparent to-page" />
+      </div>
+
       {/* atmosphere */}
       <div className="aurora" aria-hidden="true" />
       <div className="absolute inset-0 bg-grid" aria-hidden="true" />
@@ -117,7 +141,7 @@ export default function HeroSection({ locale }: HeroSectionProps) {
         </motion.div>
 
         {/* headline */}
-        <h1 className="font-heading font-black tracking-[-0.035em] leading-[1.02] text-[clamp(2.75rem,8vw,6.25rem)] max-w-5xl mx-auto">
+        <h1 className="t-display max-w-5xl mx-auto">
           <RevealWords text={t("title")} wordClass="text-hero pb-[0.12em]" delay={0.1} />
           <RevealWords text={t("titleHighlight")} wordClass="text-blue-glow pb-[0.14em]" delay={0.3} />
         </h1>
@@ -126,7 +150,7 @@ export default function HeroSection({ locale }: HeroSectionProps) {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.65, duration: 0.7, ease }}
-          className="mt-6 text-base md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed"
+          className="mt-6 t-lead max-w-2xl mx-auto"
         >
           {t("description")}
         </motion.p>
@@ -157,10 +181,10 @@ export default function HeroSection({ locale }: HeroSectionProps) {
           {stats.map((s) => (
             <div key={s.label} className="flex items-baseline gap-2">
               <dt className="sr-only">{s.label}</dt>
-              <dd className="text-xl font-bold text-white tabular-nums">
+              <dd className="text-xl font-bold text-ink-1 tabular-nums">
                 <CountUp end={s.end} suffix={s.suffix} />
               </dd>
-              <span className="text-slate-500" aria-hidden="true">{s.label}</span>
+              <span className="text-ink-4" aria-hidden="true">{s.label}</span>
             </div>
           ))}
         </motion.dl>
@@ -186,14 +210,14 @@ export default function HeroSection({ locale }: HeroSectionProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2.4, duration: 0.7, ease }}
-              className="hidden md:flex absolute -start-8 lg:-start-16 top-[38%] items-center gap-3 rounded-2xl px-4 py-3 bg-[#0B1122]/90 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50 text-start"
+              className="hidden md:flex absolute -start-8 lg:-start-16 top-[38%] items-center gap-3 rounded-2xl px-4 py-3 bg-panel/90 backdrop-blur-xl border border-hair shadow-2xl shadow-black/50 text-start"
             >
               <span className="grid place-items-center w-9 h-9 rounded-xl bg-emerald-400/10">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400" />
               </span>
               <span>
-                <span className="block text-[12px] font-semibold text-white">{isAr ? "تم استلام الدفعة" : "Payment received"}</span>
-                <span className="block text-[11px] text-slate-400" dir="ltr">AED 12,400 · Al Reem</span>
+                <span className="block text-[12px] font-semibold text-ink-1">{isAr ? "تم استلام الدفعة" : "Payment received"}</span>
+                <span className="block text-[11px] text-ink-3" dir="ltr">AED 12,400 · Al Reem</span>
               </span>
             </motion.div>
 
@@ -203,15 +227,15 @@ export default function HeroSection({ locale }: HeroSectionProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2.7, duration: 0.7, ease }}
-              className="hidden md:block absolute -end-6 lg:-end-12 -top-8 w-44 rounded-[1.6rem] p-1.5 bg-[#0B1122] border border-white/10 shadow-2xl shadow-black/60"
+              className="dark hidden md:block absolute -end-6 lg:-end-12 -top-8 w-44 rounded-[1.6rem] p-1.5 bg-panel border border-hair shadow-2xl shadow-black/60"
             >
               <div className="rounded-[1.25rem] overflow-hidden bg-gradient-to-b from-[#121A33] to-[#0A0F1E] p-3 text-start">
                 <div className="mx-auto mb-3 w-12 h-1 rounded-full bg-white/10" />
-                <p className="flex items-center gap-1.5 text-[10px] font-semibold text-[#C7D2FE]">
+                <p className="flex items-center gap-1.5 text-[10px] font-semibold text-accent-soft">
                   <Smartphone className="w-3 h-3" /> {isAr ? "تطبيق الموظفين" : "Staff app"}
                 </p>
-                <p className="mt-2 text-[18px] font-bold text-white tabular-nums" dir="ltr">96%</p>
-                <p className="text-[9px] text-slate-500">{isAr ? "نسبة الحضور اليوم" : "Attendance today"}</p>
+                <p className="mt-2 text-[18px] font-bold text-ink-1 tabular-nums" dir="ltr">96%</p>
+                <p className="text-[9px] text-ink-4">{isAr ? "نسبة الحضور اليوم" : "Attendance today"}</p>
                 <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
                   <motion.div
                     className="h-full rounded-full bg-gradient-to-r from-[#3B62FC] to-[#38BDF8]"
@@ -245,7 +269,7 @@ export default function HeroSection({ locale }: HeroSectionProps) {
           </motion.div>
 
           {/* fade the bottom of the dashboard into the page */}
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[var(--ink)] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-page to-transparent" />
         </div>
       </div>
     </section>

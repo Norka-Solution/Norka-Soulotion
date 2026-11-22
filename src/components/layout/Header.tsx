@@ -21,6 +21,7 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 import { images } from "@/lib/images.config";
 
 // where a customer signs in and finds every Norka product their company has
@@ -101,7 +102,7 @@ export default function Header({ locale }: HeaderProps) {
             className={cn(
               "flex items-center justify-between h-[60px] ps-3 pe-2 rounded-2xl border transition-all duration-500",
               scrolled
-                ? "bg-[#070B16]/75 border-white/[.08] backdrop-blur-xl shadow-[0_10px_40px_-12px_rgba(0,0,0,.8)]"
+                ? "bg-panel/75 border-hair backdrop-blur-xl shadow-[0_10px_40px_-14px_rgba(15,23,42,.25)] dark:shadow-[0_10px_40px_-12px_rgba(0,0,0,.8)]"
                 : "bg-transparent border-transparent"
             )}
           >
@@ -119,8 +120,8 @@ export default function Header({ locale }: HeaderProps) {
                 className="w-[34px] h-[34px] drop-shadow-[0_0_12px_rgba(59,98,252,.55)] transition-transform duration-500 group-hover:rotate-[20deg]"
                 priority
               />
-              <span className="text-[1.05rem] font-bold tracking-tight text-white whitespace-nowrap">
-                Norka<span className="hidden sm:inline text-slate-400 font-medium"> Solution</span>
+              <span className="text-[1.05rem] font-bold tracking-tight text-ink-1 whitespace-nowrap">
+                Norka<span className="hidden sm:inline text-ink-3 font-medium"> Solution</span>
               </span>
             </Link>
 
@@ -137,8 +138,8 @@ export default function Header({ locale }: HeaderProps) {
                   className={cn(
                     "relative px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200",
                     isActive(item.href)
-                      ? "text-white bg-white/[.06]"
-                      : "text-slate-400 hover:text-white"
+                      ? "text-ink-1 bg-tint-2"
+                      : "text-ink-3 hover:text-ink-1"
                   )}
                 >
                   {item.label}
@@ -151,7 +152,7 @@ export default function Header({ locale }: HeaderProps) {
               {/* Language switcher */}
               <DropdownMenu>
                 <DropdownMenuTrigger
-                  className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer outline-none text-slate-400 hover:text-white hover:bg-white/[.05]"
+                  className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer outline-none text-ink-3 hover:text-ink-1 hover:bg-tint-2"
                   aria-label={isAr ? "تغيير اللغة" : "Change language"}
                 >
                   <Globe className="w-4 h-4" aria-hidden="true" />
@@ -168,10 +169,12 @@ export default function Header({ locale }: HeaderProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
 
+              <ThemeToggle isAr={isAr} />
+
               {/* Sign in: customers land on their Norka products */}
               <a
                 href={SIGN_IN_URL}
-                className="hidden lg:inline-flex items-center px-3.5 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-white/[.05] transition-colors"
+                className="hidden lg:inline-flex items-center px-3.5 py-2 rounded-lg text-sm font-medium text-ink-2 hover:text-ink-1 hover:bg-tint-2 transition-colors"
               >
                 {isAr ? "دخول" : "Sign in"}
               </a>
@@ -191,7 +194,7 @@ export default function Header({ locale }: HeaderProps) {
                 size="icon"
                 onClick={() => setMenuOpen(true)}
                 aria-label={isAr ? "فتح القائمة" : "Open menu"}
-                className="lg:hidden text-slate-200 hover:bg-white/[.06]"
+                className="lg:hidden text-ink-2 hover:bg-tint-2"
               >
                 <Menu className="w-6 h-6" aria-hidden="true" />
               </Button>
@@ -202,7 +205,7 @@ export default function Header({ locale }: HeaderProps) {
 
       {/* ── Mobile Menu ─────────────────────────────────────────── */}
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-        <SheetContent side="right" className="w-3/4 sm:max-w-sm bg-[#070B16] border-white/10">
+        <SheetContent side="right" data-lenis-prevent className="w-3/4 sm:max-w-sm bg-panel border-hair">
           <SheetHeader>
             <SheetTitle>{isAr ? "القائمة" : "Menu"}</SheetTitle>
           </SheetHeader>

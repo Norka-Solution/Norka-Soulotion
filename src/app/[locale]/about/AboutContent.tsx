@@ -79,12 +79,12 @@ export default function AboutContent() {
       />
 
       {/* story + numbers */}
-      <section className="relative bg-[var(--ink)] pb-20 md:pb-28" aria-labelledby="story-heading">
+      <section className="relative bg-page pb-20 md:pb-28" aria-labelledby="story-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16 items-start">
             <Reveal className="lg:col-span-3">
               <h2 id="story-heading" className="sr-only">{t("story")}</h2>
-              <p className="font-heading text-[clamp(1.4rem,2.6vw,2rem)] leading-[1.45] font-medium text-slate-300 tracking-tight">
+              <p className="font-heading text-[clamp(1.4rem,2.6vw,2rem)] leading-[1.45] font-medium text-ink-2 tracking-tight">
                 {t("storyText")}
               </p>
             </Reveal>
@@ -95,24 +95,24 @@ export default function AboutContent() {
               ].map(({ Icon, title, body }) => (
                 <SpotlightCard key={title} className="p-6">
                   <div className="flex items-center gap-2.5 mb-3">
-                    <Icon className="w-5 h-5 text-[#9DB0FE]" aria-hidden="true" />
-                    <h3 className="font-semibold text-white">{title}</h3>
+                    <Icon className="w-5 h-5 text-accent-soft" aria-hidden="true" />
+                    <h3 className="font-semibold text-ink-1">{title}</h3>
                   </div>
-                  <p className="text-sm text-slate-400 leading-relaxed">{body}</p>
+                  <p className="text-sm text-ink-3 leading-relaxed">{body}</p>
                 </SpotlightCard>
               ))}
             </Reveal>
           </div>
 
           <Reveal className="mt-16">
-            <dl className="rounded-3xl border border-white/[.06] bg-white/[.015] grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-white/[.06] rtl:divide-x-reverse overflow-hidden">
+            <dl className="rounded-3xl border border-hair bg-tint grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-hair rtl:divide-x-reverse overflow-hidden">
               {stats.map((s) => (
                 <div key={s.label} className="p-8 text-center">
                   <dt className="sr-only">{s.label}</dt>
-                  <dd className="font-heading font-bold tracking-tight text-[clamp(2.25rem,4.5vw,3.5rem)] leading-none text-blue-glow tabular-nums">
+                  <dd className="t-num text-[clamp(2.25rem,4.5vw,3.5rem)] leading-none text-blue-glow tabular-nums">
                     <CountUp end={s.end} suffix={s.suffix} duration={2} />
                   </dd>
-                  <p className="mt-3 text-sm text-slate-400" aria-hidden="true">{s.label}</p>
+                  <p className="mt-3 text-sm text-ink-3" aria-hidden="true">{s.label}</p>
                 </div>
               ))}
             </dl>
@@ -121,7 +121,7 @@ export default function AboutContent() {
       </section>
 
       {/* timeline */}
-      <section className="relative bg-[var(--ink)] py-20 md:py-28" aria-labelledby="timeline-heading">
+      <section className="relative bg-page py-20 md:py-28" aria-labelledby="timeline-heading">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             id="timeline-heading"
@@ -131,7 +131,7 @@ export default function AboutContent() {
           />
 
           <div ref={tlRef} className="relative">
-            <div className="absolute start-[19px] md:start-1/2 top-0 bottom-0 w-px bg-white/[.07] md:-translate-x-1/2 rtl:md:translate-x-1/2" aria-hidden="true">
+            <div className="absolute start-[19px] md:start-1/2 top-0 bottom-0 w-px bg-tint-2 md:-translate-x-1/2 rtl:md:translate-x-1/2" aria-hidden="true">
               <motion.div style={{ height: lineH }} className="w-full bg-gradient-to-b from-[#6384FF] to-[#38BDF8] shadow-[0_0_12px_rgba(99,132,255,.9)]" />
             </div>
 
@@ -141,7 +141,7 @@ export default function AboutContent() {
                 return (
                   <li key={item.year} className="relative grid grid-cols-[40px_1fr] md:grid-cols-2 md:gap-14 items-center">
                     <span
-                      className="absolute start-[13px] md:start-1/2 md:-translate-x-1/2 rtl:md:translate-x-1/2 w-3.5 h-3.5 rounded-full bg-[#3B62FC] ring-4 ring-[var(--ink)] shadow-[0_0_16px_rgba(59,98,252,1)]"
+                      className="absolute start-[13px] md:start-1/2 md:-translate-x-1/2 rtl:md:translate-x-1/2 w-3.5 h-3.5 rounded-full bg-[#3B62FC] ring-4 ring-page shadow-[0_0_16px_rgba(59,98,252,1)]"
                       aria-hidden="true"
                     />
                     <Reveal
@@ -150,8 +150,8 @@ export default function AboutContent() {
                     >
                       <div className="card-glow p-6">
                         <p className="font-mono text-2xl font-bold text-blue-glow">{item.year}</p>
-                        <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
-                        <p className="mt-2 text-sm text-slate-400 leading-relaxed">{item.desc}</p>
+                        <h3 className="mt-2 text-lg font-semibold text-ink-1">{item.title}</h3>
+                        <p className="mt-2 text-sm text-ink-3 leading-relaxed">{item.desc}</p>
                       </div>
                     </Reveal>
                   </li>
@@ -163,7 +163,7 @@ export default function AboutContent() {
       </section>
 
       {/* leadership */}
-      <section className="relative bg-[var(--ink)] py-20 md:py-28" aria-labelledby="team-heading">
+      <section className="relative bg-page py-20 md:py-28" aria-labelledby="team-heading">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader id="team-heading" eyebrow={isAr ? "فريقنا" : "Our Team"} title={t("team")} subtitle={t("teamSubtitle")} />
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
@@ -174,8 +174,8 @@ export default function AboutContent() {
                     <div className="absolute inset-0 rounded-full bg-[#3B62FC] blur-2xl opacity-40" aria-hidden="true" />
                     <MonogramAvatar name={member.name} className="relative w-28 h-28 rounded-full text-3xl ring-2 ring-[#6384FF]/40" />
                   </div>
-                  <h3 className="mt-6 text-xl font-semibold text-white">{member.name}</h3>
-                  <p className="mt-1 text-sm text-[#9DB0FE]">{member.role}</p>
+                  <h3 className="mt-6 text-xl font-semibold text-ink-1">{member.name}</h3>
+                  <p className="mt-1 text-sm text-accent-soft">{member.role}</p>
                 </SpotlightCard>
               </Reveal>
             ))}
@@ -184,7 +184,7 @@ export default function AboutContent() {
       </section>
 
       {/* values */}
-      <section className="relative bg-[var(--ink)] py-20 md:py-28" aria-labelledby="values-heading">
+      <section className="relative bg-page py-20 md:py-28" aria-labelledby="values-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader id="values-heading" eyebrow={isAr ? "قيمنا" : "Our Values"} title={t("whyUs")} />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -193,11 +193,11 @@ export default function AboutContent() {
               return (
                 <Reveal key={value} delay={index * 0.08} className="h-full">
                   <SpotlightCard className="h-full p-7">
-                    <span className="grid place-items-center w-12 h-12 rounded-xl bg-[#3B62FC]/10 ring-1 ring-[#6384FF]/25 text-[#9DB0FE]">
+                    <span className="grid place-items-center w-12 h-12 rounded-xl bg-[#3B62FC]/10 ring-1 ring-[#6384FF]/25 text-accent-soft">
                       <Icon className="w-6 h-6" aria-hidden="true" />
                     </span>
-                    <h3 className="mt-6 text-lg font-semibold text-white">{t(`values.${value}.title`)}</h3>
-                    <p className="mt-2 text-sm text-slate-400 leading-relaxed">{t(`values.${value}.description`)}</p>
+                    <h3 className="mt-6 text-lg font-semibold text-ink-1">{t(`values.${value}.title`)}</h3>
+                    <p className="mt-2 text-sm text-ink-3 leading-relaxed">{t(`values.${value}.description`)}</p>
                   </SpotlightCard>
                 </Reveal>
               );

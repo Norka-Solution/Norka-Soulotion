@@ -151,6 +151,7 @@ export default function ChatWidget() {
               className="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-gray-50 dark:bg-gray-950"
               dir={isAr ? "rtl" : "ltr"}
               role="log"
+              data-lenis-prevent
               aria-live="polite"
               aria-busy={isLoading}
             >

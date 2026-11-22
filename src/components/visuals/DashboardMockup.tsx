@@ -71,7 +71,7 @@ export default function DashboardMockup({ isAr = false }: { isAr?: boolean }) {
   ];
 
   return (
-    <div className="relative w-full rounded-2xl bg-[#070B16] ring-gradient shadow-[0_40px_120px_-30px_rgba(59,98,252,.55)] overflow-hidden text-start" dir={isAr ? "rtl" : "ltr"}>
+    <div className="dark relative w-full rounded-2xl bg-[#070B16] ring-gradient shadow-[0_40px_120px_-30px_rgba(59,98,252,.55)] overflow-hidden text-start" dir={isAr ? "rtl" : "ltr"}>
       {/* window chrome */}
       <div className="flex items-center gap-2 px-4 h-10 border-b border-white/[.06] bg-white/[.02]">
         <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]/80" />

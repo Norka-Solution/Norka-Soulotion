@@ -140,12 +140,12 @@ function MarqueeRow({ items, reverse = false }: { items: typeof row1; reverse?: 
         {doubled.map((tech, i) => (
           <div
             key={`${tech.name}-${i}`}
-            className="group flex items-center gap-3 px-5 py-3 rounded-xl bg-white/[.02] border border-white/[.06] hover:border-[#6384FF]/30 hover:bg-white/[.04] transition-colors duration-300 shrink-0 [&_svg]:w-7 [&_svg]:h-7 text-slate-300"
+            className="group flex items-center gap-3 px-5 py-3 rounded-xl bg-tint border border-hair hover:border-[#6384FF]/30 hover:bg-tint-2 transition-colors duration-300 shrink-0 [&_svg]:w-7 [&_svg]:h-7 text-ink-2"
           >
             <div className="opacity-80 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
               {tech.logo}
             </div>
-            <span className="text-sm font-medium text-slate-400 group-hover:text-white transition-colors whitespace-nowrap">
+            <span className="text-sm font-medium text-ink-3 group-hover:text-ink-1 transition-colors whitespace-nowrap">
               {tech.name}
             </span>
           </div>
@@ -159,7 +159,7 @@ export default function TechStack() {
   const t = useTranslations("techStack");
 
   return (
-    <section className="relative py-16 md:py-20 bg-[var(--ink)] overflow-hidden" aria-labelledby="tech-heading">
+    <section className="relative py-16 md:py-20 bg-page overflow-hidden" aria-labelledby="tech-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10">
         <motion.p
           id="tech-heading"
@@ -167,7 +167,7 @@ export default function TechStack() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-sm font-medium text-slate-500"
+          className="text-sm font-medium text-ink-4"
         >
           {t("subtitle")}
         </motion.p>

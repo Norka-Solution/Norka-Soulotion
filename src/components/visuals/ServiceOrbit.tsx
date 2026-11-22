@@ -17,7 +17,7 @@ export default function ServiceOrbit({ Icon, features }: { Icon: LucideIcon; fea
     { left: "60%", top: "78%" },
   ];
   return (
-    <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-[#070B16] border border-white/[.06]" aria-hidden="true">
+    <div className="dark relative aspect-[4/3] rounded-3xl overflow-hidden bg-[#070B16] border border-white/[.06]" aria-hidden="true">
       <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(59,98,252,.28),transparent_70%)]" />
       <div className="absolute inset-0 bg-dots opacity-50" />
 

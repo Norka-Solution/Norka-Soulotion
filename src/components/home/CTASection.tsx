@@ -22,10 +22,10 @@ export default function CTASection({ locale }: CTASectionProps) {
   ];
 
   return (
-    <section className="relative py-20 md:py-28 bg-[var(--ink)]" aria-labelledby="cta-heading">
+    <section className="relative py-20 md:py-28 bg-page" aria-labelledby="cta-heading">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] ring-gradient bg-[#070B18] px-6 py-16 md:px-16 md:py-24 text-center">
+          <div className="dark relative overflow-hidden rounded-[2rem] ring-gradient bg-panel px-6 py-16 md:px-16 md:py-24 text-center">
             {/* light */}
             <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_0%,rgba(59,98,252,.45),transparent_70%)]" aria-hidden="true" />
             <div className="absolute inset-0 bg-grid opacity-70" aria-hidden="true" />
@@ -39,10 +39,10 @@ export default function CTASection({ locale }: CTASectionProps) {
                 height={64}
                 className="mx-auto mb-8 w-16 h-16 drop-shadow-[0_0_24px_rgba(59,98,252,.8)]"
               />
-              <h2 id="cta-heading" className="font-heading font-bold tracking-[-0.03em] leading-[1.08] text-[clamp(2rem,5vw,3.75rem)] max-w-3xl mx-auto text-hero">
+              <h2 id="cta-heading" className="t-h2 max-w-3xl mx-auto text-hero">
                 {t("title")}
               </h2>
-              <p className="mt-5 text-base md:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              <p className="mt-5 t-lead max-w-2xl mx-auto">
                 {t("description")}
               </p>
 
@@ -60,14 +60,14 @@ export default function CTASection({ locale }: CTASectionProps) {
                       href={href}
                       target={href.startsWith("http") ? "_blank" : undefined}
                       rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="group flex items-center gap-3 rounded-2xl px-4 py-3.5 bg-white/[.03] border border-white/[.07] hover:border-[#6384FF]/40 hover:bg-white/[.05] transition-colors text-start"
+                      className="group flex items-center gap-3 rounded-2xl px-4 py-3.5 bg-tint border border-hair hover:border-[#6384FF]/40 hover:bg-tint-2 transition-colors text-start"
                     >
-                      <span className="grid place-items-center w-10 h-10 rounded-xl bg-[#3B62FC]/15 text-[#9DB0FE] shrink-0">
+                      <span className="grid place-items-center w-10 h-10 rounded-xl bg-[#3B62FC]/15 text-accent-soft shrink-0">
                         <Icon className="w-4 h-4" aria-hidden="true" />
                       </span>
                       <span className="min-w-0">
-                        <span className="block text-[11px] uppercase tracking-wider text-slate-500">{label}</span>
-                        <span className="block text-sm font-medium text-white truncate" dir={href.startsWith("tel") ? "ltr" : undefined}>{value}</span>
+                        <span className="block text-[11px] uppercase tracking-wider text-ink-4">{label}</span>
+                        <span className="block text-sm font-medium text-ink-1 truncate" dir={href.startsWith("tel") ? "ltr" : undefined}>{value}</span>
                       </span>
                     </a>
                   </li>

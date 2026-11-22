@@ -49,9 +49,24 @@
   --color-gray-950: #060B18;
 
   /* ── Typography ──────────────────────────────────────────── */
-  --font-sans:    var(--font-geist-sans), var(--font-cairo), system-ui, sans-serif;
-  --font-heading: var(--font-geist-sans), var(--font-cairo), system-ui, sans-serif;
+  --font-sans:    var(--font-jakarta), var(--font-plex-arabic), system-ui, sans-serif;
+  --font-heading: var(--font-jakarta), var(--font-plex-arabic), system-ui, sans-serif;
   --font-mono:    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Norka theme tokens (switch between light and dark, see the design layer) */
+  --color-page:   var(--nk-page);
+  --color-page-2: var(--nk-page-2);
+  --color-panel:  var(--nk-panel);
+  --color-ink-1:  var(--nk-ink-1);
+  --color-ink-2:  var(--nk-ink-2);
+  --color-ink-3:  var(--nk-ink-3);
+  --color-ink-4:  var(--nk-ink-4);
+  --color-ink-5:  var(--nk-ink-5);
+  --color-hair:   var(--nk-hair);
+  --color-hair-2: var(--nk-hair-2);
+  --color-tint:   var(--nk-tint);
+  --color-tint-2: var(--nk-tint-2);
+  --color-accent-soft: var(--nk-accent-soft);
 
   /* ── Spacing scale ───────────────────────────────────────── */
   --spacing-section:    clamp(5rem, 10vw, 8rem);
@@ -190,7 +205,7 @@ html {
 }
 
 body {
-  font-family: var(--font-geist-sans), var(--font-cairo), system-ui, sans-serif;
+  font-family: var(--font-jakarta), var(--font-plex-arabic), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -202,10 +217,7 @@ html.dark {
   color-scheme: dark;
 }
 
-html.dark body {
-  background-color: var(--color-background-dark) !important;
-  color: #CBD5E1 !important;
-}
+/* page colours come from the --nk-* tokens in the design layer below */
 
 /* ── RTL ────────────────────────────────────────────────────── */
 [dir="rtl"] {
@@ -213,19 +225,19 @@ html.dark body {
   /* Cairo first for Arabic — relying on Geist's fallback-to-Cairo for
      Arabic glyphs worked, but explicit is safer than implicit for a
      font that carries most of the page's weight/rhythm in this mode. */
-  font-family: var(--font-cairo), var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-plex-arabic), var(--font-jakarta), system-ui, sans-serif;
 }
 
 /* ── Typography ─────────────────────────────────────────────── */
 .font-heading {
-  font-family: var(--font-geist-sans), var(--font-cairo), system-ui, sans-serif;
+  font-family: var(--font-jakarta), var(--font-plex-arabic), system-ui, sans-serif;
 }
 
 /* .font-heading sets its own font-family directly, so it doesn't inherit
    the [dir="rtl"] rule above — needs its own RTL override to actually use
    Cairo first on headings too. */
 [dir="rtl"] .font-heading {
-  font-family: var(--font-cairo), var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-plex-arabic), var(--font-jakarta), system-ui, sans-serif;
 }
 
 /* Fluid heading sizes — tuned for Geist's tighter, more compact metrics
@@ -459,8 +471,8 @@ img {
 }
 
 /* ── Prose override for legal pages ─────────────────────────── */
-.prose h2 { font-family: var(--font-geist-sans), var(--font-cairo), system-ui, sans-serif; }
-[dir="rtl"] .prose h2 { font-family: var(--font-cairo), var(--font-geist-sans), system-ui, sans-serif; }
+.prose h2 { font-family: var(--font-jakarta), var(--font-plex-arabic), system-ui, sans-serif; }
+[dir="rtl"] .prose h2 { font-family: var(--font-plex-arabic), var(--font-jakarta), system-ui, sans-serif; }
 
 /* ── Custom scale utilities ─────────────────────────────────── */
 .scale-108 { transform: scale(1.08); }
@@ -566,66 +578,134 @@ img {
   }
 }
 /* ══════════════════════════════════════════════════════════════
-   Norka dark design layer (2026 redesign)
-   The site is dark-only: every section sits on --ink, with Norka blue
-   used as light (glows, beams, gradients) rather than as flat fills.
+   Norka design layer (2026 redesign) — light + dark
+   Every colour comes from a --nk-* token. Light values live on :root,
+   dark values on .dark — so adding class="dark" to any element (e.g. a
+   product mockup or the CTA) keeps that block dark in light mode too.
    ══════════════════════════════════════════════════════════════ */
 :root {
-  --ink:        #04060D;
-  --ink-2:      #080C18;
-  --ink-3:      #0C1222;
-  --line:       rgba(148, 163, 255, .10);
-  --line-2:     rgba(148, 163, 255, .18);
-  --blue:       #3B62FC;
-  --blue-2:     #6384FF;
-  --blue-3:     #9DB0FE;
-  --cyan:       #38BDF8;
-  --violet:     #8B5CF6;
+  --nk-page:    #FFFFFF;
+  --nk-page-2:  #F6F8FF;
+  --nk-panel:   #FFFFFF;
+  --nk-ink-1:   #0A0F1F;   /* headings */
+  --nk-ink-2:   #273049;   /* strong body */
+  --nk-ink-3:   #556079;   /* body */
+  --nk-ink-4:   #7C869B;   /* secondary */
+  --nk-ink-5:   #A9B1C2;   /* faint */
+  --nk-hair:    rgba(15, 23, 42, .09);
+  --nk-hair-2:  rgba(59, 98, 252, .35);
+  --nk-tint:    rgba(15, 23, 42, .025);
+  --nk-tint-2:  rgba(15, 23, 42, .05);
+  --nk-accent-soft: #2848D8;
+  --nk-card-a:  #FFFFFF;
+  --nk-card-b:  #FAFBFF;
+  --nk-card-shadow: 0 1px 2px rgba(15,23,42,.04), 0 12px 32px -12px rgba(15,23,42,.12);
+  --nk-hero-a:  #0A0F1F;
+  --nk-hero-b:  #3A4563;
+  --nk-grid:    rgba(59, 98, 252, .07);
+  --nk-dots:    rgba(59, 98, 252, .14);
+  --nk-aurora:  .32;
+  --nk-eyebrow-fg: #2848D8;
+  --nk-eyebrow-bg: rgba(59, 98, 252, .06);
+  --nk-eyebrow-bd: rgba(59, 98, 252, .22);
+  --nk-spot:    rgba(59, 98, 252, .08);
+
+  /* legacy names used by older pages */
+  --ink: var(--nk-page);
+  --line: var(--nk-hair);
+  --line-2: var(--nk-hair-2);
+}
+.dark {
+  --nk-page:    #04060D;
+  --nk-page-2:  #080C18;
+  --nk-panel:   #0B1122;
+  --nk-ink-1:   #FFFFFF;
+  --nk-ink-2:   #D5DBE8;
+  --nk-ink-3:   #9AA5BD;
+  --nk-ink-4:   #6B7690;
+  --nk-ink-5:   #48516A;
+  --nk-hair:    rgba(148, 163, 255, .10);
+  --nk-hair-2:  rgba(148, 163, 255, .22);
+  --nk-tint:    rgba(255, 255, 255, .025);
+  --nk-tint-2:  rgba(255, 255, 255, .05);
+  --nk-accent-soft: #9DB0FE;
+  --nk-card-a:  rgba(14, 20, 38, .9);
+  --nk-card-b:  rgba(8, 12, 24, .9);
+  --nk-card-shadow: none;
+  --nk-hero-a:  #FFFFFF;
+  --nk-hero-b:  #B8C3DC;
+  --nk-grid:    rgba(148, 163, 255, .07);
+  --nk-dots:    rgba(148, 163, 255, .16);
+  --nk-aurora:  .55;
+  --nk-eyebrow-fg: #C7D2FE;
+  --nk-eyebrow-bg: rgba(59, 98, 252, .08);
+  --nk-eyebrow-bd: rgba(99, 132, 255, .25);
+  --nk-spot:    rgba(59, 98, 252, .16);
 }
 
-html.dark body { background-color: var(--ink) !important; color: #A9B4CC !important; }
+html body { background-color: var(--nk-page) !important; color: var(--nk-ink-3) !important; transition: background-color .4s ease; }
+
+/* ── Typography system ─────────────────────────────────────────
+   One scale for the whole site. Arabic gets no negative tracking
+   (it breaks letter joining) and a little more line-height. */
+@layer components {
+  .t-display { font-family: var(--font-heading); font-weight: 800; font-size: clamp(2.75rem, 7.2vw, 6rem); line-height: 1.02; letter-spacing: -0.04em; }
+  .t-h1      { font-family: var(--font-heading); font-weight: 800; font-size: clamp(2.4rem, 5.8vw, 4.75rem); line-height: 1.05; letter-spacing: -0.04em; }
+  .t-h2      { font-family: var(--font-heading); font-weight: 700; font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.1; letter-spacing: -0.035em; }
+  .t-h3      { font-family: var(--font-heading); font-weight: 650; font-size: 1.2rem; line-height: 1.35; letter-spacing: -0.015em; }
+  .t-h3-lg   { font-family: var(--font-heading); font-weight: 700; font-size: clamp(1.6rem, 2.8vw, 2.4rem); line-height: 1.15; letter-spacing: -0.03em; }
+  .t-lead    { font-size: clamp(1.05rem, 1.35vw, 1.25rem); line-height: 1.7; color: var(--nk-ink-3); }
+  .t-body    { font-size: .975rem; line-height: 1.75; color: var(--nk-ink-3); }
+  .t-small   { font-size: .875rem; line-height: 1.65; color: var(--nk-ink-3); }
+  .t-over    { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--nk-ink-4); }
+  .t-num     { font-family: var(--font-heading); font-weight: 800; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+}
+[dir="rtl"] :is(.t-display, .t-h1, .t-h2, .t-h3, .t-h3-lg) { letter-spacing: 0; line-height: 1.3; }
+[dir="rtl"] [class*="tracking-"] { letter-spacing: 0 !important; }
+[dir="rtl"] .t-over { letter-spacing: 0; }
 
 /* Component classes live in the components layer so Tailwind utilities
    (hidden, lg:inline-flex, px-*, …) can still override them. */
 @layer components {
 /* Headline gradients */
 .text-hero {
-  background: linear-gradient(180deg, #FFFFFF 20%, #B8C3DC 100%);
+  background: linear-gradient(180deg, var(--nk-hero-a) 20%, var(--nk-hero-b) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .text-blue-glow {
-  background: linear-gradient(100deg, #9DB0FE 0%, #3B62FC 45%, #38BDF8 100%);
+  background: linear-gradient(100deg, #6384FF 0%, #3B62FC 45%, #0EA5E9 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+.dark .text-blue-glow { background-image: linear-gradient(100deg, #9DB0FE 0%, #3B62FC 45%, #38BDF8 100%); }
 
 /* Eyebrow pill */
 .eyebrow {
   display: inline-flex; align-items: center; gap: .5rem;
   padding: .375rem .875rem; border-radius: 999px;
-  font-size: .75rem; font-weight: 600; letter-spacing: .02em;
-  color: #C7D2FE; background: rgba(59, 98, 252, .08);
-  border: 1px solid rgba(99, 132, 255, .25);
+  font-size: .75rem; font-weight: 600; letter-spacing: .01em;
+  color: var(--nk-eyebrow-fg); background: var(--nk-eyebrow-bg);
+  border: 1px solid var(--nk-eyebrow-bd);
   backdrop-filter: blur(8px);
 }
 
 /* Background grid, faded out towards the edges */
 .bg-grid {
   background-image:
-    linear-gradient(to right, rgba(148,163,255,.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148,163,255,.07) 1px, transparent 1px);
+    linear-gradient(to right, var(--nk-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--nk-grid) 1px, transparent 1px);
   background-size: 64px 64px;
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
           mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
 }
 .bg-dots {
-  background-image: radial-gradient(rgba(148,163,255,.16) 1px, transparent 1px);
+  background-image: radial-gradient(var(--nk-dots) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 
 /* Slowly drifting aurora blobs */
 .aurora { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .aurora::before, .aurora::after {
-  content: ""; position: absolute; border-radius: 50%; filter: blur(90px); opacity: .55;
+  content: ""; position: absolute; border-radius: 50%; filter: blur(90px); opacity: var(--nk-aurora);
 }
 .aurora::before {
   width: 60vw; height: 60vw; max-width: 900px; max-height: 900px;
@@ -639,27 +719,25 @@ html.dark body { background-color: var(--ink) !important; color: #A9B4CC !import
   background: radial-gradient(circle, rgba(56,189,248,.35), rgba(139,92,246,.18) 45%, transparent 70%);
   animation: aurora-b 22s ease-in-out infinite alternate;
 }
-@keyframes aurora-a { to { transform: translate(12%, 10%) scale(1.15); } }
-@keyframes aurora-b { to { transform: translate(-15%, 18%) scale(.9); } }
 
-/* Card with a hairline gradient border + mouse spotlight.
-   Set --mx / --my (px) from JS; falls back to the top-centre. */
+/* Card with a hairline border + mouse spotlight (--mx / --my set from JS) */
 .card-glow {
   position: relative; isolation: isolate;
   border-radius: 1.25rem;
-  background: linear-gradient(180deg, rgba(14,20,38,.9), rgba(8,12,24,.9));
-  border: 1px solid var(--line);
-  transition: border-color .3s, transform .3s;
+  background: linear-gradient(180deg, var(--nk-card-a), var(--nk-card-b));
+  border: 1px solid var(--nk-hair);
+  box-shadow: var(--nk-card-shadow);
+  transition: border-color .3s, transform .3s, box-shadow .3s;
 }
 .card-glow::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(59,98,252,.16), transparent 45%);
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), var(--nk-spot), transparent 45%);
   opacity: 0; transition: opacity .4s;
 }
-.card-glow:hover { border-color: var(--line-2); }
+.card-glow:hover { border-color: var(--nk-hair-2); }
 .card-glow:hover::before { opacity: 1; }
 
-/* Gradient ring (used on the hero mockup and the CTA) */
+/* Gradient ring (hero mockup, CTA) */
 .ring-gradient { position: relative; }
 .ring-gradient::after {
   content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
@@ -668,7 +746,7 @@ html.dark body { background-color: var(--ink) !important; color: #A9B4CC !import
   -webkit-mask-composite: xor; mask-composite: exclude;
 }
 
-/* Primary button with glow */
+/* Buttons */
 .btn-glow {
   position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
   padding: .875rem 1.5rem; border-radius: .875rem;
@@ -677,15 +755,15 @@ html.dark body { background-color: var(--ink) !important; color: #A9B4CC !import
   box-shadow: 0 0 0 1px rgba(157,176,254,.35) inset, 0 10px 30px -8px rgba(59,98,252,.75), 0 0 60px -20px rgba(59,98,252,.9);
   transition: transform .2s, box-shadow .3s;
 }
-.btn-glow:hover { transform: translateY(-1px); box-shadow: 0 0 0 1px rgba(157,176,254,.5) inset, 0 14px 40px -8px rgba(59,98,252,.9), 0 0 80px -16px rgba(59,98,252,1); }
+.btn-glow:hover { box-shadow: 0 0 0 1px rgba(157,176,254,.5) inset, 0 14px 40px -8px rgba(59,98,252,.9), 0 0 80px -16px rgba(59,98,252,1); }
 .btn-ghost {
   display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
   padding: .875rem 1.5rem; border-radius: .875rem;
-  font-weight: 600; font-size: .9375rem; color: #E2E8F0;
-  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.10);
-  transition: background .2s, border-color .2s;
+  font-weight: 600; font-size: .9375rem; color: var(--nk-ink-1);
+  background: var(--nk-tint); border: 1px solid var(--nk-hair);
+  transition: background .2s, border-color .2s, transform .2s;
 }
-.btn-ghost:hover { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.2); }
+.btn-ghost:hover { background: var(--nk-tint-2); border-color: var(--nk-hair-2); }
 
 /* Light beam travelling along a line */
 .beam { position: relative; overflow: hidden; }
@@ -694,25 +772,58 @@ html.dark body { background-color: var(--ink) !important; color: #A9B4CC !import
   background: linear-gradient(90deg, transparent, rgba(157,176,254,.9), transparent);
   animation: beam 3.2s ease-in-out infinite;
 }
-@keyframes beam { from { left: -30%; } to { left: 100%; } }
-
-/* Shine sweep across text/badges */
-@keyframes shine { from { background-position: 200% 0; } to { background-position: -200% 0; } }
-.shine {
-  background: linear-gradient(110deg, #E2E8F0 35%, #FFFFFF 50%, #E2E8F0 65%);
-  background-size: 200% 100%;
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  animation: shine 6s linear infinite;
-}
 
 /* Edge fade for horizontal marquees */
 .mask-x { -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
 
-/* Section separators: a soft horizon line */
+/* Soft horizon line between sections */
 .horizon { height: 1px; background: linear-gradient(90deg, transparent, rgba(99,132,255,.35), transparent); }
-
 }
 
+/* hero background video: original colours in dark mode, inverted to a
+   light blue-on-white version in light mode */
+.hero-video { opacity: .7; }
+html:not(.dark) .hero-video { filter: invert(1) hue-rotate(180deg) saturate(1.2) brightness(1.08); opacity: .4; }
+.hero-video-mask { -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
+
+@keyframes aurora-a { to { transform: translate(12%, 10%) scale(1.15); } }
+@keyframes aurora-b { to { transform: translate(-15%, 18%) scale(.9); } }
+@keyframes beam { from { left: -30%; } to { left: 100%; } }
+
 @media (prefers-reduced-motion: reduce) {
-  .aurora::before, .aurora::after, .beam::after, .shine { animation: none !important; }
+  .aurora::before, .aurora::after, .beam::after { animation: none !important; }
+}
+
+/* ── Intro loader (first visit per session) ──────────────────── */
+.nk-loader {
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center;
+  background: var(--nk-page);
+  animation: nk-loader-out .6s cubic-bezier(.7,0,.3,1) 1.25s forwards;
+}
+.nk-intro-seen .nk-loader { display: none; }
+.nk-loader-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.nk-loader-mark { width: 88px; height: 88px; filter: drop-shadow(0 0 28px rgba(59,98,252,.75)); animation: nk-mark-in .9s cubic-bezier(.22,1,.36,1) both; }
+.nk-loader-word { font-family: var(--font-jakarta), sans-serif; font-weight: 800; letter-spacing: .5em; padding-inline-start: .5em; font-size: 14px; color: var(--nk-ink-1); animation: nk-word-in .8s .25s cubic-bezier(.22,1,.36,1) both; }
+.nk-loader-bar { width: 140px; height: 2px; border-radius: 2px; background: var(--nk-hair); overflow: hidden; }
+.nk-loader-bar span { display: block; height: 100%; background: linear-gradient(90deg, #3B62FC, #38BDF8); animation: nk-bar 1.1s .1s cubic-bezier(.65,0,.35,1) both; transform-origin: left; }
+@keyframes nk-mark-in { from { opacity: 0; transform: scale(.6) rotate(-30deg); filter: blur(8px); } to { opacity: 1; transform: none; } }
+@keyframes nk-word-in { from { opacity: 0; letter-spacing: 1.2em; } to { opacity: 1; } }
+@keyframes nk-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes nk-loader-out { to { opacity: 0; visibility: hidden; transform: scale(1.02); } }
+
+/* ── Custom cursor (desktop only, enabled from JS) ───────────── */
+.nk-cursor-dot, .nk-cursor-ring { position: fixed; top: 0; left: 0; z-index: 150; pointer-events: none; border-radius: 999px; display: none; }
+.nk-cursor-on .nk-cursor-dot, .nk-cursor-on .nk-cursor-ring { display: block; }
+.nk-cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: #6384FF; box-shadow: 0 0 12px rgba(99,132,255,.9); }
+.nk-cursor-ring {
+  width: 34px; height: 34px; margin: -17px 0 0 -17px;
+  border: 1px solid rgba(99,132,255,.55); background: rgba(59,98,252,.06);
+  transition: width .25s, height .25s, margin .25s, background .25s, border-color .25s;
+}
+.nk-cursor-ring.is-hover { width: 56px; height: 56px; margin: -28px 0 0 -28px; background: rgba(59,98,252,.12); border-color: rgba(99,132,255,.8); }
+.nk-cursor-ring.is-down { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
+.btn-glow, .btn-ghost { will-change: transform; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nk-loader { display: none; }
 }
