@@ -98,10 +98,11 @@ export default function ContactContent() {
         eyebrow={isAr ? "نرد خلال 24 ساعة" : "We reply within 24 hours"}
         title={t("title")}
         subtitle={t("subtitle")}
+        image="/images/photos/dubai-bay.jpg"
       />
 
       {/* ── Contact Section ─────────────────────────────────────── */}
-      <section className="relative bg-page pb-20 md:pb-28">
+      <section className="relative bg-page pt-16 md:pt-20 pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 xl:gap-16">
 

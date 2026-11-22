@@ -5,9 +5,21 @@ import { useParams } from "next/navigation";
 import { ArrowRight, CheckCircle, Code2, Smartphone, BarChart3, Globe, Server, Palette, Megaphone, Building2 } from "lucide-react";
 import Link from "next/link";
 import CTASection from "@/components/home/CTASection";
+import ProductShowcase from "@/components/home/ProductShowcase";
 import PageHero from "@/components/kit/PageHero";
 import Reveal from "@/components/kit/Reveal";
-import ServiceOrbit from "@/components/visuals/ServiceOrbit";
+import ServicePhoto from "@/components/visuals/ServicePhoto";
+
+const servicePhotos: Record<string, string> = {
+  software: "developer",
+  mobile: "payment",
+  erp: "warehouse-2",
+  web: "online-shopping",
+  infrastructure: "server-room",
+  uiux: "ux-design",
+  marketing: "phone-business",
+  consulting: "handshake",
+};
 import { services } from "@/lib/data/services";
 import type { ServiceCopy } from "@/sanity/lib/fetch-content";
 
@@ -54,10 +66,11 @@ export default function ServicesContent({ serviceCopy }: ServicesContentProps) {
         eyebrow={t("badge")}
         title={t("title")}
         subtitle={t("subtitle")}
+        image="/images/photos/dev-team.jpg"
       />
 
       {/* quick index */}
-      <nav className="relative bg-page pb-6" aria-label={isAr ? "الخدمات" : "Services"}>
+      <nav className="relative bg-page pt-10 pb-6" aria-label={isAr ? "الخدمات" : "Services"}>
         <ul className="max-w-5xl mx-auto px-4 flex flex-wrap justify-center gap-2">
           {services.map((service) => {
             const Icon = serviceIcons[service.key] ?? Code2;
@@ -75,6 +88,8 @@ export default function ServicesContent({ serviceCopy }: ServicesContentProps) {
           })}
         </ul>
       </nav>
+
+      <ProductShowcase locale={locale} />
 
       <section className="relative bg-page py-20 md:py-28" aria-labelledby="services-list-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -94,7 +109,7 @@ export default function ServicesContent({ serviceCopy }: ServicesContentProps) {
                   aria-label={copy.title}
                 >
                   <Reveal className={flip ? "lg:order-2" : undefined}>
-                    <ServiceOrbit Icon={Icon} features={copy.features} />
+                    <ServicePhoto src={`/images/photos/${servicePhotos[service.key] ?? "dev-team"}.jpg`} alt={copy.title} Icon={Icon} features={copy.features} />
                   </Reveal>
 
                   <Reveal delay={0.1}>

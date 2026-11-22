@@ -8,12 +8,12 @@
     "getStarted": "Get In Touch"
   },
   "hero": {
-    "badge": "Software & AI Development · UAE",
-    "title": "We Build",
-    "titleHighlight": "Intelligent Software",
-    "description": "Custom web apps, mobile apps, and AI-powered solutions — built for businesses across Abu Dhabi, Al Ain & Dubai.",
-    "cta1": "Start a Project",
-    "cta2": "View Our Work",
+    "badge": "Software & AI for UAE businesses",
+    "title": "Run your entire business",
+    "titleHighlight": "from one smart system.",
+    "description": "Norka builds the ERP, mobile apps and AI assistants that UAE companies run on. Accounting, sales, HR, inventory and projects in one place, in Arabic and English.",
+    "cta1": "Book a free demo",
+    "cta2": "Explore our products",
     "statsProjects": "Projects",
     "statsClients": "Clients",
     "statsYears": "Years"
@@ -113,8 +113,8 @@
   },
   "portfolio": {
     "title": "Our Portfolio",
-    "subtitle": "Sample projects illustrating the type of work we deliver — real case studies coming soon",
-    "badge": "Sample Work",
+    "subtitle": "Norka's own products, plus examples of the systems we build for each industry.",
+    "badge": "Our Work",
     "viewAll": "View All Projects",
     "viewProject": "View Project",
     "viewDemo": "Live Demo",
@@ -130,7 +130,9 @@
     "filterERP": "ERP",
     "similarProject": "Need a Similar Project?",
     "similarProjectDesc": "Let's discuss how we can build something amazing for your business.",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "examples": "Example projects",
+    "examplesSub": "The kind of systems we build, by industry."
   },
   "about": {
     "title": "About Norka Solution",
@@ -181,9 +183,9 @@
     "badge": "Sample Testimonials"
   },
   "cta": {
-    "title": "Ready to Build Your Next AI-Powered App?",
-    "description": "Contact us today to discuss how our custom software and AI-integrated solutions can take your business to the next level.",
-    "button": "Get Started Now",
+    "title": "See Norka running on your business",
+    "description": "Book a free 30-minute demo. We show you the system with your own workflows, then send a clear, written quote.",
+    "button": "Book your free demo",
     "badge": "Ready to Start?",
     "callUs": "Call Us",
     "emailUs": "Email Us"
@@ -301,5 +303,187 @@
         ]
       }
     ]
+  },
+  "modules": {
+    "label": "Everything inside Norka ERP",
+    "items": [
+      "Accounting & banking",
+      "Sales & invoicing",
+      "Purchasing",
+      "Inventory",
+      "HR & payroll",
+      "Attendance",
+      "Projects",
+      "Subcontractors",
+      "Expenses & custody",
+      "Rentals",
+      "Installments",
+      "Schools & fees",
+      "Bookings",
+      "Tasks",
+      "Reports",
+      "Permissions"
+    ]
+  },
+  "products": {
+    "badge": "Our products",
+    "title": "Built by Norka,",
+    "highlight": "used every day",
+    "subtitle": "Four products that work together on the same data, in Arabic and English.",
+    "live": "Live",
+    "talk": "Book a demo",
+    "open": "Open the app",
+    "items": {
+      "erp": {
+        "name": "Norka ERP",
+        "tag": "Cloud ERP",
+        "desc": "Accounting, sales, purchasing, inventory, HR and payroll, projects and subcontractors in one system, with permissions for every role and every branch.",
+        "points": [
+          "16+ business modules",
+          "Multi-company & multi-currency",
+          "Arabic & English, right-to-left ready",
+          "Printable invoices, POs & reports"
+        ]
+      },
+      "ai": {
+        "name": "Norka AI",
+        "tag": "AI assistant",
+        "desc": "Nora, an assistant that does the work: answers on WhatsApp, takes calls, sorts e-mail, keeps your customer list and reminds you, in Arabic or English.",
+        "points": [
+          "WhatsApp & voice calls",
+          "Tasks, reminders & follow-ups",
+          "Each company gets its own private instance",
+          "Shows every step it takes"
+        ]
+      },
+      "mobile": {
+        "name": "Norka App",
+        "tag": "iOS & Android",
+        "desc": "One app for your whole team: enter your company code and it opens your own ERP and assistant, from approvals to purchase orders.",
+        "points": [
+          "Company code sign-in",
+          "Purchasing & approvals on the go",
+          "Notifications in real time"
+        ]
+      },
+      "invoice": {
+        "name": "Norka Invoice",
+        "tag": "Invoicing",
+        "desc": "Invoices, recurring billing and payments for project-based businesses, with bilingual PDFs and shareable invoice links.",
+        "points": [
+          "Recurring invoices",
+          "Approval before issue",
+          "Arabic & English PDFs"
+        ]
+      }
+    }
+  },
+  "industries": {
+    "badge": "Industries",
+    "title": "Made for how",
+    "highlight": "UAE companies work",
+    "subtitle": "The same platform, set up for your sector.",
+    "items": [
+      {
+        "key": "contracting",
+        "name": "Contracting & projects",
+        "modules": [
+          "Projects",
+          "Subcontractors",
+          "Certificates",
+          "Purchasing"
+        ],
+        "image": "construction"
+      },
+      {
+        "key": "trading",
+        "name": "Trading & distribution",
+        "modules": [
+          "Inventory",
+          "Purchasing",
+          "Sales",
+          "Goods receiving"
+        ],
+        "image": "warehouse"
+      },
+      {
+        "key": "restaurants",
+        "name": "Restaurants & retail",
+        "modules": [
+          "Sales",
+          "Inventory",
+          "Branches",
+          "Reports"
+        ],
+        "image": "restaurant-pos"
+      },
+      {
+        "key": "schools",
+        "name": "Schools & education",
+        "modules": [
+          "Admissions",
+          "Fees",
+          "HR",
+          "Accounting"
+        ],
+        "image": "school"
+      },
+      {
+        "key": "realestate",
+        "name": "Real estate & rentals",
+        "modules": [
+          "Rentals",
+          "Installments",
+          "Customers",
+          "Accounting"
+        ],
+        "image": "real-estate"
+      },
+      {
+        "key": "services",
+        "name": "Services & offices",
+        "modules": [
+          "Invoicing",
+          "Tasks",
+          "Expenses",
+          "Norka AI"
+        ],
+        "image": "office-team"
+      }
+    ]
+  },
+  "faq": {
+    "badge": "Questions",
+    "title": "Before you",
+    "highlight": "get in touch",
+    "items": [
+      {
+        "q": "How much does it cost?",
+        "a": "It depends on the modules and the number of users you need. After a free demo we send a fixed, written quote, with no surprises later."
+      },
+      {
+        "q": "How long until we are up and running?",
+        "a": "Most companies start using Norka ERP within a few weeks. Custom software is planned with you up front, with weekly releases you can test."
+      },
+      {
+        "q": "Does it work in Arabic?",
+        "a": "Yes. Everything we build works fully in Arabic and English, including right-to-left screens and printed documents."
+      },
+      {
+        "q": "Can you move our data from Excel or another system?",
+        "a": "Yes. We import your customers, suppliers, products, employees and opening balances as part of the setup."
+      },
+      {
+        "q": "Where is our data kept, and who can see it?",
+        "a": "Each company's data is separate, and permissions decide exactly who sees what. Norka AI runs as a private instance for each company."
+      },
+      {
+        "q": "What happens after launch?",
+        "a": "We train your team and stay with you for support, updates and new features. You can reach us on WhatsApp, phone or e-mail."
+      }
+    ]
+  },
+  "ctaPhoto": {
+    "eyebrow": "Free demo · 30 minutes"
   }
 }

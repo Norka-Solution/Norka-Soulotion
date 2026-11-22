@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: `/portfolio/${slug}`,
     title,
     description: project.description[lang],
+    image: project.image ? { url: project.image, width: 1600, height: 1067, alt: project.title[lang] } : undefined,
   });
 }
 

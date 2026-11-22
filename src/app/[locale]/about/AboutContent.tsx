@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Lightbulb, Award, Shield, HeadphonesIcon, Target, Eye } from "lucide-react";
 import CTASection from "@/components/home/CTASection";
+import TechStack from "@/components/home/TechStack";
 import PageHero from "@/components/kit/PageHero";
 import SectionHeader from "@/components/kit/SectionHeader";
 import SpotlightCard from "@/components/kit/SpotlightCard";
@@ -76,10 +77,11 @@ export default function AboutContent() {
         eyebrow={t("story")}
         title={t("title")}
         subtitle={t("subtitle")}
+        image="/images/photos/abu-dhabi-mosque.jpg"
       />
 
       {/* story + numbers */}
-      <section className="relative bg-page pb-20 md:pb-28" aria-labelledby="story-heading">
+      <section className="relative bg-page pt-16 md:pt-24 pb-20 md:pb-28" aria-labelledby="story-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16 items-start">
             <Reveal className="lg:col-span-3">
@@ -205,6 +207,8 @@ export default function AboutContent() {
           </div>
         </div>
       </section>
+
+      <TechStack />
 
       <CTASection locale={locale} />
     </>

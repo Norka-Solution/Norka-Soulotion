@@ -13,6 +13,7 @@ interface CTASectionProps {
 
 export default function CTASection({ locale }: CTASectionProps) {
   const t = useTranslations("cta");
+  const tp = useTranslations("ctaPhoto");
   const isAr = locale === "ar";
 
   const contactItems = [
@@ -26,12 +27,15 @@ export default function CTASection({ locale }: CTASectionProps) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>
           <div className="dark relative overflow-hidden rounded-[2rem] ring-gradient bg-panel px-6 py-16 md:px-16 md:py-24 text-center">
-            {/* light */}
+            {/* Dubai at night, behind a deep blue wash */}
+            <Image src="/images/photos/dubai-night.jpg" alt="" fill sizes="(max-width: 1152px) 100vw, 1152px" className="object-cover opacity-70" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#070B18]/60 via-[#070B18]/70 to-[#070B18]/95" aria-hidden="true" />
             <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_0%,rgba(59,98,252,.45),transparent_70%)]" aria-hidden="true" />
             <div className="absolute inset-0 bg-grid opacity-70" aria-hidden="true" />
             <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#38BDF8]/10 blur-[100px]" aria-hidden="true" />
 
             <div className="relative">
+              <span className="eyebrow mb-6">{tp("eyebrow")}</span>
               <Image
                 src={images.brand.mark.src}
                 alt=""

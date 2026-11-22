@@ -9,8 +9,10 @@ import { ArrowUpRight, ExternalLink } from "lucide-react";
 import type { Project } from "@/lib/data/projects";
 import { cn } from "@/lib/utils";
 import PageHero from "@/components/kit/PageHero";
-import ProjectCover from "@/components/visuals/ProjectCover";
+import ProjectPhoto from "@/components/visuals/ProjectPhoto";
 import CTASection from "@/components/home/CTASection";
+import Products from "@/components/home/Products";
+import SectionHeader from "@/components/kit/SectionHeader";
 
 const filterCategories = [
   { key: "all", translationKey: "filterAll" },
@@ -35,7 +37,7 @@ function PortfolioCard({ project, locale, lang, t }: { project: Project; locale:
         className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6384FF] rounded-t-[1.25rem]"
         aria-label={`${t("viewDetails")} — ${project.title[lang]}`}
       >
-        <ProjectCover project={project} lang={lang} className="aspect-[16/10]" />
+        <ProjectPhoto project={project} lang={lang} className="aspect-[16/10]" />
       </Link>
 
       <div className="p-6 flex flex-col flex-1 border-t border-hair">
@@ -110,11 +112,14 @@ export default function PortfolioContent({ projects }: PortfolioContentProps) {
         eyebrow={t("badge")}
         title={t("title")}
         subtitle={t("subtitle")}
+        image="/images/photos/developer.jpg"
       />
+
+      <Products locale={locale} />
 
       <section className="relative bg-page pb-24 md:pb-32" aria-labelledby="portfolio-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 id="portfolio-heading" className="sr-only">{t("title")}</h2>
+          <SectionHeader id="portfolio-heading" title={t("examples")} subtitle={t("examplesSub")} className="mb-10" />
 
           {/* filter */}
           <LayoutGroup>

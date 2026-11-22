@@ -141,7 +141,7 @@ export default function HeroSection({ locale }: HeroSectionProps) {
         </motion.div>
 
         {/* headline */}
-        <h1 className="t-display max-w-5xl mx-auto">
+        <h1 className="t-display !text-[clamp(2.5rem,5.6vw,5rem)] max-w-6xl mx-auto">
           <RevealWords text={t("title")} wordClass="text-hero pb-[0.12em]" delay={0.1} />
           <RevealWords text={t("titleHighlight")} wordClass="text-blue-glow pb-[0.14em]" delay={0.3} />
         </h1>
@@ -165,7 +165,7 @@ export default function HeroSection({ locale }: HeroSectionProps) {
             {t("cta1")}
             <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
           </Link>
-          <Link href={`/${locale}/portfolio`} className="btn-ghost">
+          <Link href="#products" className="btn-ghost">
             {t("cta2")}
             <ArrowUpRight className="w-4 h-4 rtl:-scale-x-100" aria-hidden="true" />
           </Link>

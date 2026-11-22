@@ -786,6 +786,7 @@ html body { background-color: var(--nk-page) !important; color: var(--nk-ink-3) 
 html:not(.dark) .hero-video { filter: invert(1) hue-rotate(180deg) saturate(1.2) brightness(1.08); opacity: .4; }
 .hero-video-mask { -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
 
+@keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1.02); } }
 @keyframes aurora-a { to { transform: translate(12%, 10%) scale(1.15); } }
 @keyframes aurora-b { to { transform: translate(-15%, 18%) scale(.9); } }
 @keyframes beam { from { left: -30%; } to { left: 100%; } }

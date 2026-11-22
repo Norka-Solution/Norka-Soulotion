@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/lib/data/projects";
 import SectionHeader from "@/components/kit/SectionHeader";
 import Reveal from "@/components/kit/Reveal";
-import ProjectCover from "@/components/visuals/ProjectCover";
+import ProjectPhoto from "@/components/visuals/ProjectPhoto";
 import { cn } from "@/lib/utils";
 
 interface FeaturedProjectsProps {
@@ -45,7 +45,7 @@ export default function FeaturedProjects({ locale, projects }: FeaturedProjectsP
                 href={`/${locale}/portfolio/${p.slug}`}
                 className="group card-glow flex flex-col h-full overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6384FF]"
               >
-                <ProjectCover
+                <ProjectPhoto
                   project={p}
                   lang={lang}
                   className={cn("w-full", i === 0 ? "aspect-[4/3] lg:aspect-auto lg:flex-1 lg:min-h-[420px]" : "aspect-[16/8]")}

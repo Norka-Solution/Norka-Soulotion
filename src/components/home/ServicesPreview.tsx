@@ -162,7 +162,7 @@ export default function ServicesPreview({ locale, serviceCopy }: ServicesPreview
             const wide = key === "software";
             return (
               <Reveal key={key} delay={(i % 4) * 0.06} className={cn("h-full", className, (big || wide) && "sm:col-span-2")}>
-                <Link href={`/${locale}/services`} className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6384FF] rounded-[1.25rem]">
+                <Link href={`/${locale}/services#${key}`} className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6384FF] rounded-[1.25rem]">
                   <SpotlightCard className={cn("h-full p-6 md:p-7 flex flex-col overflow-hidden", big && "md:p-9")}>
                     <div className="flex items-start justify-between gap-4">
                       <span className="grid place-items-center w-11 h-11 rounded-xl bg-[#3B62FC]/10 ring-1 ring-[#6384FF]/25 text-accent-soft">

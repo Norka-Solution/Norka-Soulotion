@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { ArrowLeft, ExternalLink, CheckCircle, Target, Lightbulb, TrendingUp, ArrowRight } from "lucide-react";
 import type { Project } from "@/lib/data/projects";
-import ProjectCover from "@/components/visuals/ProjectCover";
+import ProjectPhoto from "@/components/visuals/ProjectPhoto";
 import Reveal from "@/components/kit/Reveal";
 import SpotlightCard from "@/components/kit/SpotlightCard";
 
@@ -77,7 +77,7 @@ export default function ProjectShowcase({ project, locale }: ProjectShowcaseProp
             transition={{ delay: 0.35, duration: 1, ease }}
             className="mt-12 rounded-3xl overflow-hidden ring-gradient shadow-[0_40px_120px_-30px_rgba(59,98,252,.5)]"
           >
-            <ProjectCover project={project} lang={lang} className="aspect-[16/9] md:aspect-[21/9]" />
+            <ProjectPhoto project={project} lang={lang} priority sizes="(max-width: 1280px) 100vw, 1280px" className="aspect-[16/9] md:aspect-[21/9]" />
           </motion.div>
         </div>
       </section>
