@@ -2,8 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import { fadeUp, viewport } from "@/lib/animations";
-import { Card } from "@/components/ui/card";
 
 const row1 = [
   {
@@ -137,24 +135,20 @@ function MarqueeRow({ items, reverse = false }: { items: typeof row1; reverse?: 
   const doubled = [...items, ...items];
 
   return (
-    <div className="relative overflow-hidden" aria-hidden="true">
-      {/* Fade edges */}
-      <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white dark:from-gray-950 to-transparent z-10" />
-      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white dark:from-gray-950 to-transparent z-10" />
-
-      <div className={`flex gap-8 w-max ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}>
+    <div className="relative overflow-hidden mask-x" aria-hidden="true" dir="ltr">
+      <div className={`flex gap-3 w-max ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}>
         {doubled.map((tech, i) => (
-          <Card
+          <div
             key={`${tech.name}-${i}`}
-            className="group flex-row items-center gap-4 px-8 py-5 rounded-2xl bg-surface dark:bg-surface-dark ring-gray-200 dark:ring-gray-800 hover:ring-accent/40 hover:shadow-xl transition-all duration-300 shrink-0"
+            className="group flex items-center gap-3 px-5 py-3 rounded-xl bg-white/[.02] border border-white/[.06] hover:border-[#6384FF]/30 hover:bg-white/[.04] transition-colors duration-300 shrink-0 [&_svg]:w-7 [&_svg]:h-7 text-slate-300"
           >
-            <div className="text-gray-500 dark:text-gray-400 group-hover:scale-110 transition-transform duration-300">
+            <div className="opacity-80 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
               {tech.logo}
             </div>
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 group-hover:text-accent transition-colors whitespace-nowrap">
+            <span className="text-sm font-medium text-slate-400 group-hover:text-white transition-colors whitespace-nowrap">
               {tech.name}
             </span>
-          </Card>
+          </div>
         ))}
       </div>
     </div>
@@ -165,30 +159,21 @@ export default function TechStack() {
   const t = useTranslations("techStack");
 
   return (
-    <section className="relative py-12 md:py-16 lg:py-20 bg-white dark:bg-gray-950 overflow-hidden">
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          className="text-center mb-12"
+    <section className="relative py-16 md:py-20 bg-[var(--ink)] overflow-hidden" aria-labelledby="tech-heading">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10">
+        <motion.p
+          id="tech-heading"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-sm font-medium text-slate-500"
         >
-          <span className="badge badge-accent mb-4">
-            {t("badge")}
-          </span>
-          <h2 className="font-heading text-display-sm font-black text-gray-900 dark:text-white mb-4">
-            {t("title")}
-          </h2>
-          <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-            {t("subtitle")}
-          </p>
-          <div className="divider-accent mt-6 mx-auto" />
-        </motion.div>
+          {t("subtitle")}
+        </motion.p>
       </div>
 
-      {/* Full-width marquee rows — decorative; the real list is exposed to assistive tech below */}
-      <div className="space-y-6">
+      <div className="space-y-3">
         <MarqueeRow items={row1} />
         <MarqueeRow items={row2} reverse />
       </div>

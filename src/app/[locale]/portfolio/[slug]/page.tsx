@@ -28,9 +28,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: `/portfolio/${slug}`,
     title,
     description: project.description[lang],
-    image: project.image
-      ? { url: project.image, alt: project.title[lang] }
-      : undefined,
   });
 }
 
@@ -53,9 +50,6 @@ export default async function ProjectPage({
     name: project.title[lang],
     description: project.description[lang],
     url: `${SITE_URL}/${locale}/portfolio/${slug}`,
-    ...(project.image
-      ? { image: project.image.startsWith("http") ? project.image : `${SITE_URL}${project.image}` }
-      : {}),
     keywords: project.techStack.join(", "),
     inLanguage: lang,
     creator: { "@type": "Organization", name: "Norka Solution", url: SITE_URL },

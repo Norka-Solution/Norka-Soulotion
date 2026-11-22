@@ -33,42 +33,82 @@
     "software": {
       "title": "Web Applications",
       "description": "Custom web applications built with modern frameworks, optimized for performance and tailored to your business requirements.",
-      "features": ["Custom Applications", "API Development", "System Integration", "Cloud Solutions"]
+      "features": [
+        "Custom Applications",
+        "API Development",
+        "System Integration",
+        "Cloud Solutions"
+      ]
     },
     "mobile": {
       "title": "Mobile Apps",
       "description": "Native and cross-platform mobile applications for iOS and Android with modern UI/UX design.",
-      "features": ["iOS Development", "Android Development", "Cross-Platform", "UI/UX Design"]
+      "features": [
+        "iOS Development",
+        "Android Development",
+        "Cross-Platform",
+        "UI/UX Design"
+      ]
     },
     "erp": {
       "title": "ERP Systems",
       "description": "Enterprise resource planning solutions that streamline your business operations and boost productivity.",
-      "features": ["Inventory Management", "HR & Payroll", "Financial Management", "Supply Chain"]
+      "features": [
+        "Inventory Management",
+        "HR & Payroll",
+        "Financial Management",
+        "Supply Chain"
+      ]
     },
     "web": {
       "title": "Website Development",
       "description": "Modern, responsive websites and landing pages using the latest technologies and frameworks.",
-      "features": ["React & Next.js", "E-Commerce", "CMS Solutions", "Progressive Web Apps"]
+      "features": [
+        "React & Next.js",
+        "E-Commerce",
+        "CMS Solutions",
+        "Progressive Web Apps"
+      ]
     },
     "infrastructure": {
       "title": "IT Infrastructure & Servers",
       "description": "Complete network infrastructure design, implementation, and management for stable and secure connectivity.",
-      "features": ["Network Design", "Server Management", "Cloud Migration", "IT Consulting"]
+      "features": [
+        "Network Design",
+        "Server Management",
+        "Cloud Migration",
+        "IT Consulting"
+      ]
     },
     "uiux": {
       "title": "UI/UX Design",
       "description": "User-centered design solutions that create intuitive, beautiful digital experiences for your customers.",
-      "features": ["User Research", "Wireframing", "Prototyping", "Design Systems"]
+      "features": [
+        "User Research",
+        "Wireframing",
+        "Prototyping",
+        "Design Systems"
+      ]
     },
     "marketing": {
       "title": "Social Media & Marketing",
       "description": "Strategic social media management and digital marketing campaigns that grow your brand presence online.",
-      "features": ["Content Strategy", "Social Management", "SEO Optimization", "Paid Advertising"]
+      "features": [
+        "Content Strategy",
+        "Social Management",
+        "SEO Optimization",
+        "Paid Advertising"
+      ]
     },
     "consulting": {
       "title": "Company Setup & IT Consulting",
       "description": "End-to-end IT consulting and company technology setup to get your business running from day one.",
-      "features": ["IT Strategy", "Technology Audits", "Digital Transformation", "Vendor Management"]
+      "features": [
+        "IT Strategy",
+        "Technology Audits",
+        "Digital Transformation",
+        "Vendor Management"
+      ]
     }
   },
   "portfolio": {
@@ -107,10 +147,22 @@
     "teamMembers": "Team Members",
     "learnMore": "Learn More About Us",
     "values": {
-      "innovation": { "title": "Innovation", "description": "We stay at the forefront of technology to deliver cutting-edge solutions." },
-      "quality": { "title": "Quality", "description": "We maintain the highest standards in every project we deliver." },
-      "reliability": { "title": "Reliability", "description": "We are committed to delivering on time and exceeding expectations." },
-      "support": { "title": "24/7 Support", "description": "Our team is always available to assist you whenever you need us." }
+      "innovation": {
+        "title": "Innovation",
+        "description": "We stay at the forefront of technology to deliver cutting-edge solutions."
+      },
+      "quality": {
+        "title": "Quality",
+        "description": "We maintain the highest standards in every project we deliver."
+      },
+      "reliability": {
+        "title": "Reliability",
+        "description": "We are committed to delivering on time and exceeding expectations."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Our team is always available to assist you whenever you need us."
+      }
     }
   },
   "techStack": {
@@ -181,5 +233,38 @@
     "rights": "All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service"
+  },
+  "process": {
+    "badge": "How We Work",
+    "title": "From idea to launch,",
+    "highlight": "without the chaos",
+    "subtitle": "A clear four-step process, so you always know what's happening and what comes next.",
+    "steps": [
+      {
+        "title": "Discover",
+        "description": "We learn how your business runs, map the problem and agree on scope, timeline and budget."
+      },
+      {
+        "title": "Design",
+        "description": "Wireframes and polished UI you can click through and approve before any code is written."
+      },
+      {
+        "title": "Build",
+        "description": "Weekly releases you can test, built on a modern, secure stack with AI where it actually helps."
+      },
+      {
+        "title": "Launch & grow",
+        "description": "We deploy, train your team and stay on for support, updates and new features."
+      }
+    ]
+  },
+  "why": {
+    "badge": "Why Norka",
+    "title": "A partner that",
+    "highlight": "ships",
+    "subtitle": "One team for design, engineering, infrastructure and support, based in the UAE."
+  },
+  "home": {
+    "seeAll": "See all"
   }
 }

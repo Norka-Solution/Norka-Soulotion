@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { Menu, Globe, ChevronDown, ArrowRight } from "lucide-react";
-import ThemeToggle from "@/components/ui/ThemeToggle";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -93,40 +92,36 @@ export default function Header({ locale }: HeaderProps) {
       <header
         role="banner"
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-white/85 dark:bg-gray-950/85 backdrop-blur-xl",
-          visible ? "translate-y-0" : "-translate-y-full",
-          scrolled
-            ? "shadow-[0_1px_0_rgba(0,0,0,.06)] dark:shadow-[0_1px_0_rgba(255,255,255,.04)]"
-            : "border-b border-transparent"
+          "fixed inset-x-0 top-0 z-50 transition-transform duration-500",
+          visible ? "translate-y-0" : "-translate-y-full"
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-[72px]">
-
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3">
+          <div
+            className={cn(
+              "flex items-center justify-between h-[60px] ps-3 pe-2 rounded-2xl border transition-all duration-500",
+              scrolled
+                ? "bg-[#070B16]/75 border-white/[.08] backdrop-blur-xl shadow-[0_10px_40px_-12px_rgba(0,0,0,.8)]"
+                : "bg-transparent border-transparent"
+            )}
+          >
             {/* ── Logo ────────────────────────────────────────── */}
             <Link
               href={`/${locale}`}
-              className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-lg"
+              className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6384FF] rounded-lg"
               aria-label="Norka Solution — Home"
             >
-              <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-white p-1.5 shadow-sm group-hover:shadow-md transition-shadow shrink-0 ring-1 ring-gray-100 dark:ring-gray-800">
-                <Image
-                  src={images.brand.logo.src}
-                  alt="Norka Solution Logo"
-                  fill
-                  className="object-contain p-0.5"
-                  priority
-                />
-              </div>
-              <div className="hidden sm:flex flex-col leading-none">
-                <span className="text-[1.1rem] font-black tracking-tight text-gray-900 dark:text-white">
-                  Norka
-                  <span className="gradient-text"> Solution</span>
-                </span>
-                <span className="text-[10px] font-medium tracking-[.12em] uppercase text-gray-400 dark:text-gray-500 mt-0.5">
-                  {isAr ? "حلول رقمية" : "Digital Excellence"}
-                </span>
-              </div>
+              <Image
+                src={images.brand.mark.src}
+                alt=""
+                width={34}
+                height={34}
+                className="w-[34px] h-[34px] drop-shadow-[0_0_12px_rgba(59,98,252,.55)] transition-transform duration-500 group-hover:rotate-[20deg]"
+                priority
+              />
+              <span className="text-[1.05rem] font-bold tracking-tight text-white whitespace-nowrap">
+                Norka<span className="hidden sm:inline text-slate-400 font-medium"> Solution</span>
+              </span>
             </Link>
 
             {/* ── Desktop nav ──────────────────────────────────── */}
@@ -140,11 +135,10 @@ export default function Header({ locale }: HeaderProps) {
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
-                    "relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300",
-                    "after:absolute after:bottom-0.5 after:left-4 after:right-4 after:h-0.5 after:rounded-full after:bg-accent after:transition-transform after:duration-300",
+                    "relative px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200",
                     isActive(item.href)
-                      ? "text-accent after:scale-x-100"
-                      : "after:scale-x-0 hover:after:scale-x-100 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                      ? "text-white bg-white/[.06]"
+                      : "text-slate-400 hover:text-white"
                   )}
                 >
                   {item.label}
@@ -153,12 +147,11 @@ export default function Header({ locale }: HeaderProps) {
             </nav>
 
             {/* ── Right actions ────────────────────────────────── */}
-            <div className="flex items-center gap-2">
-
+            <div className="flex items-center gap-1.5">
               {/* Language switcher */}
               <DropdownMenu>
                 <DropdownMenuTrigger
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer outline-none text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer outline-none text-slate-400 hover:text-white hover:bg-white/[.05]"
                   aria-label={isAr ? "تغيير اللغة" : "Change language"}
                 >
                   <Globe className="w-4 h-4" aria-hidden="true" />
@@ -169,18 +162,16 @@ export default function Header({ locale }: HeaderProps) {
                   <DropdownMenuItem
                     render={<Link href={switchPath} className="gap-2.5 cursor-pointer" />}
                   >
-                    <Globe className="w-4 h-4 text-accent" aria-hidden="true" />
+                    <Globe className="w-4 h-4 text-[#6384FF]" aria-hidden="true" />
                     {locale === "en" ? "العربية" : "English"}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              <ThemeToggle />
-
               {/* Sign in: customers land on their Norka products */}
               <a
                 href={SIGN_IN_URL}
-                className="hidden lg:inline-flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="hidden lg:inline-flex items-center px-3.5 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-white/[.05] transition-colors"
               >
                 {isAr ? "دخول" : "Sign in"}
               </a>
@@ -188,8 +179,7 @@ export default function Header({ locale }: HeaderProps) {
               {/* Desktop CTA */}
               <Link
                 href={`/${locale}/contact`}
-                className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 bg-accent text-white hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/25 hover:-translate-y-px"
-                aria-label={t("getStarted")}
+                className="btn-glow hidden lg:inline-flex px-4 py-2 text-sm rounded-xl"
               >
                 {t("getStarted")}
                 <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" aria-hidden="true" />
@@ -201,7 +191,7 @@ export default function Header({ locale }: HeaderProps) {
                 size="icon"
                 onClick={() => setMenuOpen(true)}
                 aria-label={isAr ? "فتح القائمة" : "Open menu"}
-                className="lg:hidden text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="lg:hidden text-slate-200 hover:bg-white/[.06]"
               >
                 <Menu className="w-6 h-6" aria-hidden="true" />
               </Button>
@@ -212,7 +202,7 @@ export default function Header({ locale }: HeaderProps) {
 
       {/* ── Mobile Menu ─────────────────────────────────────────── */}
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-        <SheetContent side="right" className="w-3/4 sm:max-w-sm">
+        <SheetContent side="right" className="w-3/4 sm:max-w-sm bg-[#070B16] border-white/10">
           <SheetHeader>
             <SheetTitle>{isAr ? "القائمة" : "Menu"}</SheetTitle>
           </SheetHeader>

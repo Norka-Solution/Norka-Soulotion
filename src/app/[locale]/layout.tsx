@@ -107,6 +107,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={isRTL ? "rtl" : "ltr"}
+      className="dark"
       suppressHydrationWarning
     >
       <head>
@@ -116,13 +117,14 @@ export default async function LocaleLayout({
         />
       </head>
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} ${cairo.variable} antialiased bg-background dark:bg-background-dark text-gray-900 dark:text-gray-100 transition-colors duration-300`}
+        className={`${GeistSans.variable} ${GeistMono.variable} ${cairo.variable} antialiased bg-[var(--ink)] text-slate-300`}
       >
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+        {/* The site is designed dark-only (2026 redesign). */}
+        <ThemeProvider attribute="class" forcedTheme="dark" enableSystem={false}>
           <NextIntlClientProvider messages={messages}>
             <TooltipProvider delay={200}>
               <Header locale={locale} />
-              <main id="main-content" className="min-h-screen grain relative">{children}</main>
+              <main id="main-content" className="min-h-screen relative">{children}</main>
               <Footer locale={locale} />
               <ChatWidget />
               <WhatsAppButton />

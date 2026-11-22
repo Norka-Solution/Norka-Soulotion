@@ -1,30 +1,128 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ArrowRight, ArrowUpRight, Code2, Smartphone, BarChart3, Globe, Server, Palette, Megaphone, Building2 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { viewport } from "@/lib/animations";
-import { buttonVariants } from "@/components/ui/button";
-import { images } from "@/lib/images.config";
+import { useTranslations } from "next-intl";
+import { motion } from "framer-motion";
+import {
+  ArrowUpRight, Code2, Smartphone, BarChart3, Globe, Server, Palette, Megaphone, Building2,
+  Package, Users, Wallet, ShoppingCart, Truck, FileText,
+} from "lucide-react";
 import type { ServiceCopy } from "@/sanity/lib/fetch-content";
-import { useTilt } from "@/hooks/useTilt";
+import SectionHeader from "@/components/kit/SectionHeader";
+import SpotlightCard from "@/components/kit/SpotlightCard";
+import Reveal from "@/components/kit/Reveal";
 import { cn } from "@/lib/utils";
 
-const services = [
-  { key: "software",       Icon: Code2 },
-  { key: "mobile",         Icon: Smartphone },
-  { key: "erp",            Icon: BarChart3 },
-  { key: "web",            Icon: Globe },
-  { key: "infrastructure", Icon: Server },
-  { key: "uiux",           Icon: Palette },
-  { key: "marketing",      Icon: Megaphone },
-  { key: "consulting",     Icon: Building2 },
-] as const;
+type Key = "software" | "mobile" | "erp" | "web" | "infrastructure" | "uiux" | "marketing" | "consulting";
 
-const ROTATE_MS = 5000;
+const ICONS: Record<Key, typeof Code2> = {
+  software: Code2, mobile: Smartphone, erp: BarChart3, web: Globe,
+  infrastructure: Server, uiux: Palette, marketing: Megaphone, consulting: Building2,
+};
+
+// bento placement on large screens (4 columns)
+const LAYOUT: { key: Key; className: string }[] = [
+  { key: "erp", className: "lg:col-span-2 lg:row-span-2" },
+  { key: "software", className: "lg:col-span-2" },
+  { key: "mobile", className: "" },
+  { key: "web", className: "" },
+  { key: "infrastructure", className: "" },
+  { key: "uiux", className: "" },
+  { key: "marketing", className: "" },
+  { key: "consulting", className: "" },
+];
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+/* ── code-built mini visuals ─────────────────────────────────── */
+
+function ErpVisual({ isAr }: { isAr: boolean }) {
+  const mods = [
+    { Icon: Package, label: isAr ? "المخزون" : "Inventory" },
+    { Icon: Users, label: isAr ? "الموارد البشرية" : "HR & Payroll" },
+    { Icon: Wallet, label: isAr ? "المالية" : "Finance" },
+    { Icon: ShoppingCart, label: isAr ? "المبيعات" : "Sales" },
+    { Icon: Truck, label: isAr ? "التوريد" : "Supply chain" },
+    { Icon: FileText, label: isAr ? "التقارير" : "Reports" },
+  ];
+  return (
+    <div className="relative h-56 md:h-64 mt-8" aria-hidden="true">
+      {/* hub */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+        <div className="absolute inset-0 rounded-2xl bg-[#3B62FC] blur-2xl opacity-50 animate-pulse" />
+        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#6384FF] to-[#2848D8] grid place-items-center text-white font-black text-xl ring-1 ring-white/20">
+          N
+        </div>
+      </div>
+      {/* spokes */}
+      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 240" preserveAspectRatio="none">
+        {mods.map((_, i) => {
+          const a = (i / mods.length) * Math.PI * 2 - Math.PI / 2;
+          const x = 200 + Math.cos(a) * 160, y = 120 + Math.sin(a) * 95;
+          return (
+            <motion.line
+              key={i} x1="200" y1="120" x2={x} y2={y}
+              stroke="url(#spoke)" strokeWidth="1.2" strokeDasharray="3 5"
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
+              transition={{ delay: 0.2 + i * 0.08, duration: 0.9, ease }}
+            />
+          );
+        })}
+        <defs>
+          <linearGradient id="spoke"><stop offset="0" stopColor="#6384FF" /><stop offset="1" stopColor="#6384FF" stopOpacity=".1" /></linearGradient>
+        </defs>
+      </svg>
+      {/* modules */}
+      {mods.map(({ Icon, label }, i) => {
+        const a = (i / mods.length) * Math.PI * 2 - Math.PI / 2;
+        const left = 50 + Math.cos(a) * 40, top = 50 + Math.sin(a) * 40;
+        return (
+          <motion.div
+            key={label}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 + i * 0.08, duration: 0.6, ease }}
+            className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#0B1122] border border-white/10 text-[11px] font-medium text-slate-300 whitespace-nowrap shadow-lg shadow-black/40"
+            style={{ left: `${left}%`, top: `${top}%` }}
+          >
+            <Icon className="w-3.5 h-3.5 text-[#9DB0FE]" /> {label}
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+function CodeVisual() {
+  const lines = [
+    [["const ", "#C084FC"], ["app", "#E2E8F0"], [" = ", "#94A3B8"], ["norka", "#9DB0FE"], [".create({", "#E2E8F0"]],
+    [["  ai: ", "#94A3B8"], ["true", "#F59E0B"], [",", "#94A3B8"]],
+    [["  users: ", "#94A3B8"], ["\"unlimited\"", "#34D399"], [",", "#94A3B8"]],
+    [["  deploy: ", "#94A3B8"], ["\"uae-cloud\"", "#34D399"]],
+    [["})", "#E2E8F0"]],
+  ] as const;
+  return (
+    <div className="mt-6 rounded-xl bg-[#060A14] border border-white/[.07] p-4 font-mono text-[12px] leading-6 overflow-hidden" dir="ltr" aria-hidden="true">
+      {lines.map((l, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, x: -8 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 + i * 0.12, duration: 0.5 }}
+          className="whitespace-pre"
+        >
+          <span className="text-slate-600 select-none me-4">{i + 1}</span>
+          {l.map(([txt, color], j) => <span key={j} style={{ color }}>{txt}</span>)}
+          {i === lines.length - 1 && <span className="inline-block w-2 h-4 align-middle ms-0.5 bg-[#6384FF] animate-pulse" />}
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+/* ── section ─────────────────────────────────────────────────── */
 
 interface ServicesPreviewProps {
   locale: string;
@@ -35,15 +133,9 @@ interface ServicesPreviewProps {
 export default function ServicesPreview({ locale, serviceCopy }: ServicesPreviewProps) {
   const t = useTranslations("services");
   const lang = locale as "en" | "ar";
-  const prefersReduced = useReducedMotion();
+  const isAr = locale === "ar";
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const active = services[activeIndex];
-
-  // CMS copy (when present) wins over the i18n message catalog — same
-  // fallback-safe pattern as the project/testimonial data fetches.
-  const copyFor = (key: (typeof services)[number]["key"]) => {
+  const copyFor = (key: Key) => {
     const cms = serviceCopy?.find((s) => s.key === key);
     return {
       title: cms ? cms.title[lang] : t(`${key}.title`),
@@ -51,216 +143,66 @@ export default function ServicesPreview({ locale, serviceCopy }: ServicesPreview
       features: cms ? cms.features[lang] : (t.raw(`${key}.features`) as string[]),
     };
   };
-  const activeCopy = copyFor(active.key);
-
-  // Auto-advance the spotlight through every service; pauses on hover/focus
-  // and restarts its clock whenever the visitor picks one manually, so it
-  // never fights an in-progress interaction.
-  useEffect(() => {
-    if (prefersReduced || paused) return;
-    const id = setInterval(() => {
-      setActiveIndex((i) => (i + 1) % services.length);
-    }, ROTATE_MS);
-    return () => clearInterval(id);
-  }, [paused, prefersReduced, activeIndex]);
-
-  const { ref: tiltRef, onMouseMove: onTiltMove, onMouseLeave: onTiltLeave, style: tiltStyle } = useTilt<HTMLElement>({ max: 4 });
 
   return (
-    <section
-      id="services"
-      className="pt-8 pb-12 md:pt-10 md:pb-16 lg:pt-12 lg:pb-20 bg-surface dark:bg-surface-dark/40 overflow-hidden"
-      aria-labelledby="services-heading"
-    >
+    <section id="services" className="relative py-20 md:py-28 bg-[var(--ink)]" aria-labelledby="services-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          id="services-heading"
+          eyebrow={t("badge")}
+          title={t("title")}
+          subtitle={t("subtitle")}
+        />
 
-        {/* ── Heading row — title/subtitle left, all-services link right,
-             matching the FeaturedProjects header pattern for consistency ── */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={viewport}
-            transition={{ duration: .6 }}
-            className="max-w-2xl"
-          >
-            <h2
-              id="services-heading"
-              className="font-heading text-display-sm font-black text-gray-900 dark:text-white mb-4 leading-tight"
-            >
-              {t("title")}
-            </h2>
-            <p className="text-lg font-normal text-gray-500 dark:text-gray-400 leading-relaxed">
-              {t("subtitle")}
-            </p>
-            <div className="divider-accent mt-5" aria-hidden="true" />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={viewport}
-            transition={{ duration: .6, delay: .1 }}
-            className="shrink-0"
-          >
-            <Link
-              href={`/${locale}/services`}
-              className={buttonVariants({ variant: "outline", className: "text-sm h-auto px-6 py-3 rounded-xl" })}
-              aria-label={t("viewAll")}
-            >
-              {t("viewAll")}
-              <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
-            </Link>
-          </motion.div>
-        </div>
-
-        {/* ── Spotlight + list ───────────────────────────────────── */}
-        <div
-          className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8"
-          style={{ perspective: 1200 }}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-        >
-
-          {/* Spotlight panel */}
-          <motion.article
-            ref={tiltRef}
-            onMouseMove={onTiltMove}
-            onMouseLeave={onTiltLeave}
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={viewport}
-            transition={{ duration: .6 }}
-            style={tiltStyle}
-            className="lg:col-span-3 group relative overflow-hidden rounded-2xl cursor-pointer min-h-[420px] sm:min-h-[440px] lg:h-full shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-accent)] transition-shadow duration-300"
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active.key}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: .5 }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={images.services[active.key].src}
-                  alt={activeCopy.title}
-                  fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-950/50 via-gray-950/5 to-transparent" />
-
-                {/* Info panel — a glass card inset from the photo's edges,
-                    not text floating directly on the image */}
-                <div className="absolute inset-x-4 bottom-4 md:inset-x-6 md:bottom-6">
-                  <div className="glass-dark rounded-2xl p-5 md:p-7">
-                    <h3 className="font-heading text-xl md:text-2xl font-black text-white mb-2 leading-tight">
-                      {activeCopy.title}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:auto-rows-[minmax(220px,auto)]">
+          {LAYOUT.map(({ key, className }, i) => {
+            const Icon = ICONS[key];
+            const copy = copyFor(key);
+            const big = key === "erp";
+            const wide = key === "software";
+            return (
+              <Reveal key={key} delay={(i % 4) * 0.06} className={cn("h-full", className, (big || wide) && "sm:col-span-2")}>
+                <Link href={`/${locale}/services`} className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6384FF] rounded-[1.25rem]">
+                  <SpotlightCard className={cn("h-full p-6 md:p-7 flex flex-col overflow-hidden", big && "md:p-9")}>
+                    <div className="flex items-start justify-between gap-4">
+                      <span className="grid place-items-center w-11 h-11 rounded-xl bg-[#3B62FC]/10 ring-1 ring-[#6384FF]/25 text-[#9DB0FE]">
+                        <Icon className="w-5 h-5" aria-hidden="true" />
+                      </span>
+                      <ArrowUpRight
+                        className="w-5 h-5 text-slate-600 transition-all duration-300 group-hover:text-white group-hover:-translate-y-0.5 group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h3 className={cn("mt-5 font-semibold text-white tracking-tight", big ? "text-2xl md:text-3xl" : "text-lg")}>
+                      {copy.title}
                     </h3>
-                    <p className="text-gray-300/80 text-sm leading-relaxed mb-4 max-w-md">
-                      {activeCopy.description}
+                    <p className={cn("mt-2 text-slate-400 leading-relaxed", big ? "text-base max-w-md" : "text-sm line-clamp-3")}>
+                      {copy.description}
                     </p>
-
-                    {/* Feature tags — plain dot-separated text, not bordered pills */}
-                    <p className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-5 text-xs text-white/55">
-                      {activeCopy.features.map((f: string, i: number) => (
-                        <span key={f} className="flex items-center gap-2">
-                          {i > 0 && <span className="w-1 h-1 rounded-full bg-white/30" aria-hidden="true" />}
-                          {f}
-                        </span>
-                      ))}
-                    </p>
-
-                    <Link
-                      href={`/${locale}/services`}
-                      className={buttonVariants({ className: "w-fit h-auto px-6 py-3 rounded-xl" })}
-                      aria-label={`${t("learnMore")} — ${activeCopy.title}`}
-                    >
-                      {t("learnMore")}
-                      <ArrowUpRight className="w-4 h-4 rtl:-scale-x-100" aria-hidden="true" />
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Progress dots — also double as direct navigation */}
-            <div className="absolute top-4 inset-x-4 md:top-5 md:inset-x-6 flex gap-1.5 z-10" role="tablist" aria-label={t("title")}>
-              {services.map((s, i) => (
-                <button
-                  key={s.key}
-                  role="tab"
-                  aria-selected={i === activeIndex}
-                  aria-label={copyFor(s.key).title}
-                  onClick={() => setActiveIndex(i)}
-                  className={cn(
-                    "h-1 rounded-full cursor-pointer transition-all duration-300",
-                    i === activeIndex ? "flex-[2] bg-white" : "flex-1 bg-white/30 hover:bg-white/50"
-                  )}
-                />
-              ))}
-            </div>
-          </motion.article>
-
-          {/* Compact list */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={viewport}
-            transition={{ duration: .6, delay: .1 }}
-            className="lg:col-span-2 flex flex-col divide-y divide-gray-200 dark:divide-gray-800 border-y border-gray-200 dark:border-gray-800"
-            role="list"
-            aria-label={`${t("title")} list`}
-          >
-            {services.map((s, i) => {
-              const { title } = copyFor(s.key);
-              const isActive = i === activeIndex;
-              return (
-                <div key={s.key} role="listitem">
-                  <button
-                    onClick={() => setActiveIndex(i)}
-                    aria-current={isActive ? "true" : undefined}
-                    aria-label={`${t("learnMore")} — ${title}`}
-                    className={cn(
-                      "group w-full flex items-center gap-4 py-4 px-2 -mx-2 rounded-xl text-start transition-all duration-300 cursor-pointer",
-                      isActive ? "bg-accent/[.06]" : "hover:bg-gray-50 dark:hover:bg-white/[.03]"
+                    {(big || wide) && (
+                      <ul className="mt-4 flex flex-wrap gap-2">
+                        {copy.features.map((f) => (
+                          <li key={f} className="px-2.5 py-1 rounded-md text-[12px] text-slate-300 bg-white/[.04] border border-white/[.06]">
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
                     )}
-                  >
-                    <div
-                      className={cn(
-                        "shrink-0 flex items-center justify-center w-10 h-10 rounded-xl border transition-all duration-300",
-                        isActive
-                          ? "bg-accent/10 border-accent/30"
-                          : "bg-accent/5 dark:bg-accent/10 border-accent/15 group-hover:border-accent/30"
-                      )}
-                    >
-                      <s.Icon className="w-5 h-5 text-accent" aria-hidden="true" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4
-                        className={cn(
-                          "font-heading font-bold truncate transition-colors",
-                          isActive ? "text-accent" : "text-gray-900 dark:text-white group-hover:text-accent"
-                        )}
-                      >
-                        {title}
-                      </h4>
-                    </div>
-                    <ArrowRight
-                      className={cn(
-                        "w-4 h-4 text-accent shrink-0 transition-all duration-300 rtl:rotate-180",
-                        isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1 rtl:translate-x-1 group-hover:opacity-60"
-                      )}
-                      aria-hidden="true"
-                    />
-                  </button>
-                </div>
-              );
-            })}
-          </motion.div>
+                    {big && <div className="mt-auto"><ErpVisual isAr={isAr} /></div>}
+                    {wide && <CodeVisual />}
+                  </SpotlightCard>
+                </Link>
+              </Reveal>
+            );
+          })}
         </div>
+
+        <Reveal className="mt-10 flex justify-center">
+          <Link href={`/${locale}/services`} className="btn-ghost">
+            {t("viewAll")}
+            <ArrowUpRight className="w-4 h-4 rtl:-scale-x-100" aria-hidden="true" />
+          </Link>
+        </Reveal>
       </div>
     </section>
   );

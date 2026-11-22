@@ -13,7 +13,7 @@
 @theme inline {
   /* ── Backgrounds ─────────────────────────────────────────── */
   --color-background:      #FFFFFF;
-  --color-background-dark: #060B18;
+  --color-background-dark: #04060D;
   --color-surface:         #F5F7FF;
   --color-surface-dark:    #0D1424;
 
@@ -564,4 +564,155 @@ img {
   html {
     @apply font-sans;
   }
+}
+/* ══════════════════════════════════════════════════════════════
+   Norka dark design layer (2026 redesign)
+   The site is dark-only: every section sits on --ink, with Norka blue
+   used as light (glows, beams, gradients) rather than as flat fills.
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  --ink:        #04060D;
+  --ink-2:      #080C18;
+  --ink-3:      #0C1222;
+  --line:       rgba(148, 163, 255, .10);
+  --line-2:     rgba(148, 163, 255, .18);
+  --blue:       #3B62FC;
+  --blue-2:     #6384FF;
+  --blue-3:     #9DB0FE;
+  --cyan:       #38BDF8;
+  --violet:     #8B5CF6;
+}
+
+html.dark body { background-color: var(--ink) !important; color: #A9B4CC !important; }
+
+/* Component classes live in the components layer so Tailwind utilities
+   (hidden, lg:inline-flex, px-*, …) can still override them. */
+@layer components {
+/* Headline gradients */
+.text-hero {
+  background: linear-gradient(180deg, #FFFFFF 20%, #B8C3DC 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.text-blue-glow {
+  background: linear-gradient(100deg, #9DB0FE 0%, #3B62FC 45%, #38BDF8 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Eyebrow pill */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .375rem .875rem; border-radius: 999px;
+  font-size: .75rem; font-weight: 600; letter-spacing: .02em;
+  color: #C7D2FE; background: rgba(59, 98, 252, .08);
+  border: 1px solid rgba(99, 132, 255, .25);
+  backdrop-filter: blur(8px);
+}
+
+/* Background grid, faded out towards the edges */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(148,163,255,.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148,163,255,.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+          mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+}
+.bg-dots {
+  background-image: radial-gradient(rgba(148,163,255,.16) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Slowly drifting aurora blobs */
+.aurora { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.aurora::before, .aurora::after {
+  content: ""; position: absolute; border-radius: 50%; filter: blur(90px); opacity: .55;
+}
+.aurora::before {
+  width: 60vw; height: 60vw; max-width: 900px; max-height: 900px;
+  top: -30%; left: 10%;
+  background: radial-gradient(circle, rgba(59,98,252,.55), transparent 65%);
+  animation: aurora-a 18s ease-in-out infinite alternate;
+}
+.aurora::after {
+  width: 45vw; height: 45vw; max-width: 700px; max-height: 700px;
+  top: -10%; right: 0%;
+  background: radial-gradient(circle, rgba(56,189,248,.35), rgba(139,92,246,.18) 45%, transparent 70%);
+  animation: aurora-b 22s ease-in-out infinite alternate;
+}
+@keyframes aurora-a { to { transform: translate(12%, 10%) scale(1.15); } }
+@keyframes aurora-b { to { transform: translate(-15%, 18%) scale(.9); } }
+
+/* Card with a hairline gradient border + mouse spotlight.
+   Set --mx / --my (px) from JS; falls back to the top-centre. */
+.card-glow {
+  position: relative; isolation: isolate;
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, rgba(14,20,38,.9), rgba(8,12,24,.9));
+  border: 1px solid var(--line);
+  transition: border-color .3s, transform .3s;
+}
+.card-glow::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(59,98,252,.16), transparent 45%);
+  opacity: 0; transition: opacity .4s;
+}
+.card-glow:hover { border-color: var(--line-2); }
+.card-glow:hover::before { opacity: 1; }
+
+/* Gradient ring (used on the hero mockup and the CTA) */
+.ring-gradient { position: relative; }
+.ring-gradient::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(140deg, rgba(157,176,254,.55), rgba(59,98,252,.12) 35%, rgba(56,189,248,.08) 65%, rgba(157,176,254,.35));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+
+/* Primary button with glow */
+.btn-glow {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .875rem 1.5rem; border-radius: .875rem;
+  font-weight: 600; font-size: .9375rem; color: #fff;
+  background: linear-gradient(180deg, #4C72FF, #2E52E8);
+  box-shadow: 0 0 0 1px rgba(157,176,254,.35) inset, 0 10px 30px -8px rgba(59,98,252,.75), 0 0 60px -20px rgba(59,98,252,.9);
+  transition: transform .2s, box-shadow .3s;
+}
+.btn-glow:hover { transform: translateY(-1px); box-shadow: 0 0 0 1px rgba(157,176,254,.5) inset, 0 14px 40px -8px rgba(59,98,252,.9), 0 0 80px -16px rgba(59,98,252,1); }
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .875rem 1.5rem; border-radius: .875rem;
+  font-weight: 600; font-size: .9375rem; color: #E2E8F0;
+  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.10);
+  transition: background .2s, border-color .2s;
+}
+.btn-ghost:hover { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.2); }
+
+/* Light beam travelling along a line */
+.beam { position: relative; overflow: hidden; }
+.beam::after {
+  content: ""; position: absolute; inset-block: 0; width: 30%;
+  background: linear-gradient(90deg, transparent, rgba(157,176,254,.9), transparent);
+  animation: beam 3.2s ease-in-out infinite;
+}
+@keyframes beam { from { left: -30%; } to { left: 100%; } }
+
+/* Shine sweep across text/badges */
+@keyframes shine { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.shine {
+  background: linear-gradient(110deg, #E2E8F0 35%, #FFFFFF 50%, #E2E8F0 65%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shine 6s linear infinite;
+}
+
+/* Edge fade for horizontal marquees */
+.mask-x { -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+
+/* Section separators: a soft horizon line */
+.horizon { height: 1px; background: linear-gradient(90deg, transparent, rgba(99,132,255,.35), transparent); }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora::before, .aurora::after, .beam::after, .shine { animation: none !important; }
 }
