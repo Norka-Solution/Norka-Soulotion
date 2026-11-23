@@ -14,7 +14,7 @@ export default async function NotFound() {
     <section className="flex min-h-[70vh] items-center justify-center px-4 pt-32 pb-20">
       <div className="max-w-lg text-center">
         <p className="text-7xl font-black gradient-text">404</p>
-        <h1 className="mt-4 text-2xl font-bold text-gray-900 dark:text-white">
+        <h1 className="mt-4 text-2xl font-bold text-gray-900 dark:text-ink-1">
           {isAr ? "الصفحة غير موجودة" : "Page not found"}
         </h1>
         <p className="mt-3 text-gray-600 dark:text-gray-400">

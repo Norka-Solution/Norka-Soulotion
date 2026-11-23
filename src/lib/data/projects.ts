@@ -33,11 +33,8 @@ export const projects: Project[] = [
     slug: "enterprise-erp-system",
     category: "erp",
     featured: true,
-    image: "/images/projects/enterprise-erp-system/cover.jpg",
-    screenshots: [
-      "/images/projects/enterprise-erp-system/cover.jpg",
-      "/images/projects/enterprise-erp-system/screen-1.jpg",
-    ],
+    image: "/images/photos/warehouse-2.jpg",
+    screenshots: ["/images/photos/warehouse-2.jpg"],
     techStack: ["React", "Node.js", "PostgreSQL", "Docker", "Redis"],
     title: {
       en: "Enterprise ERP System",
@@ -74,12 +71,8 @@ export const projects: Project[] = [
     slug: "school-erp-system",
     category: "erp",
     featured: false,
-    image: "/images/projects/school-erp-system/cover.jpg",
-    screenshots: [
-      "/images/projects/school-erp-system/cover.jpg",
-      "/images/projects/school-erp-system/screen-1.jpg",
-      "/images/projects/school-erp-system/screen-2.jpg",
-    ],
+    image: "/images/photos/classroom.jpg",
+    screenshots: ["/images/photos/classroom.jpg"],
     techStack: ["Vue.js", "Laravel", "MySQL", "AWS", "Pusher"],
     title: {
       en: "School Management ERP",
@@ -116,12 +109,8 @@ export const projects: Project[] = [
     slug: "restaurant-chain-erp",
     category: "erp",
     featured: false,
-    image: "/images/projects/restaurant-chain-erp/cover.jpg",
-    screenshots: [
-      "/images/projects/restaurant-chain-erp/cover.jpg",
-      "/images/projects/restaurant-chain-erp/screen-1.jpg",
-      "/images/projects/restaurant-chain-erp/screen-2.jpg",
-    ],
+    image: "/images/photos/restaurant-kitchen.jpg",
+    screenshots: ["/images/photos/restaurant-kitchen.jpg"],
     techStack: ["React", "Express.js", "MongoDB", "Socket.io", "Stripe"],
     title: {
       en: "Restaurant Chain ERP",
@@ -157,11 +146,8 @@ export const projects: Project[] = [
     slug: "hr-payroll-erp",
     category: "erp",
     featured: false,
-    image: "/images/projects/hr-payroll-erp/cover.jpg",
-    screenshots: [
-      "/images/projects/hr-payroll-erp/cover.jpg",
-      "/images/projects/hr-payroll-erp/screen-1.jpg",
-    ],
+    image: "/images/photos/handshake.jpg",
+    screenshots: ["/images/photos/handshake.jpg"],
     techStack: ["Angular", ".NET Core", "SQL Server", "Azure", "Power BI"],
     title: {
       en: "HR & Payroll ERP",
@@ -201,11 +187,8 @@ export const projects: Project[] = [
     slug: "ecommerce-platform",
     category: "web",
     featured: true,
-    image: "/images/projects/ecommerce-platform/cover.jpg",
-    screenshots: [
-      "/images/projects/ecommerce-platform/cover.jpg",
-      "/images/projects/ecommerce-platform/screen-1.jpg",
-    ],
+    image: "/images/photos/online-shopping.jpg",
+    screenshots: ["/images/photos/online-shopping.jpg"],
     techStack: ["Next.js", "TypeScript", "Prisma", "Stripe", "Vercel"],
     title: {
       en: "E-Commerce Platform",
@@ -242,10 +225,8 @@ export const projects: Project[] = [
     slug: "corporate-website",
     category: "web",
     featured: false,
-    image: "/images/projects/corporate-website/cover.jpg",
-    screenshots: [
-      "/images/projects/corporate-website/cover.jpg",
-    ],
+    image: "/images/photos/meeting.jpg",
+    screenshots: ["/images/photos/meeting.jpg"],
     techStack: ["Next.js", "Tailwind CSS", "Framer Motion", "Sanity CMS", "Vercel"],
     title: {
       en: "Corporate Website & CMS",
@@ -282,10 +263,8 @@ export const projects: Project[] = [
     slug: "real-estate-portal",
     category: "web",
     featured: false,
-    image: "/images/projects/real-estate-portal/cover.jpg",
-    screenshots: [
-      "/images/projects/real-estate-portal/cover.jpg",
-    ],
+    image: "/images/photos/keys.jpg",
+    screenshots: ["/images/photos/keys.jpg"],
     techStack: ["React", "Node.js", "PostgreSQL", "Google Maps API", "AWS S3"],
     title: {
       en: "Real Estate Portal",
@@ -321,10 +300,8 @@ export const projects: Project[] = [
     slug: "booking-management-web",
     category: "web",
     featured: false,
-    image: "/images/projects/booking-management-web/cover.jpg",
-    screenshots: [
-      "/images/projects/booking-management-web/cover.jpg",
-    ],
+    image: "/images/photos/clinic.jpg",
+    screenshots: ["/images/photos/clinic.jpg"],
     techStack: ["Next.js", "tRPC", "Prisma", "Stripe", "Twilio"],
     title: {
       en: "Online Booking System",
@@ -365,10 +342,8 @@ export const projects: Project[] = [
     slug: "mobile-banking-app",
     category: "mobile",
     featured: true,
-    image: "/images/projects/mobile-banking-app/cover.jpg",
-    screenshots: [
-      "/images/projects/mobile-banking-app/cover.jpg",
-    ],
+    image: "/images/photos/payment.jpg",
+    screenshots: ["/images/photos/payment.jpg"],
     techStack: ["React Native", "Node.js", "MongoDB", "Firebase", "Stripe"],
     title: {
       en: "Mobile Banking App",
@@ -405,10 +380,8 @@ export const projects: Project[] = [
     slug: "food-delivery-app",
     category: "mobile",
     featured: false,
-    image: "/images/projects/food-delivery-app/cover.jpg",
-    screenshots: [
-      "/images/projects/food-delivery-app/cover.jpg",
-    ],
+    image: "/images/photos/delivery.jpg",
+    screenshots: ["/images/photos/delivery.jpg"],
     techStack: ["Flutter", "Firebase", "Google Maps", "Stripe", "Node.js"],
     title: {
       en: "Food Delivery App",
@@ -444,10 +417,8 @@ export const projects: Project[] = [
     slug: "fitness-health-app",
     category: "mobile",
     featured: false,
-    image: "/images/projects/fitness-health-app/cover.jpg",
-    screenshots: [
-      "/images/projects/fitness-health-app/cover.jpg",
-    ],
+    image: "/images/photos/fitness.jpg",
+    screenshots: ["/images/photos/fitness.jpg"],
     techStack: ["React Native", "HealthKit", "Google Fit", "TensorFlow Lite", "Firebase"],
     title: {
       en: "Fitness & Health Tracker",
@@ -483,10 +454,8 @@ export const projects: Project[] = [
     slug: "elearning-mobile-app",
     category: "mobile",
     featured: false,
-    image: "/images/projects/elearning-mobile-app/cover.jpg",
-    screenshots: [
-      "/images/projects/elearning-mobile-app/cover.jpg",
-    ],
+    image: "/images/photos/teacher.jpg",
+    screenshots: ["/images/photos/teacher.jpg"],
     techStack: ["Flutter", "Firebase", "Agora", "AWS CloudFront", "Stripe"],
     title: {
       en: "E-Learning Platform App",

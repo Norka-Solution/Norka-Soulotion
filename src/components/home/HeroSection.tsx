@@ -1,14 +1,14 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import {
-  motion, useScroll, useTransform, useSpring, useReducedMotion, useMotionValue,
-} from "framer-motion";
-import { ArrowRight, ArrowUpRight, CheckCircle2, Sparkles, Smartphone } from "lucide-react";
-import DashboardMockup from "@/components/visuals/DashboardMockup";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
+import { ArrowRight, ArrowUpRight, ShieldCheck, Languages, Building2, X, MessageCircle, CheckCircle2 } from "lucide-react";
 import CountUp from "@/components/ui/CountUp";
+import NoraThread from "@/components/ai/NoraThread";
+import { useNora } from "@/components/ai/NoraContext";
+import NoraOrb from "@/components/ai/NoraOrb";
 import { COMPANY_STATS } from "@/lib/constants";
 
 interface HeroSectionProps {
@@ -17,236 +17,272 @@ interface HeroSectionProps {
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// "150+" -> { end: 150, suffix: "+" }
 function splitStat(value: string) {
   const match = value.match(/^(\d+)(.*)$/);
   return { end: match ? Number(match[1]) : 0, suffix: match ? match[2] : "" };
 }
 
-/**
- * Words fade up out of a soft blur, one after another.
- * `wordClass` goes on every word: background-clip text gradients don't
- * reach into transformed inline-block children, so each word carries its own.
- */
-function RevealWords({ text, wordClass, delay = 0 }: { text: string; wordClass?: string; delay?: number }) {
-  const words = text.split(" ");
+/** Live product moments floating around the chat: the software, not a skyline. */
+function HeroFloaters({ isAr }: { isAr: boolean }) {
+  const cards = [
+    {
+      pos: "-top-10 -start-16 xl:-start-24",
+      delay: 0.9,
+      body: (
+        <>
+          <p className="text-[10px] text-slate-400">{isAr ? "إيرادات الشهر" : "Monthly revenue"}</p>
+          <p className="text-lg font-extrabold text-white tabular-nums" dir="ltr">AED 284K</p>
+          <div className="mt-1 flex items-end gap-1 h-7" dir="ltr">
+            {[40, 55, 48, 70, 62, 85, 100].map((h, i) => (
+              <span key={i} className="w-2 rounded-sm bg-gradient-to-t from-[#2848D8] to-[#9DB0FE]" style={{ height: `${h}%` }} />
+            ))}
+          </div>
+          <p className="mt-1 text-[10px] font-semibold text-emerald-300" dir="ltr">▲ 18.2%</p>
+        </>
+      ),
+    },
+    {
+      pos: "top-[64%] -end-12 xl:-end-16",
+      delay: 1.2,
+      body: (
+        <div className="flex items-center gap-2.5">
+          <span className="grid place-items-center w-8 h-8 rounded-full bg-[#25D366] text-white"><MessageCircle className="w-4 h-4" /></span>
+          <div>
+            <p className="text-[11px] font-bold text-white">{isAr ? "طلب جديد · واتساب" : "New order · WhatsApp"}</p>
+            <p className="text-[10px] text-slate-400">{isAr ? "ردّت نوركا AI خلال 3 ثوانٍ" : "Norka AI replied in 3s"}</p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      pos: "-bottom-8 -start-10 xl:-start-16",
+      delay: 1.5,
+      body: (
+        <div className="flex items-center gap-2.5">
+          <span className="grid place-items-center w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-300"><CheckCircle2 className="w-4 h-4" /></span>
+          <div>
+            <p className="text-[11px] font-bold text-white" dir="ltr">INV-2026-0418</p>
+            <p className="text-[10px] text-emerald-300">{isAr ? "تم الدفع · 26,722 د.إ" : "Paid · AED 26,722"}</p>
+          </div>
+        </div>
+      ),
+    },
+  ];
   return (
-    <span className="block">
-      {words.map((w, i) => (
-        <motion.span
-          key={`${w}-${i}`}
-          className={`inline-block ${wordClass ?? ""}`}
-          initial={{ opacity: 0, y: "0.45em", filter: "blur(12px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ delay: delay + i * 0.09, duration: 0.8, ease }}
+    <>
+      {cards.map((c, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, scale: 0.85, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: c.delay, duration: 0.7, ease }}
+          className={`hidden lg:block absolute z-10 ${c.pos}`}
+          aria-hidden="true"
         >
-          {w}
-          {i < words.length - 1 ? " " : ""}
-        </motion.span>
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut" }}
+            className="rounded-2xl px-4 py-3 bg-[#0B1122]/85 backdrop-blur-xl border border-white/10 shadow-[0_20px_50px_-15px_rgba(0,0,0,.8)] text-start"
+          >
+            {c.body}
+          </motion.div>
+        </motion.div>
       ))}
-    </span>
+    </>
   );
 }
 
+/**
+ * A software backdrop (moving light, grid floor, data lines) behind the headline, and Norka AI — the
+ * company's AI employee — live on the right: visitors can talk to her straight away.
+ * The hero is always dark in both themes.
+ */
 export default function HeroSection({ locale }: HeroSectionProps) {
   const t = useTranslations("hero");
   const tStats = useTranslations("stats");
   const isAr = locale === "ar";
   const reduce = useReducedMotion();
 
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
-
-  // The dashboard starts tilted back and settles flat as you scroll.
-  const rotateX = useSpring(useTransform(scrollYProgress, [0, 0.35], [reduce ? 0 : 22, 0]), { stiffness: 120, damping: 24 });
-  const scale = useSpring(useTransform(scrollYProgress, [0, 0.35], [reduce ? 1 : 0.92, 1]), { stiffness: 120, damping: 24 });
-  const glowOpacity = useTransform(scrollYProgress, [0, 0.4], [0.9, 0.4]);
-
-  // Gentle mouse parallax for the floating cards.
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const px = useSpring(mx, { stiffness: 60, damping: 20 });
-  const py = useSpring(my, { stiffness: 60, damping: 20 });
-  const pxInv = useTransform(px, (v) => -v);
-  const pyInv = useTransform(py, (v) => -v);
-
-  const onMove = (e: React.MouseEvent) => {
-    if (reduce) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    mx.set(((e.clientX - r.left) / r.width - 0.5) * 24);
-    my.set(((e.clientY - r.top) / r.height - 0.5) * 16);
-  };
+  // while the hero chat is on screen, the floating "Ask Norka AI" button stays hidden
+  const chatRef = useRef<HTMLDivElement>(null);
+  const chatInView = useInView(chatRef, { margin: "0px 0px -20% 0px" });
+  const { setHeroChatVisible, loading, messages } = useNora();
+  const [chatOpen, setChatOpen] = useState(true);
+  useEffect(() => {
+    setHeroChatVisible(chatInView);
+    return () => setHeroChatVisible(false);
+  }, [chatInView, setHeroChatVisible]);
 
   const stats = [
     { ...splitStat(COMPANY_STATS.projects), label: tStats("projects") },
     { ...splitStat(COMPANY_STATS.clients), label: tStats("clients") },
     { ...splitStat(COMPANY_STATS.years), label: tStats("years") },
   ];
+  const trust = isAr
+    ? [{ Icon: Building2, t: "أبوظبي · العين · دبي" }, { Icon: Languages, t: "عربي وإنجليزي" }, { Icon: ShieldCheck, t: "بيانات خاصة لكل شركة" }]
+    : [{ Icon: Building2, t: "Abu Dhabi · Al Ain · Dubai" }, { Icon: Languages, t: "Arabic & English" }, { Icon: ShieldCheck, t: "Private data per company" }];
 
   return (
-    <section
-      ref={sectionRef}
-      onMouseMove={onMove}
-      className="relative overflow-hidden bg-[var(--ink)] pt-32 md:pt-40"
-      aria-label={isAr ? "القسم الرئيسي" : "Hero section"}
-    >
-      {/* atmosphere */}
-      <div className="aurora" aria-hidden="true" />
-      <div className="absolute inset-0 bg-grid" aria-hidden="true" />
-      <div
-        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#6384FF]/60 to-transparent"
-        aria-hidden="true"
-      />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* eyebrow */}
+    <section className="dark relative overflow-hidden bg-[#04060D] min-h-[100svh] flex items-center pt-28 pb-16 lg:pt-32" aria-label={isAr ? "القسم الرئيسي" : "Hero section"}>
+      {/* software backdrop: moving light, a perspective grid and flowing data lines */}
+      <div className="absolute inset-0" aria-hidden="true">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease }}
-          className="flex justify-center mb-7"
-        >
-          <Link href={`/${locale}/services`} className="eyebrow group">
-            <span className="relative flex w-2 h-2">
-              <span className="absolute inline-flex w-full h-full rounded-full bg-[#6384FF] opacity-75 animate-ping" />
-              <span className="relative inline-flex w-2 h-2 rounded-full bg-[#9DB0FE]" />
-            </span>
-            {t("badge")}
-            <ArrowRight className="w-3.5 h-3.5 opacity-60 transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
-          </Link>
-        </motion.div>
-
-        {/* headline */}
-        <h1 className="font-heading font-black tracking-[-0.035em] leading-[1.02] text-[clamp(2.75rem,8vw,6.25rem)] max-w-5xl mx-auto">
-          <RevealWords text={t("title")} wordClass="text-hero pb-[0.12em]" delay={0.1} />
-          <RevealWords text={t("titleHighlight")} wordClass="text-blue-glow pb-[0.14em]" delay={0.3} />
-        </h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65, duration: 0.7, ease }}
-          className="mt-6 text-base md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed"
-        >
-          {t("description")}
-        </motion.p>
-
+          className="absolute -top-40 start-[-10%] w-[55rem] h-[55rem] rounded-full bg-[#3B62FC]/35 blur-[140px]"
+          animate={reduce ? undefined : { x: [0, 80, 0], y: [0, 40, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        />
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.7, ease }}
-          className="mt-9 flex flex-wrap items-center justify-center gap-3"
-        >
-          <Link href={`/${locale}/contact`} className="btn-glow">
-            {t("cta1")}
-            <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
-          </Link>
-          <Link href={`/${locale}/portfolio`} className="btn-ghost">
-            {t("cta2")}
-            <ArrowUpRight className="w-4 h-4 rtl:-scale-x-100" aria-hidden="true" />
-          </Link>
-        </motion.div>
-
-        {/* stats */}
-        <motion.dl
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm"
-        >
-          {stats.map((s) => (
-            <div key={s.label} className="flex items-baseline gap-2">
-              <dt className="sr-only">{s.label}</dt>
-              <dd className="text-xl font-bold text-white tabular-nums">
-                <CountUp end={s.end} suffix={s.suffix} />
-              </dd>
-              <span className="text-slate-500" aria-hidden="true">{s.label}</span>
-            </div>
+          className="absolute top-1/3 end-[-15%] w-[45rem] h-[45rem] rounded-full bg-[#7C3AED]/20 blur-[140px]"
+          animate={reduce ? undefined : { x: [0, -60, 0], y: [0, -50, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <div className="absolute inset-x-0 bottom-0 h-[55%] [perspective:900px] overflow-hidden">
+          <div className="hero-floor absolute inset-x-[-50%] top-0 h-[200%] origin-top" />
+        </div>
+        <svg className="absolute inset-0 w-full h-full opacity-90" preserveAspectRatio="none" viewBox="0 0 1440 900">
+          {[180, 330, 520, 690].map((y, i) => (
+            <path key={y} className="hero-data-line" style={{ animationDelay: `${i * 1.3}s` }}
+              d={`M-50 ${y} C 360 ${y - 90}, 720 ${y + 90}, 1490 ${y - 30}`} />
           ))}
-        </motion.dl>
+        </svg>
+        <div className="absolute inset-0 bg-[radial-gradient(90%_70%_at_50%_30%,transparent,#04060D_95%)]" />
+      </div>
 
-        {/* product visual */}
-        <div className="relative mt-16 md:mt-20 [perspective:2000px]" aria-hidden="true">
-          <motion.div
-            style={{ opacity: glowOpacity }}
-            className="absolute -inset-x-10 top-10 bottom-0 bg-[radial-gradient(ellipse_at_center,rgba(59,98,252,.45),transparent_60%)] blur-3xl"
-          />
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 1.1, ease }}
-            style={{ rotateX, scale, transformOrigin: "50% 0%" }}
-            className="relative max-w-6xl mx-auto"
-          >
-            <DashboardMockup isAr={isAr} />
-
-            {/* floating: payment notification */}
-            <motion.div
-              style={{ x: px, y: py }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.4, duration: 0.7, ease }}
-              className="hidden md:flex absolute -start-8 lg:-start-16 top-[38%] items-center gap-3 rounded-2xl px-4 py-3 bg-[#0B1122]/90 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50 text-start"
-            >
-              <span className="grid place-items-center w-9 h-9 rounded-xl bg-emerald-400/10">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+        {/* copy */}
+        <div className="lg:col-span-7 text-start">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>
+            <span className="eyebrow">
+              <span className="relative flex w-2 h-2">
+                <span className="absolute inline-flex w-full h-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
+                <span className="relative inline-flex w-2 h-2 rounded-full bg-emerald-400" />
               </span>
-              <span>
-                <span className="block text-[12px] font-semibold text-white">{isAr ? "تم استلام الدفعة" : "Payment received"}</span>
-                <span className="block text-[11px] text-slate-400" dir="ltr">AED 12,400 · Al Reem</span>
-              </span>
-            </motion.div>
-
-            {/* floating: mobile app */}
-            <motion.div
-              style={{ x: pxInv, y: pyInv }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.7, duration: 0.7, ease }}
-              className="hidden md:block absolute -end-6 lg:-end-12 -top-8 w-44 rounded-[1.6rem] p-1.5 bg-[#0B1122] border border-white/10 shadow-2xl shadow-black/60"
-            >
-              <div className="rounded-[1.25rem] overflow-hidden bg-gradient-to-b from-[#121A33] to-[#0A0F1E] p-3 text-start">
-                <div className="mx-auto mb-3 w-12 h-1 rounded-full bg-white/10" />
-                <p className="flex items-center gap-1.5 text-[10px] font-semibold text-[#C7D2FE]">
-                  <Smartphone className="w-3 h-3" /> {isAr ? "تطبيق الموظفين" : "Staff app"}
-                </p>
-                <p className="mt-2 text-[18px] font-bold text-white tabular-nums" dir="ltr">96%</p>
-                <p className="text-[9px] text-slate-500">{isAr ? "نسبة الحضور اليوم" : "Attendance today"}</p>
-                <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
-                  <motion.div
-                    className="h-full rounded-full bg-gradient-to-r from-[#3B62FC] to-[#38BDF8]"
-                    initial={{ width: 0 }}
-                    animate={{ width: "96%" }}
-                    transition={{ delay: 3, duration: 1.2, ease }}
-                  />
-                </div>
-                <div className="mt-3 space-y-1.5">
-                  {[0.9, 0.7, 0.8].map((w, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="w-4 h-4 rounded-full bg-white/10" />
-                      <span className="h-1.5 rounded-full bg-white/10" style={{ width: `${w * 100}%` }} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* floating: AI */}
-            <motion.div
-              style={{ x: pxInv, y: py }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 3, duration: 0.7, ease }}
-              className="hidden lg:flex absolute -end-10 bottom-16 items-center gap-2 rounded-full px-4 py-2.5 bg-gradient-to-r from-[#3B62FC] to-[#2848D8] shadow-[0_10px_40px_-6px_rgba(59,98,252,.8)] text-[12px] font-semibold text-white"
-            >
-              <Sparkles className="w-4 h-4" />
-              {isAr ? "مدعوم بالذكاء الاصطناعي" : "AI built in"}
-            </motion.div>
+              {t("badge")}
+            </span>
           </motion.div>
 
-          {/* fade the bottom of the dashboard into the page */}
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[var(--ink)] to-transparent" />
+          <motion.h1
+            initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ delay: 0.1, duration: 0.9, ease }}
+            className="mt-6 font-heading font-extrabold text-white leading-[1.15] text-[clamp(2.3rem,4.6vw,4.1rem)] tracking-[-0.02em]"
+          >
+            {t("title")}
+            <span className="block text-blue-glow pb-1">{t("titleHighlight")}</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.7, ease }}
+            className="mt-6 text-lg md:text-xl text-slate-300 leading-relaxed max-w-xl"
+          >
+            {t("description")}
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.7, ease }}
+            className="mt-9 flex flex-wrap items-center gap-3"
+          >
+            <Link href={`/${locale}/contact`} className="btn-glow">
+              {t("cta1")}
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
+            </Link>
+            <Link href="#products" className="btn-ghost">
+              {t("cta2")}
+              <ArrowUpRight className="w-4 h-4 rtl:-scale-x-100" aria-hidden="true" />
+            </Link>
+          </motion.div>
+
+          <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.65, duration: 0.8 }} className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
+            {trust.map(({ Icon, t: label }) => (
+              <li key={label} className="inline-flex items-center gap-2">
+                <Icon className="w-4 h-4 text-[#9DB0FE]" aria-hidden="true" /> {label}
+              </li>
+            ))}
+          </motion.ul>
+
+          <motion.dl initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8, duration: 0.8 }} className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
+            {stats.map((s) => (
+              <div key={s.label}>
+                <dt className="sr-only">{s.label}</dt>
+                <dd className="text-3xl font-extrabold text-white tabular-nums"><CountUp end={s.end} suffix={s.suffix} /></dd>
+                <p className="text-sm text-slate-400" aria-hidden="true">{s.label}</p>
+              </div>
+            ))}
+          </motion.dl>
         </div>
+
+        {/* Norka AI, live */}
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: 0.35, duration: 1, ease }}
+          className="lg:col-span-5"
+        >
+          <div ref={chatRef} className="relative">
+            <div className="absolute -inset-6 rounded-[2.5rem] bg-[#3B62FC]/25 blur-3xl" aria-hidden="true" />
+            <HeroFloaters isAr={isAr} />
+            <AnimatePresence mode="wait" initial={false}>
+              {chatOpen ? (
+                <motion.div
+                  key="chat"
+                  initial={{ opacity: 0, y: 24, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 24, scale: 0.96 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="relative rounded-[1.75rem] overflow-hidden ring-gradient bg-[#070B16]/90 backdrop-blur-xl shadow-[0_40px_120px_-30px_rgba(59,98,252,.6)] flex flex-col h-[520px] max-h-[74vh]"
+                >
+                  <div className="relative flex items-center gap-3.5 px-5 py-4 border-b border-white/[.08] bg-gradient-to-r from-[#0B1430] to-[#101a3d]">
+                    <span className="relative shrink-0">
+                      <NoraOrb size={48} active={loading} />
+                      <span className="absolute -bottom-0.5 -end-0.5 w-3.5 h-3.5 rounded-full bg-emerald-400 ring-2 ring-[#0B1430]" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="font-bold text-white">{isAr ? "نوركا AI — موظفة نوركا الذكية" : "Norka AI — your AI employee"}</p>
+                      <p className="text-xs text-slate-300">{isAr ? "متاحة الآن · تحدّث معها مباشرة" : "Online now · talk to her right here"}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setChatOpen(false)}
+                      aria-label={isAr ? "إغلاق المحادثة" : "Close chat"}
+                      className="ms-auto grid place-items-center w-9 h-9 rounded-full text-slate-300 bg-white/[.06] hover:bg-white/[.12] hover:text-white transition-colors cursor-pointer shrink-0"
+                    >
+                      <X className="w-4 h-4" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <NoraThread isAr={isAr} />
+                </motion.div>
+              ) : (
+                <motion.button
+                  key="launcher"
+                  type="button"
+                  onClick={() => setChatOpen(true)}
+                  initial={{ opacity: 0, y: 24, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 24, scale: 0.96 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="relative w-full rounded-[1.75rem] ring-gradient bg-[#070B16]/85 backdrop-blur-xl shadow-[0_40px_120px_-30px_rgba(59,98,252,.6)] p-8 flex flex-col items-center text-center gap-4 cursor-pointer group"
+                >
+                  <NoraOrb size={96} active={loading} />
+                  <div>
+                    <p className="text-lg font-bold text-white">{isAr ? "نوركا AI هنا عند الحاجة" : "Norka AI is here whenever you need her"}</p>
+                    <p className="mt-1 text-sm text-slate-300">
+                      {messages.length
+                        ? isAr ? "محادثتك محفوظة، تابع من حيث توقفت." : "Your conversation is saved, pick up where you left off."
+                        : isAr ? "اسألها عن أنظمتنا أو احجز عرضاً مجانياً." : "Ask about our systems or book a free demo."}
+                    </p>
+                  </div>
+                  <span className="btn-glow group-hover:scale-[1.03] transition-transform">
+                    <MessageCircle className="w-4 h-4" aria-hidden="true" /> {isAr ? "تحدّث مع نوركا AI" : "Talk to Norka AI"}
+                  </span>
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

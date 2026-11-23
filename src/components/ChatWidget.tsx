@@ -1,244 +1,90 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Loader2, Bot, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
+import { useNora } from "@/components/ai/NoraContext";
+import NoraOrb from "@/components/ai/NoraOrb";
+import NoraThread from "@/components/ai/NoraThread";
 
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-  /** shown in the chat but never sent to the API (errors, notices) */
-  local?: boolean;
-}
-
+/** Floating "Ask Norka AI" button + chat window, sharing the conversation with the hero chat. */
 export default function ChatWidget() {
   const params = useParams();
-  const locale = (params.locale as string) || "en";
-  const isAr = locale === "ar";
+  const isAr = ((params.locale as string) || "en") === "ar";
+  const { open, setOpen, heroChatVisible, loading } = useNora();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const t = {
-    title: isAr ? "مساعد نوركا" : "NORKA Assistant",
-    subtitle: isAr ? "كيف يمكننا مساعدتك؟" : "How can we help you?",
-    placeholder: isAr ? "اكتب رسالتك..." : "Type your message...",
-    welcome: isAr
-      ? "مرحباً! أنا مساعد نوركا الذكي. كيف يمكنني مساعدتك اليوم؟ يمكنني الإجابة عن خدماتنا، الأسعار، أو أي استفسار آخر."
-      : "Hello! I'm NORKA's AI assistant. How can I help you today? I can answer questions about our services, pricing, or anything else.",
-    error: isAr ? "حدث خطأ، حاول مرة أخرى" : "Something went wrong, please try again",
-    busy: isAr ? "رسائل كثيرة في وقت قصير، انتظر دقيقة ثم حاول مرة أخرى" : "That's a lot of messages at once. Please wait a minute and try again.",
-    openChat: isAr ? "تحدث معنا" : "Chat with us",
-  };
-
-  // The greeting is UI only: it is shown first but never sent to the API.
-  const displayMessages: Message[] = [{ role: "assistant", content: t.welcome }, ...messages];
+  // the floating button waits until the visitor scrolls, so it never covers the first screen
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.5);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  useEffect(() => {
-    if (isOpen) inputRef.current?.focus();
-  }, [isOpen]);
-
-  const sendMessage = useCallback(async () => {
-    const trimmed = input.trim();
-    if (!trimmed || isLoading) return;
-
-    const userMessage: Message = { role: "user", content: trimmed };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
-    setInput("");
-    setIsLoading(true);
-
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: newMessages
-            .filter((m) => !m.local)
-            .map(({ role, content }) => ({ role, content })),
-          locale,
-        }),
-      });
-
-      if (res.status === 429) {
-        setMessages((prev) => [...prev, { role: "assistant", content: t.busy, local: true }]);
-        return;
-      }
-      if (!res.ok) throw new Error();
-
-      const data = await res.json();
-      if (typeof data.reply !== "string" || !data.reply) throw new Error();
-      setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
-    } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: t.error, local: true }]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [input, isLoading, messages, locale, t.error, t.busy]);
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, setOpen]);
 
   return (
     <>
-      {/* Toggle Button — bottom-left */}
       <AnimatePresence>
-        {!isOpen && (
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <motion.button
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  onClick={() => setIsOpen(true)}
-                  className="fixed bottom-6 left-6 z-50 p-4 rounded-full bg-gradient-to-br from-gray-900 to-gray-800 text-accent shadow-2xl shadow-black/30 hover:shadow-accent/20 hover:scale-105 transition-all duration-300 cursor-pointer group"
-                  aria-label={t.openChat}
-                />
-              }
-            >
-              <Bot className="w-6 h-6 group-hover:scale-110 transition-transform" />
-              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-accent rounded-full border-2 border-white dark:border-gray-900 animate-pulse" />
-            </TooltipTrigger>
-            <TooltipContent side="right">{t.openChat}</TooltipContent>
-          </Tooltip>
+        {!open && !heroChatVisible && scrolled && (
+          <motion.button
+            type="button"
+            initial={{ scale: 0.6, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.6, opacity: 0 }}
+            onClick={() => setOpen(true)}
+            className="fixed bottom-6 left-6 z-50 flex items-center gap-3 ps-1.5 pe-4 py-1.5 rounded-full bg-[#0B1122] text-white shadow-2xl shadow-black/40 ring-1 ring-white/10 hover:ring-[#6384FF]/60 transition-all cursor-pointer"
+            aria-label={isAr ? "تحدث مع نوركا AI" : "Chat with Norka AI"}
+          >
+            <span className="relative">
+              <NoraOrb size={40} />
+              <span className="absolute bottom-0 end-0 w-3 h-3 rounded-full bg-emerald-400 ring-2 ring-[#0B1122]" />
+            </span>
+            <span className="text-start leading-tight hidden sm:block">
+              <span className="block text-sm font-bold">{isAr ? "اسأل نوركا AI" : "Ask Norka AI"}</span>
+              <span className="block text-[11px] text-slate-400">{isAr ? "الموظفة الذكية · متاحة الآن" : "AI employee · online now"}</span>
+            </span>
+          </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Chat Window */}
       <AnimatePresence>
-        {isOpen && (
+        {open && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            role="dialog"
+            aria-label={isAr ? "محادثة مع نوركا AI" : "Chat with Norka AI"}
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed bottom-6 left-6 z-50 w-[360px] max-w-[calc(100vw-3rem)] h-[520px] max-h-[calc(100vh-6rem)] flex flex-col rounded-2xl overflow-hidden shadow-2xl shadow-black/30 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
+            exit={{ opacity: 0, y: 20, scale: 0.96 }}
+            transition={{ type: "spring", damping: 26, stiffness: 300 }}
+            className="fixed bottom-6 left-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] h-[560px] max-h-[calc(100vh-6rem)] flex flex-col rounded-3xl overflow-hidden bg-panel border border-hair shadow-2xl shadow-black/40"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-accent/20">
-                  <Bot className="w-5 h-5 text-accent" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-sm">{t.title}</h3>
-                  <p className="text-[11px] text-gray-400">{t.subtitle}</p>
-                </div>
+            <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#0B1430] to-[#141E46] text-white">
+              <span className="relative">
+                <NoraOrb size={40} active={loading} />
+                <span className="absolute bottom-0 end-0 w-3 h-3 rounded-full bg-emerald-400 ring-2 ring-[#0B1430]" />
+              </span>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-sm">{isAr ? "نوركا AI" : "Norka AI"}</p>
+                <p className="text-[11px] text-slate-300">{isAr ? "الموظفة الذكية · ترد فوراً" : "AI employee · replies instantly"}</p>
               </div>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/10"
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="grid place-items-center w-8 h-8 rounded-lg hover:bg-white/10 cursor-pointer"
                 aria-label={isAr ? "إغلاق المحادثة" : "Close chat"}
               >
                 <X className="w-5 h-5" />
-              </Button>
+              </button>
             </div>
-
-            {/* Messages */}
-            <div
-              className="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-gray-50 dark:bg-gray-950"
-              dir={isAr ? "rtl" : "ltr"}
-              role="log"
-              aria-live="polite"
-              aria-busy={isLoading}
-            >
-              {displayMessages.map((msg, i) => (
-                <div
-                  key={i}
-                  className={`flex gap-2.5 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
-                >
-                  <div
-                    className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs ${
-                      msg.role === "assistant"
-                        ? "bg-accent/10 text-accent"
-                        : "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
-                    }`}
-                  >
-                    {msg.role === "assistant" ? (
-                      <Bot className="w-4 h-4" />
-                    ) : (
-                      <User className="w-4 h-4" />
-                    )}
-                  </div>
-                  <div
-                    className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
-                      msg.role === "assistant"
-                        ? "bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-sm shadow-sm border border-gray-100 dark:border-gray-700"
-                        : "bg-accent text-dark rounded-tr-sm"
-                    }`}
-                  >
-                    {msg.content}
-                  </div>
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-accent/10 flex items-center justify-center">
-                    <Bot className="w-4 h-4 text-accent" />
-                  </div>
-                  <div className="bg-white dark:bg-gray-800 px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm border border-gray-100 dark:border-gray-700">
-                    <div className="flex gap-1.5">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
-                    </div>
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input */}
-            <div className="px-4 py-3 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex items-center gap-2">
-                <Input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    // ignore Enter while an IME (e.g. Arabic/Asian keyboards) is composing
-                    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                      e.preventDefault();
-                      sendMessage();
-                    } else if (e.key === "Escape") {
-                      setIsOpen(false);
-                    }
-                  }}
-                  maxLength={1500}
-                  aria-label={t.placeholder}
-                  placeholder={t.placeholder}
-                  className="flex-1 h-auto px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 border-transparent text-gray-900 dark:text-white text-sm focus-visible:ring-accent/30"
-                  dir={isAr ? "rtl" : "ltr"}
-                  disabled={isLoading}
-                />
-                <Button
-                  size="icon"
-                  onClick={sendMessage}
-                  disabled={!input.trim() || isLoading}
-                  className="rounded-xl bg-accent text-dark hover:bg-accent-dark"
-                  aria-label={isAr ? "إرسال" : "Send"}
-                >
-                  {isLoading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Send className="w-4 h-4" />
-                  )}
-                </Button>
-              </div>
-            </div>
+            <NoraThread isAr={isAr} compact autoFocus />
           </motion.div>
         )}
       </AnimatePresence>

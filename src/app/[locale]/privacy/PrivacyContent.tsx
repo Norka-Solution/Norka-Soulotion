@@ -3,8 +3,8 @@
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import PageHero from "@/components/kit/PageHero";
 
 export default function PrivacyContent() {
   const navT = useTranslations("nav");
@@ -72,41 +72,16 @@ export default function PrivacyContent() {
   return (
     <>
       {/* Hero */}
-      <section className="relative pt-36 pb-20 bg-gray-950 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(59,98,252,.08),_transparent_60%)]" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-white/50 text-sm mb-6 font-medium"
-          >
-            <Link href={`/${locale}`} className="hover:text-white/70 transition-colors">
-              {navT("home")}
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-accent">{footerT("privacy")}</span>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="font-heading text-display font-black text-white mb-4"
-          >
-            {footerT("privacy")}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-gray-400 text-sm"
-          >
-            {isAr ? "آخر تحديث: أبريل 2026" : "Last updated: April 2026"}
-          </motion.p>
-        </div>
-      </section>
+      <PageHero
+        locale={locale}
+        homeLabel={navT("home")}
+        crumb={footerT("privacy")}
+        title={footerT("privacy")}
+        subtitle={isAr ? "آخر تحديث: أبريل 2026" : "Last updated: April 2026"}
+      />
 
       {/* Content */}
-      <section className="section-py-sm bg-background dark:bg-background-dark">
+      <section className="relative bg-page pb-24">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -114,7 +89,7 @@ export default function PrivacyContent() {
             transition={{ delay: 0.2 }}
             className="prose dark:prose-invert max-w-none"
           >
-            <p className="text-gray-600 dark:text-gray-400 text-lg mb-10 leading-relaxed">
+            <p className="t-lead mb-10">
               {isAr
                 ? "في نوركا سوليوشن، نلتزم بحماية خصوصيتك. توضح سياسة الخصوصية هذه كيفية جمعنا لمعلوماتك واستخدامها وحمايتها."
                 : "At Norka Solution, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information."}
@@ -128,11 +103,11 @@ export default function PrivacyContent() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * i + 0.3 }}
                 >
-                <Card className="block p-8 rounded-2xl bg-surface dark:bg-surface-dark ring-gray-200 dark:ring-gray-800">
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                <Card className="card-glow block p-8 rounded-2xl ring-0">
+                  <h2 className="t-h3 text-ink-1 mb-3">
                     {section.title}
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                  <p className="t-body">
                     {section.content}
                   </p>
                 </Card>

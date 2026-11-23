@@ -3,7 +3,7 @@ import { images } from "@/lib/images.config";
 
 export default function Loading() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-[var(--ink)]">
+    <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-page">
       <div className="relative w-14 h-14">
         <div className="absolute inset-0 rounded-full border-2 border-accent/15" />
         <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-accent animate-spin" />

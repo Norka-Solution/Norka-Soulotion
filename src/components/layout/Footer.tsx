@@ -53,11 +53,11 @@ export default function Footer({ locale }: FooterProps) {
   ];
 
   return (
-    <footer className="relative overflow-hidden bg-[var(--ink)] text-slate-400" role="contentinfo">
+    <footer className="relative overflow-hidden bg-page text-ink-3" role="contentinfo">
       {/* ── Top divider accent ─────────────────────────────────── */}
       <div className="horizon" aria-hidden="true" />
       {/* giant faded wordmark */}
-      <div className="pointer-events-none select-none absolute -bottom-[0.18em] inset-x-0 text-center font-heading font-black tracking-[-0.06em] leading-none text-[22vw] text-white/[.025]" aria-hidden="true" dir="ltr">NORKA</div>
+      <div className="pointer-events-none select-none absolute -bottom-[0.18em] inset-x-0 text-center font-heading font-black tracking-[-0.06em] leading-none text-[22vw] text-ink-1/[.04]" aria-hidden="true" dir="ltr">NORKA</div>
 
       {/* ── Main body ──────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
@@ -81,8 +81,8 @@ export default function Footer({ locale }: FooterProps) {
                 className="w-10 h-10 shrink-0 drop-shadow-[0_0_12px_rgba(59,98,252,.5)]"
               />
               <div>
-                <span className="text-lg font-black text-gray-900 dark:text-white">Norka</span>
-                <span className="text-lg font-black gradient-text"> Solution</span>
+                <span className="text-lg font-extrabold text-ink-1">Norka</span>
+                <span className="text-lg font-extrabold text-blue-glow"> Solution</span>
               </div>
             </Link>
 
@@ -90,7 +90,7 @@ export default function Footer({ locale }: FooterProps) {
 
             {/* Social icons */}
             <div>
-              <p className="text-gray-900 dark:text-white text-xs font-semibold uppercase tracking-widest mb-3">
+              <p className="text-gray-900 dark:text-ink-1 text-xs font-semibold uppercase tracking-widest mb-3">
                 {contactT("social")}
               </p>
               <div className="flex items-center gap-2" role="list" aria-label={isAr ? "مواقع التواصل الاجتماعي" : "Social media"}>
@@ -102,7 +102,7 @@ export default function Footer({ locale }: FooterProps) {
                     rel="noopener noreferrer"
                     role="listitem"
                     aria-label={label}
-                    className="w-9 h-9 rounded-xl bg-white/[.04] ring-1 ring-white/[.08] hover:bg-accent text-gray-500 dark:text-gray-400 hover:text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-accent/20"
+                    className="w-9 h-9 rounded-xl bg-tint-2 ring-1 ring-hair hover:bg-accent text-gray-500 dark:text-gray-400 hover:text-ink-1 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-accent/20"
                   >
                     <Icon className="w-4 h-4" aria-hidden="true" />
                   </a>
@@ -113,7 +113,7 @@ export default function Footer({ locale }: FooterProps) {
 
           {/* ── Quick links ──────────────────────────────────── */}
           <nav aria-label={isAr ? "روابط سريعة" : "Quick links"}>
-            <h3 className="text-gray-900 dark:text-white font-semibold text-sm uppercase tracking-widest mb-6">
+            <h3 className="text-gray-900 dark:text-ink-1 font-semibold text-sm uppercase tracking-widest mb-6">
               {t("quickLinks")}
             </h3>
             <ul className="space-y-3">
@@ -136,7 +136,7 @@ export default function Footer({ locale }: FooterProps) {
 
           {/* ── Services ─────────────────────────────────────── */}
           <nav aria-label={isAr ? "خدماتنا" : "Our services"}>
-            <h3 className="text-gray-900 dark:text-white font-semibold text-sm uppercase tracking-widest mb-6">
+            <h3 className="text-gray-900 dark:text-ink-1 font-semibold text-sm uppercase tracking-widest mb-6">
               {t("ourServices")}
             </h3>
             <ul className="space-y-3">
@@ -159,7 +159,7 @@ export default function Footer({ locale }: FooterProps) {
 
           {/* ── Contact ──────────────────────────────────────── */}
           <address className="not-italic">
-            <h3 className="text-gray-900 dark:text-white font-semibold text-sm uppercase tracking-widest mb-6">
+            <h3 className="text-gray-900 dark:text-ink-1 font-semibold text-sm uppercase tracking-widest mb-6">
               {t("contactUs")}
             </h3>
             <ul className="space-y-4">
@@ -185,10 +185,10 @@ export default function Footer({ locale }: FooterProps) {
               className="mt-6 flex items-center gap-3 p-4 rounded-2xl border border-accent/20 bg-transparent hover:border-accent/50 hover:bg-accent/5 transition-all duration-300 group"
             >
               <div className="w-8 h-8 rounded-xl bg-accent/10 flex items-center justify-center shrink-0 group-hover:bg-accent transition-colors">
-                <Mail className="w-4 h-4 text-accent group-hover:text-white transition-colors" aria-hidden="true" />
+                <Mail className="w-4 h-4 text-accent group-hover:text-ink-1 transition-colors" aria-hidden="true" />
               </div>
               <div>
-                <div className="text-gray-900 dark:text-white text-sm font-semibold">
+                <div className="text-gray-900 dark:text-ink-1 text-sm font-semibold">
                   {isAr ? "ابدأ مشروعك" : "Start your project"}
                 </div>
                 <div className="text-gray-500 dark:text-gray-400 text-xs">
@@ -211,11 +211,11 @@ export default function Footer({ locale }: FooterProps) {
               <span>{t("rights")}</span>
             </p>
             <div className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
-              <Link href={`/${locale}/privacy`} className="px-3 py-1.5 rounded-lg hover:text-gray-900 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/[.06] transition-all duration-200">
+              <Link href={`/${locale}/privacy`} className="px-3 py-1.5 rounded-lg hover:text-gray-900 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-tint-2 transition-all duration-200">
                 {t("privacy")}
               </Link>
               <span aria-hidden="true">·</span>
-              <Link href={`/${locale}/terms`} className="px-3 py-1.5 rounded-lg hover:text-gray-900 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/[.06] transition-all duration-200">
+              <Link href={`/${locale}/terms`} className="px-3 py-1.5 rounded-lg hover:text-gray-900 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-tint-2 transition-all duration-200">
                 {t("terms")}
               </Link>
             </div>

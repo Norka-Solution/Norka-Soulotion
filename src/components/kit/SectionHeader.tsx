@@ -36,13 +36,13 @@ export default function SectionHeader({
         {eyebrow && <span className="eyebrow mb-5">{eyebrow}</span>}
         <h2
           id={id}
-          className="font-heading font-bold tracking-[-0.03em] leading-[1.08] text-[clamp(2rem,4.5vw,3.5rem)]"
+          className="t-h2"
         >
           <span className="text-hero">{title}</span>
           {highlight && <span className="text-blue-glow"> {highlight}</span>}
         </h2>
         {subtitle && (
-          <p className={cn("mt-4 text-base md:text-lg text-slate-400 leading-relaxed", center ? "mx-auto max-w-2xl" : "max-w-xl")}>
+          <p className={cn("mt-5 t-lead", center ? "mx-auto max-w-2xl" : "max-w-xl")}>
             {subtitle}
           </p>
         )}

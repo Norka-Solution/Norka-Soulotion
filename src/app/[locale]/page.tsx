@@ -5,7 +5,11 @@ import ServicesPreview from "@/components/home/ServicesPreview";
 import Process from "@/components/home/Process";
 import WhyNorka from "@/components/home/WhyNorka";
 import FeaturedProjects from "@/components/home/FeaturedProjects";
-import TechStack from "@/components/home/TechStack";
+import ModulesMarquee from "@/components/home/ModulesMarquee";
+import Products from "@/components/home/Products";
+import Industries from "@/components/home/Industries";
+import FAQ from "@/components/home/FAQ";
+import VideoBand from "@/components/home/VideoBand";
 import CEOQuote from "@/components/home/CEOQuote";
 import CTASection from "@/components/home/CTASection";
 import { getProjects, getServiceCopy } from "@/sanity/lib/fetch-content";
@@ -45,12 +49,16 @@ export default async function HomePage({
   return (
     <>
       <HeroSection locale={locale} />
-      <TechStack />
+      <ModulesMarquee />
+      <Products locale={locale} />
+      <Industries locale={locale} />
+      <VideoBand locale={locale} />
       <ServicesPreview locale={locale} serviceCopy={serviceCopy} />
       <Process />
       <FeaturedProjects locale={locale} projects={projects} />
       <WhyNorka locale={locale} />
       <CEOQuote locale={locale} />
+      <FAQ />
       <CTASection locale={locale} />
     </>
   );

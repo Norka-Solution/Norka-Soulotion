@@ -9,8 +9,10 @@ import { ArrowUpRight, ExternalLink } from "lucide-react";
 import type { Project } from "@/lib/data/projects";
 import { cn } from "@/lib/utils";
 import PageHero from "@/components/kit/PageHero";
-import ProjectCover from "@/components/visuals/ProjectCover";
+import ProjectPhoto from "@/components/visuals/ProjectPhoto";
 import CTASection from "@/components/home/CTASection";
+import Products from "@/components/home/Products";
+import SectionHeader from "@/components/kit/SectionHeader";
 
 const filterCategories = [
   { key: "all", translationKey: "filterAll" },
@@ -35,25 +37,25 @@ function PortfolioCard({ project, locale, lang, t }: { project: Project; locale:
         className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6384FF] rounded-t-[1.25rem]"
         aria-label={`${t("viewDetails")} — ${project.title[lang]}`}
       >
-        <ProjectCover project={project} lang={lang} className="aspect-[16/10]" />
+        <ProjectPhoto project={project} lang={lang} className="aspect-[16/10]" />
       </Link>
 
-      <div className="p-6 flex flex-col flex-1 border-t border-white/[.06]">
+      <div className="p-6 flex flex-col flex-1 border-t border-hair">
         <div className="flex items-center gap-2 mb-3">
-          <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wider text-[#9DB0FE] bg-[#3B62FC]/10">
+          <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wider text-accent-soft bg-[#3B62FC]/10">
             {project.category}
           </span>
         </div>
-        <h3 className="text-lg font-semibold text-white tracking-tight leading-snug">
-          <Link href={`/${locale}/portfolio/${project.slug}`} className="hover:text-[#C7D2FE] transition-colors">
+        <h3 className="text-lg font-semibold text-ink-1 tracking-tight leading-snug">
+          <Link href={`/${locale}/portfolio/${project.slug}`} className="hover:text-accent-soft transition-colors">
             {project.title[lang]}
           </Link>
         </h3>
-        <p className="mt-2 text-sm text-slate-400 line-clamp-2 leading-relaxed">{project.description[lang]}</p>
+        <p className="mt-2 text-sm text-ink-3 line-clamp-2 leading-relaxed">{project.description[lang]}</p>
 
         <ul className="mt-4 flex flex-wrap gap-1.5">
           {project.techStack.slice(0, 4).map((tech) => (
-            <li key={tech} className="px-2 py-0.5 rounded-md text-[11px] text-slate-400 bg-white/[.03] border border-white/[.06]">
+            <li key={tech} className="px-2 py-0.5 rounded-md text-[11px] text-ink-3 bg-tint border border-hair">
               {tech}
             </li>
           ))}
@@ -62,7 +64,7 @@ function PortfolioCard({ project, locale, lang, t }: { project: Project; locale:
         <div className="mt-auto pt-6 flex items-center justify-between">
           <Link
             href={`/${locale}/portfolio/${project.slug}`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#9DB0FE] hover:text-white transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-soft hover:text-ink-1 transition-colors"
           >
             {t("viewDetails")}
             <ArrowUpRight className="w-4 h-4 rtl:-scale-x-100" aria-hidden="true" />
@@ -72,7 +74,7 @@ function PortfolioCard({ project, locale, lang, t }: { project: Project; locale:
               href={project.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-ink-3 hover:text-ink-1 transition-colors"
               aria-label={`${t("viewDemo")} — ${project.title[lang]}`}
             >
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
@@ -110,16 +112,19 @@ export default function PortfolioContent({ projects }: PortfolioContentProps) {
         eyebrow={t("badge")}
         title={t("title")}
         subtitle={t("subtitle")}
+        image="/images/photos/developer.jpg"
       />
 
-      <section className="relative bg-[var(--ink)] pb-24 md:pb-32" aria-labelledby="portfolio-heading">
+      <Products locale={locale} />
+
+      <section className="relative bg-page pb-24 md:pb-32" aria-labelledby="portfolio-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 id="portfolio-heading" className="sr-only">{t("title")}</h2>
+          <SectionHeader id="portfolio-heading" title={t("examples")} subtitle={t("examplesSub")} className="mb-10" />
 
           {/* filter */}
           <LayoutGroup>
             <div
-              className="mx-auto mb-12 flex w-fit flex-wrap justify-center gap-1 p-1 rounded-2xl bg-white/[.03] border border-white/[.07]"
+              className="mx-auto mb-12 flex w-fit flex-wrap justify-center gap-1 p-1 rounded-2xl bg-tint border border-hair"
               role="tablist"
               aria-label={isAr ? "تصفية المشاريع" : "Filter projects"}
             >
@@ -133,7 +138,7 @@ export default function PortfolioContent({ projects }: PortfolioContentProps) {
                     onClick={() => setActiveFilter(key)}
                     className={cn(
                       "relative px-4 py-2 rounded-xl text-sm font-medium transition-colors cursor-pointer",
-                      active ? "text-white" : "text-slate-400 hover:text-white"
+                      active ? "text-ink-1" : "text-ink-3 hover:text-ink-1"
                     )}
                   >
                     {active && (
@@ -145,7 +150,7 @@ export default function PortfolioContent({ projects }: PortfolioContentProps) {
                     )}
                     <span className="relative">
                       {t(translationKey)}
-                      <span className={cn("ms-1.5 text-xs tabular-nums", active ? "text-white/70" : "text-slate-600")}>{countFor(key)}</span>
+                      <span className={cn("ms-1.5 text-xs tabular-nums", active ? "text-white/70" : "text-ink-5")}>{countFor(key)}</span>
                     </span>
                   </button>
                 );
@@ -171,7 +176,7 @@ export default function PortfolioContent({ projects }: PortfolioContentProps) {
           </motion.div>
 
           {filteredProjects.length === 0 && (
-            <p className="text-center py-20 text-slate-500 text-lg">
+            <p className="text-center py-20 text-ink-4 text-lg">
               {isAr ? "لا توجد مشاريع في هذه الفئة" : "No projects in this category yet."}
             </p>
           )}
