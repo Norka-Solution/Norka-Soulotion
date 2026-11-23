@@ -145,7 +145,7 @@ export default function NoraThread({ isAr, compact = false, autoFocus = false }:
               }
             }}
             rows={1}
-            maxLength={1500}
+            maxLength={600}
             placeholder={isAr ? "اكتب سؤالك لنوركا AI…" : "Ask Norka AI anything about Norka…"}
             aria-label={isAr ? "رسالتك إلى نوركا AI" : "Your message to Norka AI"}
             className="flex-1 resize-none bg-transparent py-2 text-sm text-ink-1 placeholder:text-ink-4 outline-none max-h-28"
