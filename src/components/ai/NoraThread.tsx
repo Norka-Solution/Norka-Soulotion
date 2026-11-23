@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 // Phone numbers, e-mails and Norka links inside a reply: kept left-to-right
 // (so "+971 …" never flips in Arabic) and made clickable.
-const TOKEN = /(\+?\d[\d\s-]{7,}\d|[\w.+-]+@[\w-]+\.[\w.-]+|(?:https?:\/\/)?(?:[\w-]+\.)*(?:norkasolution\.com|vercel\.app)(?:\/[\w\-./]*)?)/g;
+const TOKEN = /(\+?\d[\d\s-]{7,}\d|[\w.+-]+@[\w-]+\.[\w.-]+|(?:https?:\/\/)?(?:[\w-]+\.)*(?:norkasolution\.com)(?:\/[\w\-./]*)?)/g;
 
 function RichText({ text }: { text: string }) {
   const parts = text.split(TOKEN);
@@ -40,11 +40,11 @@ export default function NoraThread({ isAr, compact = false, autoFocus = false }:
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const greeting = isAr
-    ? "أهلاً! أنا نورا، الموظفة الذكية في نوركا. اسألني عن أنظمتنا وخدماتنا، أو احجز عرضاً مجانياً وأنا أرتّبه لك الآن."
-    : "Hi! I'm Nora, Norka's AI employee. Ask me about our systems and services, or book a free demo and I'll set it up for you right now.";
+    ? "مرحباً بك في نوركا سوليوشن. أنا نوركا AI، مساعدتك الذكية. يسعدني أن أعرّفك على أنظمتنا وحلولنا، أو أرتّب لك عرضاً مجانياً مع فريقنا. كيف أستطيع مساعدتك اليوم؟"
+    : "Welcome to Norka Solution. I'm Norka AI, your digital assistant. I can walk you through our systems and solutions, or arrange a free demo with our team. How can I help you today?";
   const suggestions = isAr
-    ? ["ما هو نوركا ERP؟", "هل يناسب شركة مقاولات؟", "كم التكلفة؟", "أريد حجز عرض مجاني"]
-    : ["What is Norka ERP?", "Does it fit a contracting company?", "How much does it cost?", "I want to book a free demo"];
+    ? ["ما الذي يغطيه نظام نوركا ERP؟", "هل يناسب شركات المقاولات؟", "كيف يتم تحديد التكلفة؟", "أرغب في حجز عرض مجاني"]
+    : ["What does Norka ERP cover?", "Is it right for contracting firms?", "How is pricing determined?", "I'd like to book a free demo"];
 
   // keep the newest message in view (scroll the list itself, not the page)
   useEffect(() => {
@@ -96,7 +96,7 @@ export default function NoraThread({ isAr, compact = false, autoFocus = false }:
         {loading && (
           <div className="flex gap-2.5 items-end">
             <NoraOrb size={28} active />
-            <span className={cn("inline-flex gap-1.5 px-4 py-3.5", bubble("assistant"))} aria-label={isAr ? "نورا تكتب" : "Nora is typing"}>
+            <span className={cn("inline-flex gap-1.5 px-4 py-3.5", bubble("assistant"))} aria-label={isAr ? "نوركا AI تكتب" : "Norka AI is typing"}>
               {[0, 150, 300].map((d) => (
                 <span key={d} className="w-1.5 h-1.5 rounded-full bg-ink-4 animate-bounce" style={{ animationDelay: `${d}ms` }} />
               ))}
@@ -146,8 +146,8 @@ export default function NoraThread({ isAr, compact = false, autoFocus = false }:
             }}
             rows={1}
             maxLength={1500}
-            placeholder={isAr ? "اكتب سؤالك لنورا…" : "Ask Nora anything about Norka…"}
-            aria-label={isAr ? "رسالتك إلى نورا" : "Your message to Nora"}
+            placeholder={isAr ? "اكتب سؤالك لنوركا AI…" : "Ask Norka AI anything about Norka…"}
+            aria-label={isAr ? "رسالتك إلى نوركا AI" : "Your message to Norka AI"}
             className="flex-1 resize-none bg-transparent py-2 text-sm text-ink-1 placeholder:text-ink-4 outline-none max-h-28"
           />
           <button
@@ -160,7 +160,7 @@ export default function NoraThread({ isAr, compact = false, autoFocus = false }:
           </button>
         </div>
         <p className="mt-2 text-[11px] text-ink-4 text-center">
-          {isAr ? "نورا مساعدة ذكية وتجيب عن نوركا فقط." : "Nora is an AI assistant and answers about Norka only."}
+          {isAr ? "نوركا AI مساعدة ذكية وتجيب عن نوركا فقط." : "Norka AI is an AI assistant and answers about Norka only."}
         </p>
       </form>
     </div>

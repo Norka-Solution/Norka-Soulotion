@@ -33,8 +33,8 @@ export const projects: Project[] = [
     slug: "enterprise-erp-system",
     category: "erp",
     featured: true,
-    image: "/images/photos/warehouse.jpg",
-    screenshots: ["/images/photos/warehouse.jpg"],
+    image: "/images/photos/warehouse-2.jpg",
+    screenshots: ["/images/photos/warehouse-2.jpg"],
     techStack: ["React", "Node.js", "PostgreSQL", "Docker", "Redis"],
     title: {
       en: "Enterprise ERP System",
@@ -71,8 +71,8 @@ export const projects: Project[] = [
     slug: "school-erp-system",
     category: "erp",
     featured: false,
-    image: "/images/photos/school.jpg",
-    screenshots: ["/images/photos/school.jpg"],
+    image: "/images/photos/classroom.jpg",
+    screenshots: ["/images/photos/classroom.jpg"],
     techStack: ["Vue.js", "Laravel", "MySQL", "AWS", "Pusher"],
     title: {
       en: "School Management ERP",
@@ -146,8 +146,8 @@ export const projects: Project[] = [
     slug: "hr-payroll-erp",
     category: "erp",
     featured: false,
-    image: "/images/photos/office-team.jpg",
-    screenshots: ["/images/photos/office-team.jpg"],
+    image: "/images/photos/handshake.jpg",
+    screenshots: ["/images/photos/handshake.jpg"],
     techStack: ["Angular", ".NET Core", "SQL Server", "Azure", "Power BI"],
     title: {
       en: "HR & Payroll ERP",

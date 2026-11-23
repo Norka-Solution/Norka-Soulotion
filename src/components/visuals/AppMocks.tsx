@@ -81,3 +81,51 @@ export function AIChatMock({ isAr }: { isAr: boolean }) {
     </div>
   );
 }
+
+
+/** Norka AI at work: a WhatsApp enquiry handled end to end, with the actions it took. */
+export function AIFlowMock({ isAr }: { isAr: boolean }) {
+  const L = isAr
+    ? {
+        head: "واتساب · عميل جديد",
+        q: "مرحباً، نحتاج نظام محاسبة ومخزون لـ 3 فروع. كم التكلفة؟",
+        a: "أهلاً بك! نوركا ERP يغطي المحاسبة والمخزون لكل فروعك. أرسلت لك ملخصاً، وحجزت لك عرضاً مجانياً يوم الأحد 10:00 ص. هل يناسبك؟",
+        ok: "ممتاز، شكراً 🙏",
+        acts: ["أُضيف العميل إلى قائمة العملاء", "حُجز الموعد في التقويم", "أُبلغ فريق المبيعات"],
+        by: "نوركا AI · رد خلال 3 ثوانٍ",
+      }
+    : {
+        head: "WhatsApp · New customer",
+        q: "Hi, we need accounting and inventory for 3 branches. How much is it?",
+        a: "Welcome! Norka ERP covers accounting and inventory across all your branches. I've sent you a summary and booked a free demo for Sunday 10:00 AM. Does that work?",
+        ok: "Perfect, thank you 🙏",
+        acts: ["Customer added to CRM", "Meeting booked in calendar", "Sales team notified"],
+        by: "Norka AI · replied in 3s",
+      };
+  const pop = (delay: number) => ({ initial: { opacity: 0, y: 14, scale: 0.97 }, animate: { opacity: 1, y: 0, scale: 1 }, transition: { delay, duration: 0.5, ease } });
+  return (
+    <div className="dark relative w-full max-w-[560px] mx-auto grid grid-cols-1 sm:grid-cols-[1fr_200px] gap-4 items-center" dir={isAr ? "rtl" : "ltr"} aria-hidden="true">
+      <div className="rounded-3xl overflow-hidden bg-[#0B141A] border border-white/10 shadow-[0_30px_80px_-20px_rgba(37,211,102,.35)]">
+        <div className="flex items-center gap-2.5 px-4 h-12 bg-[#1F2C34]">
+          <span className="grid place-items-center w-7 h-7 rounded-full bg-[#25D366]"><Send className="w-3.5 h-3.5 text-white rtl:-scale-x-100" /></span>
+          <span className="text-[12px] font-semibold text-white">{L.head}</span>
+        </div>
+        <div className="p-4 space-y-2.5 text-start text-[12.5px] leading-relaxed bg-[radial-gradient(circle_at_20%_0%,rgba(37,211,102,.06),transparent_60%)]">
+          <motion.p {...pop(0.2)} className="max-w-[85%] w-fit rounded-xl rounded-ss-sm px-3 py-2 bg-[#202C33] text-slate-100">{L.q}</motion.p>
+          <motion.div {...pop(0.9)} className="ms-auto max-w-[88%] w-fit rounded-xl rounded-se-sm px-3 py-2 bg-[#005C4B] text-white">
+            {L.a}
+            <span className="mt-1 flex items-center gap-1 text-[10px] text-emerald-200/80"><Sparkles className="w-3 h-3" /> {L.by}</span>
+          </motion.div>
+          <motion.p {...pop(1.6)} className="max-w-[85%] w-fit rounded-xl rounded-ss-sm px-3 py-2 bg-[#202C33] text-slate-100">{L.ok}</motion.p>
+        </div>
+      </div>
+      <div className="space-y-2.5">
+        {L.acts.map((a, i) => (
+          <motion.div key={a} {...pop(2 + i * 0.25)} className="flex items-center gap-2 rounded-xl px-3 py-2.5 bg-white/[.05] border border-white/10 text-[12px] text-slate-200 text-start">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> {a}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}

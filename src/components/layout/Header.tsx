@@ -5,14 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
-import { Menu, Globe, ChevronDown, ArrowRight } from "lucide-react";
+import { Menu, Globe, ArrowRight } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Sheet,
   SheetContent,
@@ -25,7 +19,6 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 import { images } from "@/lib/images.config";
 
 // where a customer signs in and finds every Norka product their company has
-const SIGN_IN_URL = "https://app.norkasolution.com/apps";
 
 interface HeaderProps {
   locale: string;
@@ -152,35 +145,19 @@ export default function Header({ locale }: HeaderProps) {
 
             {/* ── Right actions ────────────────────────────────── */}
             <div className="flex items-center gap-1.5">
-              {/* Language switcher */}
-              <DropdownMenu>
-                <DropdownMenuTrigger
-                  className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer outline-none text-ink-3 hover:text-ink-1 hover:bg-tint-2"
-                  aria-label={isAr ? "تغيير اللغة" : "Change language"}
-                >
-                  <Globe className="w-4 h-4" aria-hidden="true" />
-                  <span className="hidden sm:inline">{locale === "en" ? "EN" : "عر"}</span>
-                  <ChevronDown className="w-3 h-3" aria-hidden="true" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="min-w-[140px]">
-                  <DropdownMenuItem
-                    render={<Link href={switchPath} className="gap-2.5 cursor-pointer" />}
-                  >
-                    <Globe className="w-4 h-4 text-[#6384FF]" aria-hidden="true" />
-                    {locale === "en" ? "العربية" : "English"}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              {/* Language switch: one click goes straight to the other language */}
+              <Link
+                href={switchPath}
+                hrefLang={otherLocale}
+                lang={otherLocale}
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm font-semibold transition-colors text-ink-3 hover:text-ink-1 hover:bg-tint-2"
+                aria-label={isAr ? "Switch to English" : "التبديل إلى العربية"}
+              >
+                <Globe className="w-4 h-4" aria-hidden="true" />
+                <span>{isAr ? "EN" : "عربي"}</span>
+              </Link>
 
               <ThemeToggle isAr={isAr} />
-
-              {/* Sign in: customers land on their Norka products */}
-              <a
-                href={SIGN_IN_URL}
-                className="hidden lg:inline-flex items-center px-3.5 py-2 rounded-lg text-sm font-medium text-ink-2 hover:text-ink-1 hover:bg-tint-2 transition-colors"
-              >
-                {isAr ? "دخول" : "Sign in"}
-              </a>
 
               {/* Desktop CTA */}
               <Link
@@ -236,12 +213,6 @@ export default function Header({ locale }: HeaderProps) {
             </ul>
           </nav>
           <SheetFooter className="border-t border-gray-100 dark:border-gray-800 pt-4">
-            <a
-              href={SIGN_IN_URL}
-              className="flex items-center justify-center py-3 rounded-2xl text-sm font-semibold text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700"
-            >
-              {isAr ? "دخول العملاء" : "Customer sign in"}
-            </a>
             <Link
               href={`/${locale}/contact`}
               className={buttonVariants({ className: "w-full justify-center py-3.5" })}

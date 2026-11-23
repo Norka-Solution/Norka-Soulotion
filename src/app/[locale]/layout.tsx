@@ -31,7 +31,7 @@ const jsonLd = {
   foundingDate: "2020",
   founder: {
     "@type": "Person",
-    name: "Ahmed Kamel",
+    name: "Eng. Ahmed Kamel",
     jobTitle: "CEO & Founder",
   },
   address: [

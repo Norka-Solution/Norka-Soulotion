@@ -17,7 +17,6 @@ school.jpg  https://www.pexels.com/photo/7742816/
 teacher.jpg  https://www.pexels.com/photo/8423123/
 real-estate.jpg  https://www.pexels.com/photo/8482868/
 keys.jpg  https://www.pexels.com/photo/7642004/
-accounting.jpg  https://www.pexels.com/photo/6694492/
 phone-business.jpg  https://www.pexels.com/photo/5999793/
 phone-call.jpg  https://www.pexels.com/photo/7971718/
 payment.jpg  https://www.pexels.com/photo/4226270/
@@ -31,3 +30,4 @@ handshake.jpg  https://www.pexels.com/photo/18848927/
 
 nora.jpg (products)  https://www.pexels.com/photo/18799044/
 real-estate.jpg replaced with https://www.pexels.com/photo/30707660/
+classroom.jpg — Pexels photo 8423020 (https://www.pexels.com/photo/a-teacher-and-students-inside-a-classroom-8423020/)

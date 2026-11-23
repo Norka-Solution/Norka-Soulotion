@@ -14,7 +14,7 @@ export type Lead = {
   locale: string;
 };
 
-/** E-mails a demo request captured by Nora to the team. Returns false if mail isn't configured or fails. */
+/** E-mails a demo request captured by Norka AI to the team. Returns false if mail isn't configured or fails. */
 export async function sendLead(lead: Lead): Promise<boolean> {
   if (!process.env.RESEND_API_KEY) {
     console.error("Lead not sent: RESEND_API_KEY is not set", { name: lead.name });
@@ -31,7 +31,7 @@ export async function sendLead(lead: Lead): Promise<boolean> {
   ];
   const html = `
     <div style="font-family:Segoe UI,Arial,sans-serif;max-width:600px;margin:0 auto">
-      <h2 style="color:#3B62FC;margin:0 0 4px">New demo request from Nora (AI)</h2>
+      <h2 style="color:#3B62FC;margin:0 0 4px">New demo request from Norka AI (website chat)</h2>
       <p style="color:#64748B;margin:0 0 16px">Captured by the AI assistant on norkasolution.com</p>
       <table style="width:100%;border-collapse:collapse">
         ${rows
@@ -46,7 +46,7 @@ export async function sendLead(lead: Lead): Promise<boolean> {
       from: "NORKA Website <info@norkasolution.com>",
       to: [process.env.CONTACT_EMAIL || "info@norkasolution.com"],
       ...(lead.email ? { replyTo: lead.email.trim() } : {}),
-      subject: `Demo request (Nora AI) — ${lead.name.replace(/[\r\n]+/g, " ").slice(0, 80)}`,
+      subject: `Demo request (Norka AI) — ${lead.name.replace(/[\r\n]+/g, " ").slice(0, 80)}`,
       html,
     });
     if (error) {

@@ -13,7 +13,7 @@ export interface TeamMember {
 export const team: TeamMember[] = [
   {
     key: "ahmed-kamel",
-    name: { en: "Ahmed Kamel", ar: "أحمد كامل" },
+    name: { en: "Eng. Ahmed Kamel", ar: "م. أحمد كامل" },
     role: { en: "CEO & Founder", ar: "المؤسس والرئيس التنفيذي" },
     photo: undefined, // e.g. "/images/team/ahmed-kamel.jpg"
   },

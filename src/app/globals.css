@@ -862,3 +862,62 @@ html:not(.dark) .hero-video { filter: invert(1) hue-rotate(180deg) saturate(1.2)
 @media (prefers-reduced-motion: reduce) {
   .nora-orb, .nora-orb-swirl, .nora-orb-core { animation: none !important; }
 }
+
+/* ── Norka AI avatar ─────────────────────────────────────────── */
+.nora-avatar {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  isolation: isolate;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 30px -8px rgba(59, 98, 252, 0.8);
+}
+.nora-avatar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  background: conic-gradient(from 0deg, #38bdf8, #6384ff, #a78bfa, #38bdf8);
+  animation: nora-ring 8s linear infinite;
+}
+.nora-avatar.is-active .nora-avatar-ring {
+  animation-duration: 1.2s;
+}
+.nora-avatar.is-active {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 26px 2px rgba(99, 132, 255, 0.75);
+}
+@keyframes nora-ring {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nora-avatar-ring { animation: none; }
+}
+
+/* ── Hero: software backdrop ─────────────────────────────────── */
+.hero-floor {
+  transform: rotateX(62deg);
+  background-image:
+    linear-gradient(rgba(99, 132, 255, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 132, 255, 0.4) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, transparent, #000 35%, #000 60%, transparent);
+  animation: hero-floor 6s linear infinite;
+}
+@keyframes hero-floor {
+  to { background-position: 0 64px; }
+}
+.hero-data-line {
+  fill: none;
+  stroke: rgba(56, 189, 248, 0.85);
+  stroke-width: 1.6;
+  stroke-dasharray: 120 1400;
+  stroke-dashoffset: 1520;
+  animation: hero-data 7s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.9));
+}
+@keyframes hero-data {
+  to { stroke-dashoffset: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-floor, .hero-data-line { animation: none; }
+}

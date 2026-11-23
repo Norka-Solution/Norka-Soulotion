@@ -329,7 +329,7 @@
     "badge": "Our products",
     "title": "Built by Norka,",
     "highlight": "used every day",
-    "subtitle": "Four products that work together on the same data, in Arabic and English.",
+    "subtitle": "Three products that work together on the same data, in Arabic and English.",
     "live": "Live",
     "talk": "Book a demo",
     "open": "Open the app",
@@ -348,7 +348,7 @@
       "ai": {
         "name": "Norka AI",
         "tag": "AI assistant",
-        "desc": "Nora is the assistant you can talk to on this page. For your company, she answers customers on WhatsApp, takes calls, sorts e-mail, keeps your customer list and books follow-ups, in Arabic or English.",
+        "desc": "Norka AI is the assistant you can talk to on this page. For your company, she answers customers on WhatsApp, takes calls, sorts e-mail, keeps your customer list and books follow-ups, in Arabic or English.",
         "points": [
           "WhatsApp & voice calls",
           "Tasks, reminders & follow-ups",
@@ -365,19 +365,9 @@
           "Purchasing & approvals on the go",
           "Notifications in real time"
         ]
-      },
-      "invoice": {
-        "name": "Norka Invoice",
-        "tag": "Invoicing",
-        "desc": "Invoices, recurring billing and payments for project-based businesses, with bilingual PDFs and shareable invoice links.",
-        "points": [
-          "Recurring invoices",
-          "Approval before issue",
-          "Arabic & English PDFs"
-        ]
       }
     },
-    "tryNora": "Talk to Nora now"
+    "tryNora": "Talk to Norka AI now"
   },
   "industries": {
     "badge": "Industries",
